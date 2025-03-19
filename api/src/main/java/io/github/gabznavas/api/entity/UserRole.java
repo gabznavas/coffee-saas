@@ -26,7 +26,6 @@ public class UserRole {
     @JsonBackReference
     private Role role;
 
-
     public UserRoleId getUserRoleId() {
         return userRoleId;
     }

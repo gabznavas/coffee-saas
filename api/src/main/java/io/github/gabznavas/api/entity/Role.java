@@ -18,8 +18,8 @@ public class Role implements Serializable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
-    private RoleType role;
+    @Column(name = "name", nullable = false)
+    private RoleNameType nameType;
 
     @OneToMany
     @JsonManagedReference  // Impede recursão ao serializar a lista de UserRole
@@ -33,23 +33,31 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public RoleType getRole() {
-        return role;
+    public RoleNameType getNameType() {
+        return nameType;
     }
 
-    public void setRole(RoleType role) {
-        this.role = role;
+    public void setNameType(RoleNameType nameType) {
+        this.nameType = nameType;
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Role role1 = (Role) o;
-        return Objects.equals(id, role1.id) && role == role1.role;
+        Role role = (Role) o;
+        return Objects.equals(id, role.id) && nameType == role.nameType && Objects.equals(userRoles, role.userRoles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role);
+        return Objects.hash(id, nameType, userRoles);
     }
 }

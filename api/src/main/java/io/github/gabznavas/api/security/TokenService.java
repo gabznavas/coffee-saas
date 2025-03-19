@@ -33,7 +33,7 @@ public class TokenService {
             Algorithm algorithm = generateAlgorithm();
             String token = JWT.create()
                     .withIssuer(issuer)
-                    .withSubject(user.getEmail())
+                    .withSubject(user.getUsername())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
             return token;
@@ -42,7 +42,7 @@ public class TokenService {
         }
     }
 
-    public String validateToken(String token) {
+    public String validateTokenAndGetSubject(String token) {
         try {
             Algorithm algorithm = generateAlgorithm();
             String subject = JWT.require(algorithm)

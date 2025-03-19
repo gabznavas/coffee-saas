@@ -1,7 +1,7 @@
 package io.github.gabznavas.api.entity;
 
 
-public enum RoleType {
+public enum RoleNameType {
     MANAGER,
     CASHIER,
     ATTENDANT;
