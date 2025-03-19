@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `coffee-db`.`users_roles` (
+CREATE TABLE IF NOT EXISTS `coffee-db`.`user_roles` (
   `role_id` BIGINT NOT NULL,
   `user_id` BIGINT NOT NULL,
   PRIMARY KEY (`role_id`, `user_id`),
@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `coffee-db`.`users_roles` (
     REFERENCES `coffee-db`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
-) ENGINE = InnoDB
+) ENGINE = InnoDB;

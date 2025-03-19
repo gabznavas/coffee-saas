@@ -1,3 +1,14 @@
+api:
+  security:
+    token:
+      secret: secret123secret123secret123secret123secret123secret123secret123secret123secret123secret123secret123
+      issuer: coffee-api
+      expiration-date-in-seconds: 3600
+
+date:
+  zone:
+    off-set: "-03:00"
+
 cors:
   originPatterns: http://localhost:8080,http://localhost:4200
   allowedMethods: POST,GET,PUT,DELETE,OPTIONS
