@@ -1,0 +1,12 @@
+services:
+  mysql-dev:
+    image: mysql:8.0
+    container_name: coffee-db-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: coffee-api
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+    ports:
+      - "3308:3306"
