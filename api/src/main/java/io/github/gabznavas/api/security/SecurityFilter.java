@@ -32,7 +32,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         final String token = this.recoverToken(request);
         if (token != null) {
             final String email = tokenService.validateTokenAndGetSubject(token);
+            if (email == null) {
+                throw new RuntimeException("Token is not valid");
+            }
+
             UserDetails user = userRepository.findByEmail(email);
+            if (user == null) {
+                throw new RuntimeException("User not found.");
+            }
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

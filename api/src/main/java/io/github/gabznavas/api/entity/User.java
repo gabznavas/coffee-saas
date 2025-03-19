@@ -65,8 +65,9 @@ public class User implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return userRoles.stream().map(userRole -> {
-            final String nameType = userRole.getRole().getNameType().name();
-            final String roleName = String.format("ROLE_%s", nameType);
+            final String roleName = userRole.getRole()
+                    .getNameType()
+                    .toSpringSecurityRole();
             return new SimpleGrantedAuthority(roleName);
         }).toList();
     }

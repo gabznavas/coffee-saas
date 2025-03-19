@@ -35,7 +35,9 @@ spring:
 
 logging:
   level:
-    root: WARN
+    root: DEBUG
+    #    root: WARN
+
 
 spring-doc:
   paths-to-match: /api/**/v1/**

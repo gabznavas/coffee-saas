@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.security;
 
+import io.github.gabznavas.api.entity.RoleNameType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,23 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
+
+
+                        // examples of authorities
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/manager").hasAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/attendant").hasAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/cashier").hasAuthority(
+                                RoleNameType.CASHIER.toSpringSecurityRole()
+                        )
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
