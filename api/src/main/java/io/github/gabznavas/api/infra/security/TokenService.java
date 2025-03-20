@@ -1,4 +1,4 @@
-package io.github.gabznavas.api.security;
+package io.github.gabznavas.api.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -35,11 +35,10 @@ spring:
 
 logging:
   level:
-    root: DEBUG
-    #    root: WARN
+    root: WARN
 
 
 spring-doc:
-  paths-to-match: /api/**/v1/**
+  paths-to-match: /api/v1/**
   swagger-ui:
     use-root-path: true

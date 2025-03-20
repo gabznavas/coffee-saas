@@ -1,6 +1,5 @@
-package io.github.gabznavas.api.security;
+package io.github.gabznavas.api.infra.security;
 
-import io.github.gabznavas.api.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,10 +17,10 @@ import java.io.IOException;
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
-    UserRepository userRepository;
+    private UserDetailSecurityService userDetailSecurityService;
 
     @Autowired
-    TokenService tokenService;
+    private TokenService tokenService;
 
     @Override
     protected void doFilterInternal(
@@ -36,7 +35,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 throw new RuntimeException("Token is not valid");
             }
 
-            UserDetails user = userRepository.findByEmail(email);
+            UserDetails user = userDetailSecurityService.loadUserByUsername(email);
             if (user == null) {
                 throw new RuntimeException("User not found.");
             }

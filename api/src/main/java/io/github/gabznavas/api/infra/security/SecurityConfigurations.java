@@ -1,4 +1,4 @@
-package io.github.gabznavas.api.security;
+package io.github.gabznavas.api.infra.security;
 
 import io.github.gabznavas.api.entity.RoleNameType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
 

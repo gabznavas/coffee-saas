@@ -41,10 +41,8 @@ public class RegisterService {
             throw new RuntimeException("password and password confirmation is not equals.");
         }
 
-        User userByEmail = (User) userRepository.findByEmail(dto.email());
-        if (userByEmail != null) {
-            throw new RuntimeException("User already exists with email.");
-        }
+        User userByEmail = userRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new RuntimeException("User already exists with email."));
 
         final User user = new User();
         user.setFullName(dto.fullName());
