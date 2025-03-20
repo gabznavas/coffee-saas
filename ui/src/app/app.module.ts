@@ -7,6 +7,7 @@ import { LoginModule } from './login/login.module';
 import { AuthorizationService } from './services/authorization.service';
 import { CommandsModule } from './commands/commands.module';
 import { HomeModule } from './home/home.module';
+import { HeaderModule } from "./header/header.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HomeModule } from './home/home.module';
     AppRoutingModule,
     HomeModule,
     LoginModule,
+    HeaderModule
   ],
   providers: [AuthorizationService],
   bootstrap: [AppComponent]
