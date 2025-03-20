@@ -1,1 +1,34 @@
 @import '../styles.scss';
+
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 5rem;
+  background-color: $black;
+  height: $height-header;
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+
+    i {
+      color: $coffee-brown;
+      font-size: 3.5rem;
+    }
+
+    span {
+      font-weight: bold;
+      font-size: 1.7rem;
+      color: $white;
+      height: 100%;
+
+      position: absolute;
+      width: 200px;
+      left: 15px;
+      top: 33px;
+    }
+  }
+}

@@ -29,6 +29,9 @@
           <button class="submit" [disabled]="!f.valid || form.isLoading">
             {{ form.isLoading ? 'Aguarde...' : 'Entrar' }}
           </button>
+          <ul *ngIf="form.message.errors.length > 0" class="alert error">
+            <li *ngFor="let error of form.message.errors">{{ error }}</li>
+          </ul>
         </div>
       </form>
     </div>

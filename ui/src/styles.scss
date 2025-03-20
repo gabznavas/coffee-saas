@@ -1,3 +1,6 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 // Defining colors in SCSS
 $light-beige: #D6C8B8; // Background color for general content
 $coffee-brown: #6F4F37; // Primary dark color for text and buttons
@@ -17,13 +20,13 @@ $height-screen: calc(100vh - $height-header);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 // Global body styles
 body {
   background-color: $light-beige;
   color: $black;
-  font-family: 'Arial', sans-serif;
   line-height: 1.6;
 }
 
@@ -123,31 +126,6 @@ ol {
 }
 
 
-.header {
-  display: flex;
-  align-items: center;
-  padding: 0 5rem;
-  background-color: $black;
-  height: $height-header;
-
-  .title {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-
-    i {
-      color: $coffee-brown;
-      font-size: 3.5rem;
-    }
-
-    span {
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: $white;
-      height: 100%;
-    }
-  }
-}
 
 .screen {
   display: flex;
