@@ -8,7 +8,7 @@ const routes: Routes = [{
   component: LoginComponent
 }, {
   path: 'home',
-  component: HomeComponent
+  loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
 }, {
   path: '',
   redirectTo: 'home',

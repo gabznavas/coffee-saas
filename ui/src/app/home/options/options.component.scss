@@ -1,0 +1,42 @@
+@import "../../../styles.scss";
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  $item-size: 320px;
+
+  &-item {
+    position: relative;
+    width: $item-size;
+    height: $item-size;
+    transition: 500ms;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+    background-color: $black;
+    border-radius: 8px;
+
+    span {
+      color: $white;
+      font-weight: 400;
+      font-size: 1.6rem;
+      position: absolute;
+      top: 65%;
+      left: 50px;
+    }
+
+    i {
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      color: $coffee-brown;
+      font-size: 5rem;
+    }
+
+    &:hover {
+      transform: scale(1.03);
+      box-shadow: rgba(0, 0, 0, 0.85) 0px 5px 15px;
+    }
+  }
+}
