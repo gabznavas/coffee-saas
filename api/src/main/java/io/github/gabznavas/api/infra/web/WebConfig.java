@@ -1,29 +1,12 @@
 package io.github.gabznavas.api.infra.web;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    @Value("${cors.originPatterns:http://localhost:8080}")
-    private String corsOriginPatterns;
-
-    @Value("${cors.allowedMethods:OPTIONS}")
-    private String corsAllowedMethods;
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        String[] allowedOrigins = corsOriginPatterns.split(",");
-        String[] allowedMethods = corsAllowedMethods.split(",");
-        registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins)
-                .allowedMethods(allowedMethods);
-    }
 
     /**
      * Configura a negociação de conteúdo, definindo o uso de parâmetros de consulta

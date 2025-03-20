@@ -10,8 +10,10 @@ date:
     off-set: "-03:00"
 
 cors:
-  originPatterns: http://localhost:8080,http://localhost:4200
-  allowedMethods: POST,GET,PUT,DELETE,OPTIONS
+  origin-patterns: http://localhost:8080,http://localhost:4200
+  allowed-methods: POST,GET,PUT,DELETE,OPTIONS
+  allowed-headers: Authorization,Content-Type
+  max-age-cache-seconds: 3600
 spring:
   application:
     name: Coffee-Api
