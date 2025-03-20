@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class MenuLeftComponent {
 
+  goToEstoque() { }
+  goToEmployers() { }
+  goToTables() { }
 }

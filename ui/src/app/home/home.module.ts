@@ -5,8 +5,7 @@ import { CommandsModule } from '../commands/commands.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { MenuLeftComponent } from './menu-left/menu-left.component';
 import { MenuCenterComponent } from './menu-center/menu-center.component';
-
-
+import { ComponentsModule } from "../components/components.module";
 
 @NgModule({
   declarations: [
@@ -18,6 +17,7 @@ import { MenuCenterComponent } from './menu-center/menu-center.component';
     CommonModule,
     HomeRoutingModule,
     CommandsModule,
+    ComponentsModule
   ]
 })
 export class HomeModule { }

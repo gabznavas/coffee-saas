@@ -2,12 +2,19 @@
 
 
 .menu-right {
-
+  position: relative;
 
   .profile {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+
+    transition: 500ms;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 
     .image-profile {
       display: flex;
@@ -28,5 +35,21 @@
       font-weight: 400;
       font-size: 15px;
     }
+  }
+
+  .menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+    z-index: 1000;
+    background-color: red;
+    position: absolute;
+    top: 100px;
+    right: -25px;
+    background-color: $black;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 10px 20px;
   }
 }

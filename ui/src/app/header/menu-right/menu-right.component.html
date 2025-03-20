@@ -1,8 +1,13 @@
 <div class="menu-right">
-  <div class="profile">
+  <div class="profile" (click)="toggleShowMenuItems()">
     <div class="image-profile">
       <img class="" [src]="imageProfileUrl" alt="image">
     </div>
     <span class="employee-name">{{employee.name}}</span>
   </div>
+
+  <ul *ngIf="showMenuItems" class="menu-list">
+    <menu-item title="Configurações" materialIcon="settings"></menu-item>
+    <menu-item title="Sair" materialIcon="exit_to_app"></menu-item>
+  </ul>
 </div>

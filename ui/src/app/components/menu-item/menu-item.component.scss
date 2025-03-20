@@ -1,0 +1,23 @@
+@import '../../../styles.scss';
+
+.menu-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  font-weight: 400;
+  font-size: 1.10rem;
+  border-radius: 8px;
+  background-color: $coffee-brown;
+  color: $white;
+  width: 100%;
+  cursor: pointer;
+  transition: 500ms;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: rgba(0, 0, 0, 0.85) 0px 5px 15px;
+  }
+}

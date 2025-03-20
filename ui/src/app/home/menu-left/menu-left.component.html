@@ -3,21 +3,8 @@
     <span class="material-icons-outlined">menu</span>
     <span>Menu</span>
   </span>
-  <div class="menu-item">
-    <span class="material-icons-outlined">table_restaurant</span>
-    <span>Estoque</span>
-  </div>
-  <div class="menu-item">
-    <span class="material-icons-outlined">people_outline</span>
-    <span>Funcionários</span>
-  </div>
-  <div class="menu-item">
-    <span class="material-icons-outlined">table_restaurant</span>
-    <span>Mesas</span>
-  </div>
-  <div class="divisor"></div>
-  <div class="menu-item">
-    <span class="material-icons-outlined">exit_to_app</span>
-    <span>Sair</span>
-  </div>
+
+  <menu-item (click)="goToEstoque()" title="Estoque" materialIcon="table_restaurant"></menu-item>
+  <menu-item (click)="goToEmployers()" title="Funcionários" materialIcon="people_outline"></menu-item>
+  <menu-item (click)="goToTables()" title="Mesas" materialIcon="table_restaurant"></menu-item>
 </nav>
