@@ -1,0 +1,10 @@
+@import '../../styles.scss';
+
+.login-screen {
+  align-items: flex-start;
+  padding-top: 6rem;
+
+  .paper {
+    min-width: 500px;
+  }
+}
