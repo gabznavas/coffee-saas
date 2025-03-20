@@ -3,6 +3,7 @@ package io.github.gabznavas.api.controller;
 import io.github.gabznavas.api.dto.LoginDTO;
 import io.github.gabznavas.api.dto.RegisterDTO;
 import io.github.gabznavas.api.dto.TokenDTO;
+import io.github.gabznavas.api.log.LoggerCustom;
 import io.github.gabznavas.api.service.LoginService;
 import io.github.gabznavas.api.service.RegisterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 @Tag(name = "Security", description = "Endpoints for Managing Security")
 public class AuthenticationController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     private LoginService loginService;
@@ -65,8 +70,15 @@ public class AuthenticationController {
             }
     )
     public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginDTO dto) {
+        LoggerCustom.logInfo(AuthenticationController.class, "Login attempt for user: %s", dto.email());
+        long startTime = System.currentTimeMillis();
+
         final String token = loginService.login(dto);
         final TokenDTO tokenDTO = new TokenDTO(token);
+
+        long duration = System.currentTimeMillis() - startTime;
+        LoggerCustom.logInfo(AuthenticationController.class, "Login successful for user: %s (%dms)", dto.email(), duration);
+
         return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
     }
 
@@ -103,9 +115,16 @@ public class AuthenticationController {
             }
     )
     public ResponseEntity<TokenDTO> register(@RequestBody @Valid RegisterDTO dto) {
+        LoggerCustom.logInfo(AuthenticationController.class, "Register and Login attempt for user: %s", dto.email());
+        long startTime = System.currentTimeMillis();
+
         registerService.register(dto);
         final String token = loginService.login(new LoginDTO(dto.email(), dto.password()));
         final TokenDTO tokenDTO = new TokenDTO(token);
+
+        long duration = System.currentTimeMillis() - startTime;
+        LoggerCustom.logInfo(AuthenticationController.class, "Register and Login successful for user: %s (%dms)", dto.email(), duration);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(tokenDTO);
     }
 }

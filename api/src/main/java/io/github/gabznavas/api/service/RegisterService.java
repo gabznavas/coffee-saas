@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class RegisterService {
@@ -44,8 +45,11 @@ public class RegisterService {
             throw new PasswordAndPasswordConfirmationDoesNotEqual();
         }
 
-        User userByEmail = userRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new UserAlreadyExistsWithException("email"));
+        final Optional<User> optionalUserByEmail = userRepository.findByEmail(dto.email());
+        if (optionalUserByEmail.isPresent()) {
+            throw new UserAlreadyExistsWithException("email");
+        }
+
 
         final User user = new User();
         user.setFullName(dto.fullName());
