@@ -6,6 +6,9 @@ import io.github.gabznavas.api.entity.Role;
 import io.github.gabznavas.api.entity.RoleNameType;
 import io.github.gabznavas.api.entity.User;
 import io.github.gabznavas.api.entity.UserRole;
+import io.github.gabznavas.api.exception.PasswordAndPasswordConfirmationDoesNotEqual;
+import io.github.gabznavas.api.exception.RoleNotFoundByException;
+import io.github.gabznavas.api.exception.UserAlreadyExistsWithException;
 import io.github.gabznavas.api.mapper.UserMapper;
 import io.github.gabznavas.api.repository.RoleRepository;
 import io.github.gabznavas.api.repository.UserRepository;
@@ -38,11 +41,11 @@ public class RegisterService {
     @Transactional
     public UserDTO register(RegisterDTO dto) {
         if (!dto.password().equals(dto.passwordConfirmation())) {
-            throw new RuntimeException("password and password confirmation is not equals.");
+            throw new PasswordAndPasswordConfirmationDoesNotEqual();
         }
 
         User userByEmail = userRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new RuntimeException("User already exists with email."));
+                .orElseThrow(() -> new UserAlreadyExistsWithException("email"));
 
         final User user = new User();
         user.setFullName(dto.fullName());
@@ -54,7 +57,7 @@ public class RegisterService {
         userRepository.save(user);
 
         final Role role = roleRepository.findByNameType(RoleNameType.ATTENDANT)
-                .orElseThrow(() -> new RuntimeException("role not found"));
+                .orElseThrow(() -> new RoleNotFoundByException("name"));
 
         final UserRole userRole = new UserRole();
         userRole.setUser(user);

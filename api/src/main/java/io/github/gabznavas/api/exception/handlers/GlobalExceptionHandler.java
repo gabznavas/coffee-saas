@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.exception.handlers;
 
+import io.github.gabznavas.api.exception.*;
 import io.github.gabznavas.api.exception.responses.ExceptionMapResponse;
 import io.github.gabznavas.api.exception.responses.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
@@ -50,4 +51,24 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler({
+            UserNotFoundByException.class,
+            TokenNotValidException.class,
+            GenerateJWTTokenException.class,
+            LoginIncorrectException.class,
+            PasswordAndPasswordConfirmationDoesNotEqual.class,
+            RoleNotFoundByException.class,
+            UserAlreadyExistsWithException.class,
+    })
+    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(
+            Exception ex,
+            WebRequest request
+    ) {
+        ExceptionResponse response = new ExceptionResponse(
+                LocalDateTime.now(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return ResponseEntity.badRequest().body(response);
+    }
 }

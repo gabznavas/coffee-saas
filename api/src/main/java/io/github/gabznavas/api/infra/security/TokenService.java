@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import io.github.gabznavas.api.entity.User;
+import io.github.gabznavas.api.exception.GenerateJWTTokenException;
+import io.github.gabznavas.api.exception.TokenNotValidException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +40,7 @@ public class TokenService {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error while generating token", exception);
+            throw new GenerateJWTTokenException();
         }
     }
 
@@ -52,7 +54,7 @@ public class TokenService {
                     .getSubject();
             return subject;
         } catch (JWTVerificationException exception) {
-            return "";
+            throw new TokenNotValidException();
         }
     }
 

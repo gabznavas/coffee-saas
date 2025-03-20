@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.infra.security;
 
+import io.github.gabznavas.api.exception.UserNotFoundByException;
 import io.github.gabznavas.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,6 @@ public class UserDetailSecurityService implements UserDetailsService {
     @Override
     public final UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found by username"));
+                .orElseThrow(() -> new UserNotFoundByException("email"));
     }
 }

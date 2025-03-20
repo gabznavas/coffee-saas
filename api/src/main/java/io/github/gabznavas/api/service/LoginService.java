@@ -2,18 +2,15 @@ package io.github.gabznavas.api.service;
 
 import io.github.gabznavas.api.dto.LoginDTO;
 import io.github.gabznavas.api.entity.User;
+import io.github.gabznavas.api.exception.LoginIncorrectException;
 import io.github.gabznavas.api.infra.security.TokenService;
 import io.github.gabznavas.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private UserRepository userRepository;
@@ -26,10 +23,10 @@ public class LoginService {
 
     public String login(LoginDTO dto) {
         final User user = userRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new RuntimeException("Email or Passwords is incorrect."));
+                .orElseThrow(LoginIncorrectException::new);
         final boolean matchPasswords = passwordEncoder.matches(dto.password(), user.getPassword());
         if (!matchPasswords) {
-            throw new RuntimeException("Email or Passwords is incorrect.");
+            throw new LoginIncorrectException();
         }
 
         final String token = tokenService.generateToken(user);
