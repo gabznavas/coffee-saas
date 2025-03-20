@@ -7,7 +7,7 @@
   </div>
 
   <ul *ngIf="showMenuItems" class="menu-list">
-    <menu-item title="Configurações" materialIcon="settings"></menu-item>
+    <menu-item (click)="goToSettings()" title="Configurações" materialIcon="settings"></menu-item>
     <menu-item title="Sair" materialIcon="exit_to_app"></menu-item>
   </ul>
 </div>
