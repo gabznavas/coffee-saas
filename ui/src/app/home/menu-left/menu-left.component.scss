@@ -1,5 +1,12 @@
 @import "../../../styles.scss";
 
+.divisor {
+  width: 100%;
+  height: 1px;
+  margin: 5px 0;
+  background-color: $light-beige;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -14,6 +21,7 @@
 
   &-title {
     display: flex;
+    align-items: center;
     gap: 10px;
     font-weight: bold;
     font-size: 1.5rem;
@@ -23,7 +31,8 @@
   &-item {
     display: flex;
     justify-content: flex-start;
-    gap: 10px;
+    align-items: center;
+    gap: 15px;
     padding: 10px;
     font-weight: 400;
     font-size: 1.10rem;
