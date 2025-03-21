@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     HomeModule,
     LoginModule,
-    HeaderModule
+    HeaderModule,
   ],
   providers: [AuthorizationService],
   bootstrap: [AppComponent]

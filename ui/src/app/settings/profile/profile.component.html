@@ -1,1 +1,22 @@
-<p>profile works!</p>
+<div class="screen">
+  <div class="card">
+    <span class="card-title">Configurações de perfil</span>
+
+    <form #f="ngForm">
+      <div class="form-group">
+        <img class="profileImageUrl" [src]="user.profileImageUrl" alt="image"
+          (error)="loadDefaultProfileImageUrl($event)">
+        <label for="fullname">Url da imagem de perfil</label>
+        <input type="url" #profileImageUrl="ngModel" placeholder="http://..." [(ngModel)]="user.profileImageUrl"
+          id="profileImageUrl" name="profileImageUrl">
+      </div>
+      <div class="form-group">
+        <label for="fullname">Nome completo</label>
+        <input type="text" [(ngModel)]="user.fullName" #fullname="ngModel" id="fullname" name="fullname">
+      </div>
+      <div class="form-group">
+        <button>Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -4,6 +4,6 @@ public record UserDTO(
         Long id,
         String fullName,
         String email,
-        String password
+        String profileImageUrl
 ) {
 }
