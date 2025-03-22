@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'home',
@@ -6,7 +7,16 @@ import { Component } from '@angular/core';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  goToEstoque() { }
+
+  constructor(private router: Router) {
+
+  }
+
+  goToStock() {
+    this.router.navigate(['/stock'])
+  }
+
   goToEmployers() { }
+
   goToTables() { }
 }

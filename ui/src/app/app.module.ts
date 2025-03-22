@@ -8,6 +8,7 @@ import { AuthorizationService } from './services/authorization.service';
 import { HomeModule } from './home/home.module';
 import { HeaderModule } from "./header/header.module";
 import { RouterModule } from '@angular/router';
+import { StockModule } from './stock/stock.module';
 
 @NgModule({
   declarations: [
@@ -17,9 +18,10 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
+    HeaderModule,
     HomeModule,
     LoginModule,
-    HeaderModule,
+    StockModule
   ],
   providers: [AuthorizationService],
   bootstrap: [AppComponent]

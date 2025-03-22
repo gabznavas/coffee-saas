@@ -1,6 +1,7 @@
 package io.github.gabznavas.api.controller;
 
 import io.github.gabznavas.api.dto.ProfileDTO;
+import io.github.gabznavas.api.dto.SecurityDTO;
 import io.github.gabznavas.api.dto.UserDTO;
 import io.github.gabznavas.api.entity.User;
 import io.github.gabznavas.api.mapper.UserMapper;
@@ -70,6 +71,19 @@ public class UserController {
     )
     public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserDetails user, @RequestBody ProfileDTO dto) {
         userService.updateProfile(((User) user).getId(), dto);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(
+            value = "/security",
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            }
+    )
+    public ResponseEntity<?> updateSecurity(@AuthenticationPrincipal UserDetails user, @RequestBody SecurityDTO dto) {
+        userService.updateSecurity(((User) user).getId(), dto);
         return ResponseEntity.noContent().build();
     }
 }

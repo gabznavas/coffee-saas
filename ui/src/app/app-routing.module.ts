@@ -13,6 +13,9 @@ const routes: Routes = [{
   path: 'settings',
   loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
 }, {
+  path: 'stock',
+  loadChildren: () => import('./stock/stock.module').then(m => m.StockModule)
+}, {
   path: '',
   redirectTo: 'home',
   pathMatch: 'full',

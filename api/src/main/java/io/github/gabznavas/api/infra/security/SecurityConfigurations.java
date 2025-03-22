@@ -47,6 +47,12 @@ public class SecurityConfigurations {
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
                                 RoleNameType.MANAGER.toSpringSecurityRole()
                         )
+                        .requestMatchers(HttpMethod.PATCH, "/api/security/user/profile").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole()
+                        )
+
 
                         // examples of authorities
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(
