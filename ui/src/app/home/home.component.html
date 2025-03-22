@@ -1,6 +1,10 @@
 <div class="screen">
   <div class="content">
-    <menu-left></menu-left>
+    <menu menuTitle="Menu" menuMaterialIcon="menu">
+      <menu-item (click)="goToEstoque()" title="Estoque" materialIcon="table_restaurant"></menu-item>
+      <menu-item (click)="goToEmployers()" title="Funcionários" materialIcon="people_outline"></menu-item>
+      <menu-item (click)="goToTables()" title="Mesas" materialIcon="table_restaurant"></menu-item>
+    </menu>
 
     <router-outlet></router-outlet>
   </div>

@@ -6,8 +6,8 @@
     <span class="employee-name">{{employee.fullName}}</span>
   </div>
 
-  <ul *ngIf="showMenuItems" class="menu-list">
+  <menu *ngIf="showMenuItems" class="menu-list">
     <menu-item (click)="goToSettings()" title="Configurações" materialIcon="settings"></menu-item>
     <menu-item title="Sair" materialIcon="exit_to_app"></menu-item>
-  </ul>
+  </menu>
 </div>

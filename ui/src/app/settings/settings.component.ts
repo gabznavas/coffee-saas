@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-
+  goToProfile() {
+    throw new Error('Method not implemented.');
+  }
+  goToSecurity() {
+    throw new Error('Method not implemented.');
+  }
 }

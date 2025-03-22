@@ -1,0 +1,29 @@
+@import '../../../styles.scss';
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  background-color: $black;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid $coffee-brown;
+
+  &-title {
+    display: flex;
+    align-items: center;
+    color: $white;
+    gap: 0.5rem;
+    font-weight: bold;
+    font-size: 1.10rem;
+    padding-bottom: 1.2rem 0;
+  }
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

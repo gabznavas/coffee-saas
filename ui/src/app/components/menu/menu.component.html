@@ -1,0 +1,10 @@
+<nav class="menu">
+  <span *ngIf="menuMaterialIcon || menuMaterialIcon" class="menu-title">
+    <span *ngIf="menuMaterialIcon" class="material-icons-outlined">{{ menuMaterialIcon }}</span>
+    <span>{{ menuTitle }}</span>
+  </span>
+
+  <div class="menu-content">
+    <ng-content></ng-content>
+  </div>
+</nav>

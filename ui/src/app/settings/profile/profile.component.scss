@@ -1,20 +1,15 @@
 @import '../../../styles.scss';
 
 
-.screen {
-  flex-direction: column;
-}
-
 .card {
   display: flex;
   flex-direction: column;
   justify-items: center;
   gap: 2rem;
-  width: 500px;
-  margin-top: 2rem;
+  width: 670px;
 
   background-color: $cream;
-  padding: 2rem 4rem;
+  padding: 2rem 6rem;
   border-radius: 8px;
 
   &-title {
@@ -22,7 +17,6 @@
     font-size: 1.8rem;
     font-weight: 500;
   }
-
 }
 
 form {

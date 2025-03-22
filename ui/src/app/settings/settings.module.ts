@@ -4,6 +4,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { SettingsComponent } from './settings.component';
 import { SettingsRoutingModule } from './settings-route.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 
@@ -16,6 +17,7 @@ import { SettingsRoutingModule } from './settings-route.module';
     CommonModule,
     FormsModule,
     SettingsRoutingModule,
+    ComponentsModule,
   ]
 })
 export class SettingsModule { }

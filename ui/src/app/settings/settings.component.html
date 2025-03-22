@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<div class="screen">
+  <div class="content">
+    <menu menuTitle="Configurações" menuMaterialIcon="settings">
+      <menu-item (click)="goToProfile()" title="Perfil" materialIcon="person"></menu-item>
+      <menu-item (click)="goToSecurity()" title="Segurança" materialIcon="security"></menu-item>
+    </menu>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
