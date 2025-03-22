@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { User } from '../types/user.type';
 import { AuthorizationService } from './authorization.service';
 import { Profile } from '../types/profile.type';
+import { Security } from '../types/security.type';
 
 @Injectable({
   providedIn: 'root'
@@ -61,4 +62,12 @@ export class UserService {
     return this.client.patch<void>(url, profile, { headers })
   }
 
+
+  updateSecurity(security: Security): Observable<void> {
+    const url = `http://localhost:8080/api/v1/user/security`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+    return this.client.patch<void>(url, security, { headers })
+  }
 }

@@ -16,10 +16,11 @@ export class ProfileComponent implements OnInit {
   form = {
     fullName: '',
     profileImageUrl: '',
-    isLoading: false,
-    message: {
-      errors: [] as string[]
-    }
+    messages: {
+      globalSuccesses: [] as string[],
+      globalErrors: [] as string[],
+    },
+    isLoading: false
   }
 
   constructor(
@@ -51,7 +52,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.form.message.errors = [];
+    this.form.messages.globalErrors = [];
     this.form.isLoading = true;
 
     this.userService.updateProfile({
@@ -59,18 +60,23 @@ export class ProfileComponent implements OnInit {
       profileImageUrl: this.form.profileImageUrl,
     })
       .pipe(
-        switchMap(() => this.userService.getUserLogged()), // Obtém o usuário atualizado
-        tap(user => this.userService.setUserLocalStorage(user)), // Atualiza no localStorage
-        tap(() => this.router.navigate(['/home'])), // Redireciona
+        switchMap(() => this.userService.getUserLogged()),
+        tap(user => this.userService.setUserLocalStorage(user)),
+        tap(() => {
+          this.form.messages.globalSuccesses = []
+          this.form.messages.globalErrors = []
+          this.form.messages.globalSuccesses.push("Atualizado com sucesso.");
+
+        }),
         catchError(err => {
           if (err instanceof HttpErrorResponse) {
             if (typeof err.error?.message === 'string') {
-              this.form.message.errors.push(err.error.message);
+              this.form.messages.globalErrors.push(err.error.message);
             } else {
-              this.form.message.errors.push('Ocorreu um erro. Tente novamente mais tarde.');
+              this.form.messages.globalErrors.push('Ocorreu um erro. Tente novamente mais tarde.');
             }
           } else {
-            this.form.message.errors.push('Erro inesperado.');
+            this.form.messages.globalErrors.push('Erro inesperado.');
           }
           return of(null); // Retorna um Observable vazio para evitar que o fluxo quebre
         }),

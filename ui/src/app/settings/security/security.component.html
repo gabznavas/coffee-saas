@@ -1,5 +1,5 @@
 <paper title="Segurança" materialIconsTitle="security">
-  <form class="paper-con" #f="ngForm" (ngSubmit)="onSubmit($event)">
+  <form class="paper-con" #f="ngForm" (ngSubmit)="onSubmit(f)">
     <div class="form-group">
       <label for="email">E-mail *</label>
       <input autofocus #email="ngModel" required email minlength="7" maxlength="50" [(ngModel)]="form.email" type="text"
@@ -31,14 +31,17 @@
       </ul>
     </div>
 
-    <ul *ngFor="let error of form.messages.globalErrors" class="alert error">
-      <li>{{ error }}</li>
+    <ul *ngFor="let message of form.messages.globalSuccesses" class="alert success">
+      <li>{{ message }}</li>
+    </ul>
+    <ul *ngFor="let message of form.messages.globalErrors" class="alert error">
+      <li>{{ message }}</li>
     </ul>
 
     <div class="form-group">
-      <button class="submit-button" [disabled]="!f.valid">
+      <button type="submit" class="submit-button" [disabled]="!f.valid || form.isLoading">
         <span class="material-icons">save</span>
-        <span>Salvar</span>
+        <span>{{ form.isLoading ? 'Aguarde...' : 'Salvar' }}</span>
       </button>
     </div>
   </form>
