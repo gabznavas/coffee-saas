@@ -4,6 +4,7 @@ import { StockFormComponent } from './stock-form/stock-form.component';
 import { StockRoutingModule } from './stock-route.module';
 import { StockListComponent } from './stock-list/stock-list.component';
 import { StockComponent } from './stock.component';
+import { ComponentsModule } from "../components/components.module";
 
 
 
@@ -15,7 +16,8 @@ import { StockComponent } from './stock.component';
   ],
   imports: [
     CommonModule,
-    StockRoutingModule
+    StockRoutingModule,
+    ComponentsModule
   ]
 })
 export class StockModule { }

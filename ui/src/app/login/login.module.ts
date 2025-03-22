@@ -5,15 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { LoginService } from './services/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from '../components/components.module';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginRoutingModule } from './login-route.module';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    LoginFormComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    LoginRoutingModule,
     HttpClientModule,
     ComponentsModule
   ],

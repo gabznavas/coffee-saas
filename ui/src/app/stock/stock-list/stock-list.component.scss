@@ -1,0 +1,42 @@
+@import '../../../styles.scss';
+
+.screen {
+  align-items: flex-start;
+  padding-top: 2rem;
+}
+
+.header {
+  display: flex;
+  gap: 1rem;
+
+  &-button-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: $dark-grey;
+    width: 170px;
+
+    &:hover {
+      background-color: $light-grey;
+      color: $dark-grey;
+    }
+  }
+
+  .search {
+    display: flex;
+    gap: 1rem;
+
+    &-input {
+      width: 350px;
+    }
+
+    &-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 170px;
+    }
+  }
+}
