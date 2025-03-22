@@ -37,7 +37,16 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/user/logged").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/logged").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/profile").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole()
+                        )
 
                         // examples of authorities
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(

@@ -1,9 +1,9 @@
 <div class="menu-right">
   <div class="profile" (click)="toggleShowMenuItems()">
     <div class="image-profile">
-      <img class="" [src]="imageProfileUrl" alt="image">
+      <img [src]="employee.imageProfileUrl" alt="image" (error)="loadDefaultProfileImageUrl($event)">
     </div>
-    <span class="employee-name">{{employee.name}}</span>
+    <span class="employee-name">{{employee.fullName}}</span>
   </div>
 
   <ul *ngIf="showMenuItems" class="menu-list">

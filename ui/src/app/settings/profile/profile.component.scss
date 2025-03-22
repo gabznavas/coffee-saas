@@ -29,6 +29,12 @@ form {
   align-items: center;
 
   .form-group .profileImageUrl {
+    margin-bottom: 2rem;
+    align-self: center;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 }
