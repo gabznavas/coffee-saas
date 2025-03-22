@@ -9,6 +9,10 @@
   height: $height-header;
   position: relative;
 
+  a {
+    cursor: pointer;
+  }
+
   .title {
     display: flex;
     align-items: center;

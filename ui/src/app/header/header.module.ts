@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { MenuRightComponent } from './menu-right/menu-right.component';
 import { ComponentsModule } from '../components/components.module';
-
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -14,6 +14,7 @@ import { ComponentsModule } from '../components/components.module';
   imports: [
     CommonModule,
     ComponentsModule,
+    RouterModule
   ],
   exports: [
     HeaderComponent
