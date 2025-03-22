@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -6,10 +7,16 @@ import { Component } from '@angular/core';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
+
+
+  constructor(
+    private router: Router
+  ) { }
+
   goToProfile() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/settings'])
   }
   goToSecurity() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/settings/security'])
   }
 }

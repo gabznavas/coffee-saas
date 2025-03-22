@@ -1,7 +1,5 @@
-<div class="card">
-  <span class="card-title">Configurações de perfil</span>
-
-  <form #f="ngForm" (ngSubmit)="onSubmit($event)">
+<paper title="Perfil" materialIconsTitle="person">
+  <form class="paper-content" #f="ngForm" (ngSubmit)="onSubmit($event)">
     <div class="form-group">
       <img class="profileImageUrl" [src]="form.profileImageUrl" alt="image"
         (error)="loadDefaultProfileImageUrl($event)">
@@ -24,7 +22,10 @@
       </ul>
     </div>
     <div class="form-group">
-      <button [disabled]="!f.valid">Salvar</button>
+      <button class="submit-button" [disabled]="!f.valid">
+        <span class="material-icons">save</span>
+        <span>Salvar</span>
+      </button>
     </div>
   </form>
-</div>
+</paper>

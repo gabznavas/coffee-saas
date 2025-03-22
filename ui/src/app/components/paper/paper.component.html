@@ -1,0 +1,8 @@
+<div class="paper">
+  <span *ngIf="materialIconsTitle || title" class="paper-title">
+    <span class="material-icons">{{materialIconsTitle}}</span>
+    <span>{{title}}</span>
+  </span>
+
+  <ng-content></ng-content>
+</div>
