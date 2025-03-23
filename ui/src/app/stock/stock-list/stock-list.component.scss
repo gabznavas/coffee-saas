@@ -1,9 +1,5 @@
 @import '../../../styles.scss';
 
-.screen {
-  align-items: flex-start;
-  padding-top: 2rem;
-}
 
 .header {
   display: flex;
@@ -26,10 +22,10 @@
   .search {
     display: flex;
     gap: 1rem;
+    flex-grow: 1;
 
-    &-input {
-      width: 350px;
-    }
+
+    &-input {}
 
     &-button {
       display: flex;

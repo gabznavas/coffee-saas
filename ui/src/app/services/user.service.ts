@@ -1,23 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
 import { User } from '../types/user.type';
 import { AuthorizationService } from './authorization.service';
 import { Profile } from '../types/profile.type';
 import { Security } from '../types/security.type';
+import { Router } from '@angular/router';
+import { UserRole, UserRoleName } from '../types/user-role.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   private userKey = "user";
 
   private dataSubject = new BehaviorSubject<User>({} as User);
 
   constructor(
     private client: HttpClient,
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthorizationService,
   ) { }
 
   observableUser(): Observable<User> {
@@ -30,11 +31,32 @@ export class UserService {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
 
-    return this.client.get<User>(url, { headers })
-      .pipe(tap(user => {
-        this.setUserLocalStorage(user)
-        this.dataSubject.next(user);
-      }))
+    type UserResponse = {
+      id: number
+      fullName: string
+      email: string
+      profileImageUrl: string
+      roles: string[]
+      // createdAt: string
+      // updatedAt: string
+      // deletedAt: string
+    }
+
+    return this.client.get<UserResponse>(url, { headers })
+      .pipe(
+        map(userResponse => {
+          const user = new User()
+          user.id = userResponse.id
+          user.fullName = userResponse.fullName
+          user.email = userResponse.email
+          user.profileImageUrl = userResponse.profileImageUrl
+          user.roles = userResponse.roles.map(userRoleName => new UserRole(userRoleName as UserRoleName))
+
+          this.setUserLocalStorage(user)
+          this.dataSubject.next(user);
+          return user;
+        }),
+      )
   }
 
   setUserLocalStorage(user: User): void {
@@ -54,6 +76,11 @@ export class UserService {
     }
   }
 
+  isAuthenticated(): boolean {
+    const userJson = localStorage.getItem(this.userKey);
+    return userJson !== null
+  }
+
   updateProfile(profile: Profile): Observable<void> {
     const url = `http://localhost:8080/api/v1/user/profile`
     const headers = {
@@ -69,5 +96,13 @@ export class UserService {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
     return this.client.patch<void>(url, security, { headers })
+  }
+
+  getRankUserRoles(roles: string[]) {
+
+  }
+
+  logout() {
+    localStorage.clear()
   }
 }

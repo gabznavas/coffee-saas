@@ -16,6 +16,7 @@ export class MenuRightComponent implements OnInit, OnDestroy {
   employee = {
     fullName: '',
     imageProfileUrl: '',
+    role: '',
   }
 
   constructor(
@@ -32,9 +33,12 @@ export class MenuRightComponent implements OnInit, OnDestroy {
 
     this.userService.getUserLogged()
       .subscribe({
-        next: user => this.employee = {
-          fullName: user.fullName,
-          imageProfileUrl: user.profileImageUrl,
+        next: user => {
+          this.employee = {
+            fullName: user.fullName,
+            imageProfileUrl: user.profileImageUrl,
+            role: user.rankedRoles().translate(),
+          }
         }
       })
   }
@@ -54,5 +58,11 @@ export class MenuRightComponent implements OnInit, OnDestroy {
 
   loadDefaultProfileImageUrl(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/user.png';
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/login'])
+    this.showMenuItems = false;
   }
 }

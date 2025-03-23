@@ -9,6 +9,7 @@ import { HomeModule } from './home/home.module';
 import { HeaderModule } from "./header/header.module";
 import { RouterModule } from '@angular/router';
 import { StockModule } from './stock/stock.module';
+import { LoginService } from './services/login.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { StockModule } from './stock/stock.module';
     LoginModule,
     StockModule
   ],
-  providers: [AuthorizationService],
+  providers: [AuthorizationService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

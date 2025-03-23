@@ -3,11 +3,12 @@
     <div class="image-profile">
       <img [src]="employee.imageProfileUrl" alt="image" (error)="loadDefaultProfileImageUrl($event)">
     </div>
-    <span class="employee-name">{{employee.fullName}}</span>
+    <span class="employee-name">{{ employee.fullName }}</span>
+    <span class="employee-role">{{ employee.role }}</span>
   </div>
 
   <menu *ngIf="showMenuItems" class="menu-list">
     <menu-item (click)="goToSettings()" title="Configurações" materialIcon="settings"></menu-item>
-    <menu-item title="Sair" materialIcon="exit_to_app"></menu-item>
+    <menu-item (click)="logout()" title="Sair" materialIcon="exit_to_app"></menu-item>
   </menu>
 </div>

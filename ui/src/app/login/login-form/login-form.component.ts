@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { NgForm } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { AuthorizationService } from '../../services/authorization.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { UserService } from '../../services/user.service';
