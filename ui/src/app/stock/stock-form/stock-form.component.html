@@ -1,4 +1,4 @@
-<paper title="Novo produto" materialIconsTitle="inventory_2">
+<paper title="{{ form.isUpdate ? 'Atualizar produto' : 'Novo produto' }}" materialIconsTitle="inventory_2">
   <form #f="ngForm" (submit)="onSubmit(f)">
     <div class="group-form">
       <label>Nome</label>
@@ -24,7 +24,8 @@
 
     <div class="group-form">
       <label>Unidade de medida</label>
-      <select id="category" name="category" #units="ngModel" required [(ngModel)]="form.data.unitId">
+      <select id="category" name="category" #units="ngModel" required [(ngModel)]="form.data.unitId"
+        [value]="form.units[0].id">
         <option *ngFor="let unit of form.units" value="{{ unit.id }}">{{ unit.name }}</option>
       </select>
     </div>
@@ -42,15 +43,17 @@
 
     <div class="group-form">
       <label>Categoria</label>
-      <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId">
-        <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}</option>
+      <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId"
+        [value]="form.categories[0].id">
+        <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}
+        </option>
       </select>
     </div>
 
     <div class="group-form buttons">
       <button type="submit" [disabled]="f.invalid || form.isLoading">
-        <span class="material-icons">save</span>
-        <span>Salvar</span>
+        <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>
+        <span>{{form.isUpdate ? 'Atualizar' : 'Salvar'}}</span>
       </button>
       <button type="button" class="back" (click)="goToStockList()">
         <span class="material-icons">arrow_back</span>

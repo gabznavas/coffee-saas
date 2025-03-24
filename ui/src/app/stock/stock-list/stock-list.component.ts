@@ -15,6 +15,7 @@ import { Unit } from '../../types/unit.type';
 })
 export class StockListComponent implements OnInit {
 
+
   list = {
     data: [] as Product[],
     actualPage: 1,
@@ -72,6 +73,13 @@ export class StockListComponent implements OnInit {
     } return unit.name
   }
 
+  goToUpdateProduct(productId: number) {
+    this.router.navigate(['/stock', 'form', productId])
+  }
+
+  deleteProdut(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
 
   private findAllProducts() {
     this.productService.findProducts()

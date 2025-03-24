@@ -38,10 +38,10 @@
         <td>{{ product.deletedAt ? (product.deletedAt | date) : '-' }} </td>
         <td>
           <div class="action-buttons">
-            <button>
+            <button (click)="goToUpdateProduct(product.id)">
               <span class="material-icons">edit</span>
             </button>
-            <button>
+            <button (click)="deleteProdut(product.id)">
               <span class="material-icons">delete</span>
             </button>
           </div>

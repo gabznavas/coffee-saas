@@ -12,6 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', component: StockListComponent },
       { path: 'form', component: StockFormComponent },
+      { path: 'form/:productId', component: StockFormComponent },
     ]
   }
 ];
