@@ -4,7 +4,8 @@ export type ProductResponse = {
   id: number
   name: string
   description: string
-  category: ProductCategoryResponse
+  categoryId: number
+  unitId: number
   stock: number
   createdAt: string
   updatedAt: string | null

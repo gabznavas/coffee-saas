@@ -5,9 +5,10 @@ import { User } from '../types/user.type';
 import { AuthorizationService } from './authorization.service';
 import { Profile } from '../types/profile.type';
 import { Security } from '../types/security.type';
-import { Router } from '@angular/router';
 import { UserRole, UserRoleName } from '../types/user-role.type';
 import { UserResponse } from './types.ts/user-response.type';
+
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class UserService {
   }
 
   getUserLogged(): Observable<User> {
-    const url = `http://localhost:8080/api/v1/user/logged`
+    const url = `${environment.apiUrl}/v1/user/logged`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
@@ -72,7 +73,7 @@ export class UserService {
   }
 
   updateProfile(profile: Profile): Observable<void> {
-    const url = `http://localhost:8080/api/v1/user/profile`
+    const url = `${environment.apiUrl}/v1/user/profile`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
@@ -81,15 +82,11 @@ export class UserService {
 
 
   updateSecurity(security: Security): Observable<void> {
-    const url = `http://localhost:8080/api/v1/user/security`
+    const url = `${environment.apiUrl}/v1/user/security`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
     return this.client.patch<void>(url, security, { headers })
-  }
-
-  getRankUserRoles(roles: string[]) {
-
   }
 
   logout() {

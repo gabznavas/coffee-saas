@@ -20,6 +20,14 @@ public class Product {
     @Column(name = "description", length = 500, nullable = false)
     private String description;
 
+
+    @Column(name = "stock", nullable = false)
+    private String stock;
+
+    @ManyToOne
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
+
     @ManyToOne
     @JoinColumn(name = "product_category_id", nullable = false)
     ProductCategory productCategory;
@@ -28,10 +36,11 @@ public class Product {
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = null;
 
     @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    private LocalDateTime deletedAt = null;
+
 
     public Long getId() {
         return id;
@@ -55,6 +64,22 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 
     public ProductCategory getProductCategory() {
@@ -93,11 +118,11 @@ public class Product {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(productCategory, product.productCategory) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(deletedAt, product.deletedAt);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(stock, product.stock) && Objects.equals(unit, product.unit) && Objects.equals(productCategory, product.productCategory) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(deletedAt, product.deletedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, productCategory, createdAt, updatedAt, deletedAt);
+        return Objects.hash(id, name, description, stock, unit, productCategory, createdAt, updatedAt, deletedAt);
     }
 }

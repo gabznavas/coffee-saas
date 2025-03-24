@@ -18,6 +18,7 @@
         <th>#</th>
         <th>Nome</th>
         <th>Descrição</th>
+        <th>Unidade</th>
         <th>Categoria</th>
         <th>Criado em</th>
         <th>Atualizado em</th>
@@ -30,7 +31,8 @@
         <td>{{ product.id }} </td>
         <td class="text-limit">{{ product.name }} </td>
         <td class="text-limit">{{ product.description }} </td>
-        <td>{{ product.category.name }} </td>
+        <td>{{ findUnitNameById(product.unitId) }} </td>
+        <td>{{ findCategoryNameById(product.categoryId) }} </td>
         <td>{{ product.createdAt | date }} </td>
         <td>{{ product.updatedAt ? (product.updatedAt | date) : '-' }} </td>
         <td>{{ product.deletedAt ? (product.deletedAt | date) : '-' }} </td>

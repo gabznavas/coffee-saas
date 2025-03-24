@@ -49,6 +49,13 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
+                        
+                        .requestMatchers(HttpMethod.GET, "/api/v1/unit").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/product").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),

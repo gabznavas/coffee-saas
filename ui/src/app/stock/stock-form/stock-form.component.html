@@ -1,23 +1,65 @@
-<form>
-  <div class="group-form">
-    <label>Nome</label>
-    <input type="text" placeholder="Pão francês..." id="name" name="name">
-  </div>
+<paper title="Novo produto" materialIconsTitle="inventory_2">
+  <form #f="ngForm" (submit)="onSubmit(f)">
+    <div class="group-form">
+      <label>Nome</label>
+      <input #name="ngModel" [(ngModel)]="form.data.name" required minlength="2" maxlength="50" type="text"
+        placeholder="Pão francês..." id="name" name="name">
+      <ul *ngIf="!name.valid && name.touched" class="alert error">
+        <li>Campo nome inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 50 caracteres.</li>
+      </ul>
+    </div>
 
-  <div class="group-form">
-    <label>Descrição</label>
-    <textarea placeholder="Pão é feito de farinha..." id="description" name="description"></textarea>
-  </div>
+    <div class="group-form">
+      <label>Descrição</label>
+      <textarea #description="ngModel" [(ngModel)]="form.data.description" required minlength="10" maxlength="500"
+        placeholder="Pão feito de farinha..." id="description" name="description"></textarea>
+      <ul *ngIf="!description.valid && description.touched" class="alert error">
+        <li>Campo descrição inválido</li>
+        <li>Mínimo de 10 caracteres.</li>
+        <li>Máximo de 500 caracteres.</li>
+      </ul>
+    </div>
 
-  <div class="group-form">
-    <label>Categoria</label>
-    <select id="name" name="name">
-      <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}</option>
-    </select>
-  </div>
+    <div class="group-form">
+      <label>Unidade de medida</label>
+      <select id="category" name="category" #units="ngModel" required [(ngModel)]="form.data.unitId">
+        <option *ngFor="let unit of form.units" value="{{ unit.id }}">{{ unit.name }}</option>
+      </select>
+    </div>
 
-  <div class="group-form">
-    <button type="submit">Salvar</button>
-  </div>
+    <div class="group-form">
+      <label>Estoque</label>
+      <input type="number" #stock="ngModel" [(ngModel)]="form.data.stock" required minlength="1" maxlength="10000"
+        id="stock" name="stock">
+      <ul *ngIf="!stock.valid && stock.touched" class="alert error">
+        <li>Campo Estoque inválido</li>
+        <li>Mínimo de 10 caracteres.</li>
+        <li>Máximo de 500 caracteres.</li>
+      </ul>
+    </div>
 
-</form>
+    <div class="group-form">
+      <label>Categoria</label>
+      <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId">
+        <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <div class="group-form buttons">
+      <button type="submit" [disabled]="f.invalid || form.isLoading">
+        <span class="material-icons">save</span>
+        <span>Salvar</span>
+      </button>
+      <button type="button" class="back" (click)="goToStockList()">
+        <span class="material-icons">arrow_back</span>
+        <span>Voltar</span>
+      </button>
+
+      <ul *ngIf="form.messages.errors.length > 0" class="alert error">
+        <li *ngFor="let error of form.messages.errors">{{ error }}</li>
+      </ul>
+    </div>
+  </form>
+</paper>

@@ -1,29 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../../types/product.type';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { HttpErrorResponse, HttpResponseBase } from '@angular/common/http';
+import { ProductCategory } from '../../types/product-category.type';
+import { ProductCategoryService } from '../../services/product-category.service';
+import { UnitService } from '../../services/unit.service';
+import { Unit } from '../../types/unit.type';
 
 @Component({
   selector: 'app-stock-list',
   templateUrl: './stock-list.component.html',
   styleUrl: './stock-list.component.scss'
 })
-export class StockListComponent {
+export class StockListComponent implements OnInit {
 
   list = {
-    // data: new Array(10).fill('').map((_, index) => ({
-    //   id: index + 1,
-    //   name: 'Café expresso',
-    //   description: new Array(10).fill('Café da hora ' + index).join(''),
-    //   createdAt: new Date(),
-    //   deletedAt: null,
-    //   updatedAt: null,
-    //   category: {
-    //     id: 1,
-    //     name: 'Café',
-    //   }
-    // })) as Product[],
     data: [] as Product[],
     actualPage: 1,
     pageCount: 10,
@@ -34,10 +26,54 @@ export class StockListComponent {
     }
   }
 
+  categories = [] as ProductCategory[]
+  units = [] as Unit[]
+
   constructor(
     private router: Router,
-    private productService: ProductService
-  ) {
+    private productService: ProductService,
+    private productCategoryService: ProductCategoryService,
+    private unitService: UnitService,
+  ) { }
+
+  ngOnInit(): void {
+    this.findAllProducts()
+    this.findAllProductCategories()
+    this.findAllUnits()
+  }
+
+  getPageCountItems(): number[] {
+    return new Array(this.list.pageCount).fill('').map((_, index) => index + 1)
+  }
+
+  isActualStyle(actualIndex: number): boolean {
+    return this.list.actualPage === actualIndex
+  }
+
+  goToStockForm() {
+    this.router.navigate(['/stock/form'])
+  }
+
+  showPages(): boolean {
+    return this.list.data.length > 0
+  }
+
+  findCategoryNameById(categoryId: number) {
+    const category = this.categories.find(category => category.id === categoryId)
+    if (!category) {
+      return "-"
+    } return category.name
+  }
+
+  findUnitNameById(unitId: number) {
+    const unit = this.units.find(unit => unit.id === unitId)
+    if (!unit) {
+      return "-"
+    } return unit.name
+  }
+
+
+  private findAllProducts() {
     this.productService.findProducts()
       .subscribe({
         next: products => {
@@ -62,19 +98,54 @@ export class StockListComponent {
       })
   }
 
-  getPageCountItems(): number[] {
-    return new Array(this.list.pageCount).fill('').map((_, index) => index + 1)
+  private findAllProductCategories() {
+    this.productCategoryService.findAll()
+      .subscribe({
+        next: categories => {
+          this.categories = categories;
+          if (this.categories.length === 0) {
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
+        },
+        error: err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message) {
+              this.list.messages.errors.push(err.error.message)
+            } else if (err.error.messages) {
+              this.list.messages.errors.concat(err.error.messages)
+            } else {
+              this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+            }
+          } else {
+            this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+          }
+        }
+      })
   }
 
-  isActualStyle(actualIndex: number): boolean {
-    return this.list.actualPage === actualIndex
-  }
 
-  goToStockForm() {
-    this.router.navigate(['/stock/form'])
-  }
-
-  showPages(): boolean {
-    return this.list.data.length > 0
+  private findAllUnits() {
+    this.unitService.findAll()
+      .subscribe({
+        next: units => {
+          this.units = units;
+          if (this.units.length === 0) {
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
+        },
+        error: err => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message) {
+              this.list.messages.errors.push(err.error.message)
+            } else if (err.error.messages) {
+              this.list.messages.errors.concat(err.error.messages)
+            } else {
+              this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+            }
+          } else {
+            this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+          }
+        }
+      })
   }
 }

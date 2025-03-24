@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductCategory } from '../../types/product-category.type';
 import { ProductCategoryService } from '../../services/product-category.service';
+import { NgForm } from '@angular/forms';
+import { ProductService } from '../../services/product.service';
+import { Unit } from '../../types/unit.type';
+import { UnitService } from '../../services/unit.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stock-form',
@@ -8,10 +13,17 @@ import { ProductCategoryService } from '../../services/product-category.service'
   styleUrl: './stock-form.component.scss'
 })
 export class StockFormComponent implements OnInit {
+
   form = {
-    name: '',
-    description: '',
+    data: {
+      name: '',
+      description: '',
+      categoryId: '1',
+      unitId: '1',
+      stock: 0,
+    },
     categories: [] as ProductCategory[],
+    units: [] as Unit[],
     isLoading: false,
     messages: {
       errors: [] as string[],
@@ -20,10 +32,47 @@ export class StockFormComponent implements OnInit {
   }
 
   constructor(
-    private productCategoryService: ProductCategoryService
+    private router: Router,
+    private unitService: UnitService,
+    private productCategoryService: ProductCategoryService,
+    private productService: ProductService,
   ) { }
 
   ngOnInit(): void {
+    this.findAllCategories()
+    this.findAllUnits()
+  }
+
+  onSubmit(form: NgForm) {
+    const category = this.form.categories.find(category => category.id === Number(this.form.data.categoryId));
+    if (!category) {
+      this.form.messages.errors.push('Não foi possível concluir o novo produto.', 'Categoria não encontrada.')
+      return
+    }
+    this.form.isLoading = true
+    this.productService.newProduct({
+      name: this.form.data.name,
+      description: this.form.data.description,
+      stock: this.form.data.stock,
+      categoryId: Number(this.form.data.categoryId),
+      unitId: Number(this.form.data.unitId),
+    }).subscribe({
+      next: () => {
+        this.form.isLoading = false
+        this.form.messages.info = ['Produto adicionado.']
+      },
+      error: err => {
+        // add err
+        this.form.isLoading = false
+      }
+    })
+  }
+
+  goToStockList() {
+    this.router.navigate(["/stock"])
+  }
+
+  private findAllCategories() {
     this.form.isLoading = true
     this.productCategoryService.findAll()
       .subscribe({
@@ -38,11 +87,28 @@ export class StockFormComponent implements OnInit {
         },
         error: err => {
           // TODO: add errors
+          this.form.isLoading = false
         }
       })
   }
 
-  findAllCategories() {
-
+  private findAllUnits() {
+    this.unitService.findAll()
+      .subscribe({
+        next: units => {
+          units.map(unit => {
+            this.form.units.push({
+              id: unit.id,
+              name: unit.name,
+              acronym: unit.acronym,
+            })
+          })
+          this.form.isLoading = false
+        },
+        error: err => {
+          // TODO: add errors
+          this.form.isLoading = false
+        }
+      })
   }
 }

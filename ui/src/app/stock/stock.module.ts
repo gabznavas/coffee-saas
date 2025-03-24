@@ -5,6 +5,7 @@ import { StockRoutingModule } from './stock-route.module';
 import { StockListComponent } from './stock-list/stock-list.component';
 import { StockComponent } from './stock.component';
 import { ComponentsModule } from "../components/components.module";
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -17,6 +18,7 @@ import { ComponentsModule } from "../components/components.module";
   imports: [
     CommonModule,
     StockRoutingModule,
+    FormsModule,
     ComponentsModule
   ]
 })

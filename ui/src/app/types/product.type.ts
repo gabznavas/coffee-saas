@@ -4,7 +4,8 @@ export type Product = {
   id: number
   name: string
   description: string
-  category: ProductCategory
+  categoryId: number
+  unitId: number
   stock: number
   createdAt: Date
   updatedAt: Date | null

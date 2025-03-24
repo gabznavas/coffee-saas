@@ -59,6 +59,8 @@ public class GlobalExceptionHandler {
             PasswordAndPasswordConfirmationDoesNotEqual.class,
             RoleNotFoundByException.class,
             UserAlreadyExistsWithException.class,
+            ProductCategoryNotFoundByException.class,
+            ProductAlreadyExistsByException.class
     })
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(
             Exception ex,

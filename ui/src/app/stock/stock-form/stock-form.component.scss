@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .back {
+    background-color: $light-grey;
+    color: $black;
+    font-weight: 400;
+  }
+}
