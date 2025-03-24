@@ -7,6 +7,7 @@ import { Profile } from '../types/profile.type';
 import { Security } from '../types/security.type';
 import { Router } from '@angular/router';
 import { UserRole, UserRoleName } from '../types/user-role.type';
+import { UserResponse } from './types.ts/user-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -29,17 +30,6 @@ export class UserService {
     const url = `http://localhost:8080/api/v1/user/logged`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
-    }
-
-    type UserResponse = {
-      id: number
-      fullName: string
-      email: string
-      profileImageUrl: string
-      roles: string[]
-      // createdAt: string
-      // updatedAt: string
-      // deletedAt: string
     }
 
     return this.client.get<UserResponse>(url, { headers })

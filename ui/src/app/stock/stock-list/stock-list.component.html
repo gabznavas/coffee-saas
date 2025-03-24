@@ -30,7 +30,7 @@
         <td>{{ product.id }} </td>
         <td class="text-limit">{{ product.name }} </td>
         <td class="text-limit">{{ product.description }} </td>
-        <td>{{ product.categoryName }} </td>
+        <td>{{ product.category.name }} </td>
         <td>{{ product.createdAt | date }} </td>
         <td>{{ product.updatedAt ? (product.updatedAt | date) : '-' }} </td>
         <td>{{ product.deletedAt ? (product.deletedAt | date) : '-' }} </td>

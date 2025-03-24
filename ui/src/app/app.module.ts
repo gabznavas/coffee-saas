@@ -10,6 +10,8 @@ import { HeaderModule } from "./header/header.module";
 import { RouterModule } from '@angular/router';
 import { StockModule } from './stock/stock.module';
 import { LoginService } from './services/login.service';
+import { ProductService } from './services/product.service';
+import { ProductCategoryService } from './services/product-category.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { LoginService } from './services/login.service';
     LoginModule,
     StockModule
   ],
-  providers: [AuthorizationService, LoginService],
+  providers: [AuthorizationService, LoginService, ProductService, ProductCategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

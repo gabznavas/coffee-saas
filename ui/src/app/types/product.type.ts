@@ -1,8 +1,10 @@
+import { ProductCategory } from "./product-category.type"
+
 export type Product = {
   id: number
   name: string
   description: string
-  categoryName: string
+  category: ProductCategory
   stock: number
   createdAt: Date
   updatedAt: Date | null

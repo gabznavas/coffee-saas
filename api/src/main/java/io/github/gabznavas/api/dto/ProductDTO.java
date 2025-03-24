@@ -7,7 +7,7 @@ public record ProductDTO(
         String name,
 
         String description,
-        String categoryName,
+        ProductCategoryDTO productCategory,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDateTime deletedAt

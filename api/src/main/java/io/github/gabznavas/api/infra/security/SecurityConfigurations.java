@@ -49,13 +49,24 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/product").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
+                        .requestMatchers(HttpMethod.POST, "/api/v1/product").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
 
+                        .requestMatchers(HttpMethod.GET, "/api/v1/product/category").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
 
                         // examples of authorities
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Product } from '../types/product.type';
 import { AuthorizationService } from './authorization.service';
+import { ProductCategory } from '../types/product-category.type';
+import { ProductResponse } from './types.ts/product-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +17,7 @@ export class ProductService {
   ) { }
 
   findProducts(): Observable<Product[]> {
-    type ProductResponse = {
-      id: number
-      name: string
-      description: string
-      categoryName: string
-      stock: number
-      createdAt: string
-      updatedAt: string | null
-      deletedAt: string | null
-    }
+
     const url = `http://localhost:8080/api/v1/products`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
@@ -37,7 +30,10 @@ export class ProductService {
               id: item.id,
               name: item.name,
               description: item.description,
-              categoryName: item.categoryName,
+              category: {
+                id: item.category.id,
+                name: item.category.name,
+              } as ProductCategory,
               stock: item.stock,
               createdAt: new Date(item.createdAt),
               updatedAt: item.updatedAt ? new Date(item.updatedAt) : null,

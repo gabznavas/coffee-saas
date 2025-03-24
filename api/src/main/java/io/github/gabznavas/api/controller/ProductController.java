@@ -3,10 +3,9 @@ package io.github.gabznavas.api.controller;
 import io.github.gabznavas.api.dto.ProductDTO;
 import io.github.gabznavas.api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +18,10 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAllProducts() {
         return ResponseEntity.ok(productService.findAllProducts());
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(dto));
     }
 }

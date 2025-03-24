@@ -1,1 +1,23 @@
-<p>stock-form works!</p>
+<form>
+  <div class="group-form">
+    <label>Nome</label>
+    <input type="text" placeholder="Pão francês..." id="name" name="name">
+  </div>
+
+  <div class="group-form">
+    <label>Descrição</label>
+    <textarea placeholder="Pão é feito de farinha..." id="description" name="description"></textarea>
+  </div>
+
+  <div class="group-form">
+    <label>Categoria</label>
+    <select id="name" name="name">
+      <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}</option>
+    </select>
+  </div>
+
+  <div class="group-form">
+    <button type="submit">Salvar</button>
+  </div>
+
+</form>
