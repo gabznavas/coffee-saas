@@ -26,6 +26,17 @@ public class UserRole {
     @JsonBackReference
     private Role role;
 
+
+    public UserRole() {
+    }
+
+
+    public UserRole(User user, Role role) {
+        this.user = user;
+        this.role = role;
+        this.userRoleId = new UserRoleId(user.getId(), role.getId());
+    }
+
     public UserRoleId getUserRoleId() {
         return userRoleId;
     }

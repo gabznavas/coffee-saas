@@ -7,8 +7,6 @@ public record UserDTO(
         String fullName,
         String email,
         String profileImageUrl,
-        List<String> roles,
-
-        // TODO: adicionar createdat, updatedat, deletedat
+        List<String> roles
 ) {
 }

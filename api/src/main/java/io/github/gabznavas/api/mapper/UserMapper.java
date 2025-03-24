@@ -13,7 +13,9 @@ public class UserMapper {
                 user.getFullName(),
                 user.getUsername(),
                 user.getProfileImageUrl(),
-                user.getUserRoles().stream().map(userRole -> userRole.getRole().getNameType().name()).toList()
+                user.getUserRoles().stream()
+                        .map(userRole -> userRole.getRole().getNameType().name())
+                        .toList()
         );
     }
 }

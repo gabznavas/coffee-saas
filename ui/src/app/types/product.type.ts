@@ -1,13 +1,9 @@
-export type ProductCategory = {
-  id: number
-  name: string
-}
-
 export type Product = {
   id: number
   name: string
   description: string
-  category: ProductCategory
+  categoryName: string
+  stock: number
   createdAt: Date
   updatedAt: Date | null
   deletedAt: Date | null

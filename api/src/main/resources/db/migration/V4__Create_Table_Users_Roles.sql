@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS `coffee-db`.`user_roles` (
     FOREIGN KEY (`user_id`)
     REFERENCES `coffee-db`.`users` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB

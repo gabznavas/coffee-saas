@@ -1,4 +1,5 @@
 INSERT INTO `coffee-db`.`roles` (`id`, `name`) VALUES
- (1, 'MANAGER'),
- (2, 'CASHIER'),
- (3, 'ATTENDANT');
+ (1, 'ADMIN'),
+ (2, 'MANAGER'),
+ (3, 'CASHIER'),
+ (4, 'ATTENDANT');

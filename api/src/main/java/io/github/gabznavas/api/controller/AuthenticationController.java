@@ -5,7 +5,7 @@ import io.github.gabznavas.api.dto.RegisterDTO;
 import io.github.gabznavas.api.dto.TokenDTO;
 import io.github.gabznavas.api.log.LoggerCustom;
 import io.github.gabznavas.api.service.LoginService;
-import io.github.gabznavas.api.service.RegisterService;
+import io.github.gabznavas.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +34,7 @@ public class AuthenticationController {
     private LoginService loginService;
 
     @Autowired
-    private RegisterService registerService;
+    private UserService userService;
 
 
     @Operation(
@@ -118,7 +118,12 @@ public class AuthenticationController {
         LoggerCustom.logInfo(AuthenticationController.class, "Register and Login attempt for user: %s", dto.email());
         long startTime = System.currentTimeMillis();
 
-        registerService.register(dto);
+        // TODO: a ideia é que apenas ADMIN e MANAGER consiga criar novos usuários
+//        List<RoleDTO> roles = new ArrayList<>();
+//        roles.add(new RoleDTO(RoleNameType.ATTENDANT));
+//        userService.register(dto, roles);
+        userService.register(dto);
+
         final String token = loginService.login(new LoginDTO(dto.email(), dto.password()));
         final TokenDTO tokenDTO = new TokenDTO(token);
 

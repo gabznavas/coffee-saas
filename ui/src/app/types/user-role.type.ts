@@ -1,4 +1,5 @@
 export enum UserRoleName {
+  ADMIN = "ADMIN",
   MANAGER = "MANAGER",
   CASHIER = "CASHIER",
   ATTENDANT = "ATTENDANT",
@@ -11,6 +12,8 @@ export class UserRole {
 
   translate() {
     switch (this.name) {
+      case UserRoleName.ADMIN:
+        return "Administrador"
       case UserRoleName.MANAGER:
         return "Gerente"
       case UserRoleName.CASHIER:

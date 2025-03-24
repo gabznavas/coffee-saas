@@ -40,17 +40,20 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/api/v1/user/logged").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
-                                RoleNameType.MANAGER.toSpringSecurityRole()
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
                         )
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user/profile").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
-                                RoleNameType.MANAGER.toSpringSecurityRole()
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.PATCH, "/api/security/user/profile").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.GET, "/api/v1/product").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
-                                RoleNameType.MANAGER.toSpringSecurityRole()
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
                         )
 
 
@@ -58,7 +61,8 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
-                                RoleNameType.MANAGER.toSpringSecurityRole()
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
                         )
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/manager").hasAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole()
