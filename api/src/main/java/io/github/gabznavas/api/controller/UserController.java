@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public class UserController {
                     MediaType.APPLICATION_YAML_VALUE,
             }
     )
-    public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserDetails user, @RequestBody ProfileDTO dto) {
+    public ResponseEntity<?> updateProfile(@AuthenticationPrincipal UserDetails user, @RequestBody @Valid ProfileDTO dto) {
         userService.updateProfile(((User) user).getId(), dto);
         return ResponseEntity.noContent().build();
     }
@@ -82,7 +83,7 @@ public class UserController {
                     MediaType.APPLICATION_YAML_VALUE,
             }
     )
-    public ResponseEntity<?> updateSecurity(@AuthenticationPrincipal UserDetails user, @RequestBody SecurityDTO dto) {
+    public ResponseEntity<?> updateSecurity(@AuthenticationPrincipal UserDetails user, @RequestBody @Valid SecurityDTO dto) {
         userService.updateSecurity(((User) user).getId(), dto);
         return ResponseEntity.noContent().build();
     }

@@ -14,7 +14,8 @@ import { Unit } from '../../types/unit.type';
   styleUrl: './stock-list.component.scss'
 })
 export class StockListComponent implements OnInit {
-
+  isShowConfirmDelete = false
+  productSelected: Product | null = null;
 
   list = {
     data: [] as Product[],
@@ -41,6 +42,34 @@ export class StockListComponent implements OnInit {
     this.findAllProducts()
     this.findAllProductCategories()
     this.findAllUnits()
+  }
+
+  toggleIsShowConfirmDelete() {
+    this.isShowConfirmDelete = !this.isShowConfirmDelete
+  }
+
+  deleteProductSelected() {
+    if (!this.productSelected) {
+      return
+    }
+    this.isShowConfirmDelete = false
+    this.productService.deleteProduct(this.productSelected)
+      .subscribe({
+        next: () => {
+          debugger
+          this.isShowConfirmDelete = false
+          this.list.messages.info = ['Produto deletado.']
+          this.findAllProducts()
+        },
+        error: err => {
+
+        }
+      })
+  }
+
+  openModalToDelete(product: Product) {
+    this.isShowConfirmDelete = true
+    this.productSelected = product
   }
 
   getPageCountItems(): number[] {
@@ -75,10 +104,6 @@ export class StockListComponent implements OnInit {
 
   goToUpdateProduct(productId: number) {
     this.router.navigate(['/stock', 'form', productId])
-  }
-
-  deleteProdut(arg0: number) {
-    throw new Error('Method not implemented.');
   }
 
   private findAllProducts() {

@@ -49,7 +49,7 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/unit").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
@@ -64,6 +64,14 @@ public class SecurityConfigurations {
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
                         .requestMatchers(HttpMethod.POST, "/api/v1/product").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.POST, "/api/v1/product/:productId").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/product/:productId").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )

@@ -6,6 +6,7 @@ import io.github.gabznavas.api.entity.ProductCategory;
 import io.github.gabznavas.api.entity.Unit;
 import io.github.gabznavas.api.exception.ProductAlreadyExistsByException;
 import io.github.gabznavas.api.exception.ProductCategoryNotFoundByException;
+import io.github.gabznavas.api.exception.ProductNotFoundByException;
 import io.github.gabznavas.api.exception.UnitNotFoundByException;
 import io.github.gabznavas.api.mapper.ProductMapper;
 import io.github.gabznavas.api.repository.ProductCategoryRepository;
@@ -35,17 +36,26 @@ public class ProductService {
     private ProductMapper productMapper;
 
     public List<ProductDTO> findAllProducts() {
-        return productRepository.findAll()
+        return productRepository.findAllByDeletedAtIsNull()
                 .stream()
                 .map(productMapper::entityToDTO)
                 .toList();
     }
 
+    public ProductDTO findProductById(Long productId) {
+        final Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundByException("id"));
+        return productMapper.entityToDTO(product);
+    }
+
     public ProductDTO saveProduct(ProductDTO dto) {
 
-        final Optional<Product> productByName = productRepository.findByName(dto.name());
-        if (productByName.isPresent()) {
-            throw new ProductAlreadyExistsByException("name");
+        final Optional<Product> optionalProduct = productRepository.findFirstByNameAndDeletedAtIsNull(dto.name());
+        if (optionalProduct.isPresent()) {
+            final Product productByName = optionalProduct.get();
+            if (productByName.getDeletedAt() == null) {
+                throw new ProductAlreadyExistsByException("name");
+            }
         }
 
         final ProductCategory productCategory = productCategoryRepository.findById(dto.categoryId())
@@ -66,5 +76,42 @@ public class ProductService {
         productRepository.save(product);
 
         return productMapper.entityToDTO(product);
+    }
+
+    public void updateProduct(Long productId, ProductDTO dto) {
+        final Optional<Product> optionalProduct = productRepository.findFirstByNameAndDeletedAtIsNull(dto.name());
+        if (optionalProduct.isPresent()) {
+            final Product productByName = optionalProduct.get();
+            if (!productByName.getId().equals(productId) && productByName.getDeletedAt() == null) {
+                throw new ProductAlreadyExistsByException("name");
+            }
+        }
+
+        final Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundByException("id"));
+
+        final ProductCategory productCategory = productCategoryRepository.findById(dto.categoryId())
+                .orElseThrow(() -> new ProductCategoryNotFoundByException("name"));
+
+
+        final Unit unit = unitRepository.findById(dto.categoryId())
+                .orElseThrow(() -> new UnitNotFoundByException("name"));
+
+        product.setName(dto.name());
+        product.setDescription(dto.description());
+        product.setUpdatedAt(LocalDateTime.now());
+        product.setProductCategory(productCategory);
+        product.setStock(dto.stock());
+        product.setUnit(unit);
+
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(Long productId) {
+        final Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundByException("id"));
+
+        product.setDeletedAt(LocalDateTime.now());
+        productRepository.save(product);
     }
 }

@@ -1,0 +1,14 @@
+<div *ngIf="isShow" class="overlay">
+  <div class="modal">
+    <div class="header">
+      <span class="title">{{ title }}</span>
+    </div>
+    <div class="description">
+      <span>{{ description }}</span>
+    </div>
+    <div class="foot">
+      <button class="confirm-btn" (click)="onConfirmClick()">{{ confirmTitle }}</button>
+      <button class="cancel-btn" (click)="onCancelClick()">{{ cancelTitle }}</button>
+    </div>
+  </div>
+</div>

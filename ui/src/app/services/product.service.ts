@@ -3,17 +3,14 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Product } from '../types/product.type';
 import { AuthorizationService } from './authorization.service';
-import { ProductCategory } from '../types/product-category.type';
 import { ProductResponse } from './types.ts/product-response.type';
 import { NewProduct } from './types.ts/new-product.type';
-import { RouterPreloader } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
   constructor(
     private client: HttpClient,
     private authorizationService: AuthorizationService
@@ -58,6 +55,14 @@ export class ProductService {
       )
   }
 
+  deleteProduct(product: Product): Observable<void> {
+    const url = `${environment.apiUrl}/v1/products/${product.id}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+    return this.client.delete<void>(url, { headers })
+  }
+
 
   private productResponseToProduct(item: ProductResponse): Product {
     return {
@@ -69,7 +74,6 @@ export class ProductService {
       stock: item.stock,
       createdAt: new Date(item.createdAt),
       updatedAt: item.updatedAt ? new Date(item.updatedAt) : null,
-      deletedAt: item.deletedAt ? new Date(item.deletedAt) : null
     } as Product
   }
 }

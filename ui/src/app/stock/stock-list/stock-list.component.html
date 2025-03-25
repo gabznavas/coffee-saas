@@ -1,4 +1,8 @@
 <paper title="Estoque" materialIconsTitle="inventory_2">
+
+  <confirm [isShow]="isShowConfirmDelete" [cancelTitle]="'Cancelar'" [confirmTitle]="'Confirmar'"
+    (onConfirm)="deleteProductSelected()" (onCancel)="toggleIsShowConfirmDelete()"></confirm>
+
   <div class="header">
     <div class="search">
       <input type="text" class="search-input" placeholder="Nome do produto...">
@@ -12,6 +16,16 @@
       <span>Adicionar</span>
     </button>
   </div>
+
+  <div class="messages">
+    <ul *ngIf="list.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
+    </ul>
+    <ul *ngIf="list.messages.info.length > 0" class="alert info">
+      <li *ngFor="let msg of list.messages.info">{{ msg }}</li>
+    </ul>
+  </div>
+
   <table>
     <thead>
       <tr>
@@ -22,7 +36,6 @@
         <th>Categoria</th>
         <th>Criado em</th>
         <th>Atualizado em</th>
-        <th>Deletado em</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -35,13 +48,12 @@
         <td>{{ findCategoryNameById(product.categoryId) }} </td>
         <td>{{ product.createdAt | date }} </td>
         <td>{{ product.updatedAt ? (product.updatedAt | date) : '-' }} </td>
-        <td>{{ product.deletedAt ? (product.deletedAt | date) : '-' }} </td>
         <td>
           <div class="action-buttons">
             <button (click)="goToUpdateProduct(product.id)">
               <span class="material-icons">edit</span>
             </button>
-            <button (click)="deleteProdut(product.id)">
+            <button (click)="openModalToDelete(product)">
               <span class="material-icons">delete</span>
             </button>
           </div>
@@ -49,16 +61,6 @@
       </tr>
     </tbody>
   </table>
-
-  <div class="messages">
-    <ul *ngIf="list.messages.errors.length > 0" class="alert error">
-      <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
-    </ul>
-    <ul *ngIf="list.messages.info.length > 0" class="alert info">
-      <li *ngFor="let msg of list.messages.info">{{ msg }}</li>
-    </ul>
-  </div>
-
 
   <ul *ngIf="showPages()" class="pagination">
     <li class="previous">

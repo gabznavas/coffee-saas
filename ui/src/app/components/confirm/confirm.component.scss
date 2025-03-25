@@ -1,0 +1,58 @@
+@import "../../../styles.scss";
+
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: rgba($black, 0.7);
+  z-index: 1000;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 400px;
+  background-color: $white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+}
+
+.header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $black;
+}
+
+.description {
+  font-size: 1rem;
+  color: $dark-grey;
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.confirm-btn {
+  background-color: $burnt-orange;
+  color: $white;
+}
+
+.cancel-btn {
+  background-color: $light-grey;
+  color: $black;
+}

@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS `coffee-db`.`products` (
   `stock` INT NOT NULL,
   `unit_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   INDEX `fk_products_categories1_idx` (`product_category_id` ASC) VISIBLE,
   INDEX `fk_products_unit1_idx` (`unit_id` ASC) VISIBLE,
   CONSTRAINT `fk_products_categories1`

@@ -24,31 +24,41 @@
 
     <div class="group-form">
       <label>Unidade de medida</label>
-      <select id="category" name="category" #units="ngModel" required [(ngModel)]="form.data.unitId"
-        [value]="form.units[0].id">
+      <select id="category" name="category" #units="ngModel" required [(ngModel)]="form.data.unitId">
         <option *ngFor="let unit of form.units" value="{{ unit.id }}">{{ unit.name }}</option>
       </select>
     </div>
 
     <div class="group-form">
       <label>Estoque</label>
-      <input type="number" #stock="ngModel" [(ngModel)]="form.data.stock" required minlength="1" maxlength="10000"
-        id="stock" name="stock">
+      <input type="number" #stock="ngModel" [(ngModel)]="form.data.stock" required min="1" max="10000" id="stock"
+        name="stock">
       <ul *ngIf="!stock.valid && stock.touched" class="alert error">
         <li>Campo Estoque inválido</li>
-        <li>Mínimo de 10 caracteres.</li>
-        <li>Máximo de 500 caracteres.</li>
+        <li>Mínimo de 1.</li>
+        <li>Máximo de 500.</li>
       </ul>
     </div>
 
     <div class="group-form">
       <label>Categoria</label>
-      <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId"
-        [value]="form.categories[0].id">
+      <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId">
         <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}
         </option>
       </select>
     </div>
+
+    <ul *ngIf="form.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of form.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="form.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of form.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
 
     <div class="group-form buttons">
       <button type="submit" [disabled]="f.invalid || form.isLoading">
@@ -60,9 +70,7 @@
         <span>Voltar</span>
       </button>
 
-      <ul *ngIf="form.messages.errors.length > 0" class="alert error">
-        <li *ngFor="let error of form.messages.errors">{{ error }}</li>
-      </ul>
+
     </div>
   </form>
 </paper>

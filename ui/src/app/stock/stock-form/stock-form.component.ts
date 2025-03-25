@@ -7,6 +7,7 @@ import { Unit } from '../../types/unit.type';
 import { UnitService } from '../../services/unit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../types/product.type';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-stock-form',
@@ -26,13 +27,17 @@ export class StockFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const productId = params['productId']
+      if (productId) {
+        this.form.data.id = Number(productId)
+        this.form.isUpdate = true
+        this.findProductById(this.form.data.id);
+      }
+    })
+
     this.findAllCategories()
     this.findAllUnits()
-    this.route.params.subscribe(params => {
-      this.form.data.id = Number(params['productId'])
-      this.form.isUpdate = true
-      this.findProductById(this.form.data.id);
-    })
   }
 
   findProductById(productId: number) {
@@ -72,12 +77,21 @@ export class StockFormComponent implements OnInit {
       unitId: Number(this.form.data.unitId),
     }).subscribe({
       next: () => {
+        debugger
         this.form.isLoading = false
-        this.form.messages.info = ['Produto adicionado.']
         this.clearForm(form);
+        this.form.messages.info = ['Produto adicionado.']
       },
       error: err => {
-        // add err
+        if (err instanceof HttpErrorResponse) {
+          if (err.error.message && typeof err.error.message === 'string') {
+            this.form.messages.errors = [err.error.message]
+          } else if (err.error.messages && typeof err.error.messages === 'object') {
+            this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+          }
+        } else {
+          this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+        }
         this.form.isLoading = false
       }
     })
@@ -106,7 +120,15 @@ export class StockFormComponent implements OnInit {
         this.clearForm(form);
       },
       error: err => {
-        // add err
+        if (err instanceof HttpErrorResponse) {
+          if (err.error.message && typeof err.error.message === 'string') {
+            this.form.messages.errors = [err.error.message]
+          } else if (err.error.messages && typeof err.error.messages === 'object') {
+            this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+          }
+        } else {
+          this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+        }
         this.form.isLoading = false
       }
     })
@@ -138,8 +160,8 @@ export class StockFormComponent implements OnInit {
         id: 0,
         name: '',
         description: '',
-        categoryId: '',
-        unitId: '',
+        categoryId: '1',
+        unitId: '1',
         stock: 0,
       },
       categories: [] as ProductCategory[],
