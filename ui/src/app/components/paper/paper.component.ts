@@ -6,8 +6,6 @@ import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angu
   styleUrl: './paper.component.scss',
 })
 export class PaperComponent {
-
-
   @Input() leftTitle: string = ''
   @Input() leftMaterialIcon: string = ''
   @Output() headerLeftClick = new EventEmitter()
