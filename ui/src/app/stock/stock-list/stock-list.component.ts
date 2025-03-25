@@ -16,10 +16,10 @@ import { PaginatedResponse } from '../../types/paginated-response.type';
 })
 export class StockListComponent implements OnInit {
 
-  isShowConfirmDelete = false
-  productSelected: Product | null = null;
+  protected isShowConfirmDelete = false
+  protected productSelected: Product | null = null;
 
-  list = {
+  protected list = {
     data: {} as PaginatedResponse<Product>,
     searchInput: '',
     messages: {
@@ -28,8 +28,8 @@ export class StockListComponent implements OnInit {
     }
   }
 
-  categories = [] as ProductCategory[]
-  units = [] as Unit[]
+  protected categories = [] as ProductCategory[]
+  protected units = [] as Unit[]
 
   constructor(
     private router: Router,
@@ -44,15 +44,15 @@ export class StockListComponent implements OnInit {
     this.findAllUnits()
   }
 
-  toggleIsShowConfirmDelete() {
+  protected toggleIsShowConfirmDelete() {
     this.isShowConfirmDelete = !this.isShowConfirmDelete
   }
 
-  goToHome() {
+  protected goToHome() {
     this.router.navigate([""])
   }
 
-  deleteProductSelected() {
+  protected deleteProductSelected() {
     if (!this.productSelected) {
       return
     }
@@ -70,50 +70,50 @@ export class StockListComponent implements OnInit {
       })
   }
 
-  openModalToDelete(product: Product) {
+  protected openModalToDelete(product: Product) {
     this.isShowConfirmDelete = true
     this.productSelected = product
   }
 
-  getPageCountItems(): number[] {
+  protected getPageCountItems(): number[] {
     return new Array(this.list.data.totalPages).fill('').map((_, index) => index)
   }
 
-  isActualPage(actualIndex: number): boolean {
+  protected isActualPage(actualIndex: number): boolean {
     return this.list.data.page === actualIndex
   }
 
-  goToStockForm() {
+  protected goToStockForm() {
     this.router.navigate(['/stock/form'])
   }
 
-  showPages(): boolean {
+  protected showPages(): boolean {
     return this.list.data?.content?.length > 0
   }
 
-  findCategoryNameById(categoryId: number) {
+  protected findCategoryNameById(categoryId: number) {
     const category = this.categories.find(category => category.id === categoryId)
     if (!category) {
       return "-"
     } return category.name
   }
 
-  findUnitNameById(unitId: number) {
+  protected findUnitNameById(unitId: number) {
     const unit = this.units.find(unit => unit.id === unitId)
     if (!unit) {
       return "-"
     } return unit.name
   }
 
-  goToUpdateProduct(productId: number) {
+  protected goToUpdateProduct(productId: number) {
     this.router.navigate(['/stock', 'form', productId])
   }
 
-  searchByInputQuery() {
+  protected searchByInputQuery() {
     this.findAllProducts(this.list.searchInput)
   }
 
-  findAllProducts(query: string = '', page: number = 0, size = 5) {
+  protected findAllProducts(query: string = '', page: number = 0, size = 5) {
     this.productService.findProducts(query, page, size)
       .subscribe({
         next: products => {
@@ -141,13 +141,15 @@ export class StockListComponent implements OnInit {
       })
   }
 
-  goPage(page: number) {
+  protected goPage(page: number) {
     this.findAllProducts(this.list.searchInput, page)
   }
-  previousPage() {
+
+  protected previousPage() {
     this.findAllProducts(this.list.searchInput, this.list.data.page - 1)
   }
-  nextPage() {
+
+  protected nextPage() {
     this.findAllProducts(this.list.searchInput, this.list.data.page + 1)
   }
 
@@ -175,7 +177,6 @@ export class StockListComponent implements OnInit {
         }
       })
   }
-
 
   private findAllUnits() {
     this.unitService.findAll()

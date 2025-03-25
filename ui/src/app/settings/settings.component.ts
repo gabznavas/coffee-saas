@@ -7,16 +7,14 @@ import { Router } from '@angular/router';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-
-
   constructor(
     private router: Router
   ) { }
 
-  goToProfile() {
+  protected goToProfile() {
     this.router.navigate(['/settings'])
   }
-  goToSecurity() {
+  protected goToSecurity() {
     this.router.navigate(['/settings/security'])
   }
 }

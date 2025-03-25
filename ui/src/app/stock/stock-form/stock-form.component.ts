@@ -15,7 +15,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './stock-form.component.scss'
 })
 export class StockFormComponent implements OnInit {
-
   form = this.initForm();
 
   constructor(

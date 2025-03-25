@@ -65,7 +65,6 @@
   </table>
 
   <ul *ngIf="showPages()" class="pagination">
-    <!-- TODO: transformar os li em container e usar buttons pra desabilitar os previous e next -->
     <li (click)="previousPage()">
       <button class="previous" [disabled]="list.data.page === 0">
         <span class="material-icons">skip_previous</span>

@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './security.component.scss'
 })
 export class SecurityComponent {
-  form = {
+  protected form = {
     email: '',
     password: '',
     passwordConfirmation: '',

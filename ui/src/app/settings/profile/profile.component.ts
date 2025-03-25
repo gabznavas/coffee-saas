@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-
-  form = {
+  protected form = {
     fullName: '',
     profileImageUrl: '',
     messages: {
@@ -47,11 +46,11 @@ export class ProfileComponent implements OnInit {
       })
   }
 
-  loadDefaultProfileImageUrl(event: Event) {
+  protected loadDefaultProfileImageUrl(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/user.png';
   }
 
-  onSubmit(form: NgForm) {
+  protected onSubmit(form: NgForm) {
     this.form.messages.globalErrors = [];
     this.form.isLoading = true;
 
@@ -116,10 +115,9 @@ export class ProfileComponent implements OnInit {
     http://foufos
     www.mp3#.com
   */
-  urlRegex(): RegExp {
+  protected urlRegex(): RegExp {
     return new RegExp(
       "^(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})$"
     );
   }
-
 }

@@ -8,7 +8,6 @@ import { ComponentsModule } from '../components/components.module';
 import { SecurityComponent } from './security/security.component';
 
 
-
 @NgModule({
   declarations: [
     ProfileComponent,
