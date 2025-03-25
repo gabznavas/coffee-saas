@@ -48,6 +48,10 @@ export class StockListComponent implements OnInit {
     this.isShowConfirmDelete = !this.isShowConfirmDelete
   }
 
+  goToHome() {
+    this.router.navigate([""])
+  }
+
   deleteProductSelected() {
     if (!this.productSelected) {
       return

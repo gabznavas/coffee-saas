@@ -13,19 +13,41 @@
 
   padding: 1.5rem 2.5rem;
 
-  &-title {
+  &-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1rem;
 
-    color: $coffee-brown;
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    &-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba($coffee-brown, 0.82);
+      color: $white;
+      font-weight: 500;
+      width: auto;
+      padding: 0.4rem 1rem;
 
-    .material-icons {
-      font-size: 2.8rem;
+      &:hover {
+        background-color: darken($dark-grey, 10%);
+        color: $white;
+        transform: scale(1.05);
+      }
+    }
+
+    &-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      color: $coffee-brown;
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+
+      .material-icons {
+        font-size: 2.8rem;
+      }
     }
   }
 

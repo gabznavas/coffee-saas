@@ -1,8 +1,18 @@
 <div class="paper">
-  <span *ngIf="materialIconsTitle || title" class="paper-title">
-    <span class="material-icons">{{materialIconsTitle}}</span>
-    <span>{{title}}</span>
-  </span>
+  <div class="paper-header" [ngStyle]="{
+      justifyContent: paperHeaderIsCenter()
+    }">
+    <button *ngIf="leftTitle || leftMaterialIcon" class="paper-header-left" (click)="headerLeftOnClick()">
+      <span class="material-icons">{{leftMaterialIcon}}</span>
+      <span>{{leftTitle}}</span>
+    </button>
+    <div *ngIf="centerTitle || centerMaterialIcon" class="paper-header-center">
+      <span class="material-icons">{{centerMaterialIcon}}</span>
+      <span>{{centerTitle}}</span>
+    </div>
+    <div></div>
+  </div>
+
   <div class="divider"></div>
   <ng-content></ng-content>
 </div>

@@ -1,4 +1,5 @@
-<paper title="Estoque" materialIconsTitle="inventory_2">
+<paper (headerLeftClick)="goToHome()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Estoque"
+  centerMaterialIcon="inventory_2">
 
   <confirm [isShow]="isShowConfirmDelete" [cancelTitle]="'Cancelar'" [confirmTitle]="'Confirmar'"
     (onConfirm)="deleteProductSelected()" (onCancel)="toggleIsShowConfirmDelete()"></confirm>
@@ -6,7 +7,7 @@
   <div class="header">
     <div class="search">
       <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
-        placeholder="Nome do produto..." (keyup.enter)="findAllProducts()">
+        placeholder="Nome do produto..." (keyup.enter)="searchByInputQuery()">
       <button class="search-button" (click)="findAllProducts()">
         <span class="material-icons">search</span>
         <span>Procurar</span>
@@ -65,18 +66,22 @@
 
   <ul *ngIf="showPages()" class="pagination">
     <!-- TODO: transformar os li em container e usar buttons pra desabilitar os previous e next -->
-    <li class="previous" *ngIf="list.data.page > 0" (click)="previousPage()">
-      <span class="material-icons">skip_previous</span>
-      <span>Anterior</span>
+    <li (click)="previousPage()">
+      <button class="previous" [disabled]="list.data.page === 0">
+        <span class="material-icons">skip_previous</span>
+        <span>Anterior</span>
+      </button>
     </li>
     <li class="pages" *ngFor="let index of getPageCountItems()" (click)="goPage(index)" [ngClass]="{
         'pagination-actual-style': isActualPage(index)
        }">
       {{ index + 1 }}
     </li>
-    <li class="next" *ngIf="list.data.page < list.data.totalPages - 1" (click)="nextPage()">
-      <span>Próximo</span>
-      <span class="material-icons">skip_next</span>
+    <li (click)="nextPage()">
+      <button class="next" [disabled]="list.data.page === list.data.totalPages - 1">
+        <span>Próximo</span>
+        <span class="material-icons">skip_next</span>
+      </button>
     </li>
   </ul>
 </paper>
