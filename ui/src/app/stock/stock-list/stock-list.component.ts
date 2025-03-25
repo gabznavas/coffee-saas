@@ -63,7 +63,7 @@ export class StockListComponent implements OnInit {
         next: () => {
           this.isShowConfirmDelete = false
           this.list.messages.info = ['Produto deletado.']
-          this.findAllProducts()
+          this.findAllProducts(this.list.searchInput)
           this.list.isLoading = false
         },
         error: err => {

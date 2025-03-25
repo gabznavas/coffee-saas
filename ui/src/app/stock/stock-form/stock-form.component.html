@@ -59,6 +59,10 @@
       </li>
     </ul>
 
+    <div *ngIf="form.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
     <div class="group-form buttons">
       <button type="submit" [disabled]="f.invalid || form.isLoading">
         <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>

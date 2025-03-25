@@ -39,7 +39,10 @@ public class ProductService {
     private ProductMapper productMapper;
 
     public PaginatedResponse<ProductDTO> findAllProducts(String query, Pageable page) {
-        final Page<Product> productsPagened = productRepository.findByNameContainingIgnoreCase(query, page);
+        final Page<Product> productsPagened = productRepository.findByNameContainingIgnoreCaseAndDeletedAtIsNull(
+                query,
+                page
+        );
         final List<ProductDTO> productDTOS = productsPagened
                 .stream()
                 .map(productMapper::entityToDTO)
