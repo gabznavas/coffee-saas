@@ -21,7 +21,7 @@ public class ProductController {
     public ResponseEntity<PaginatedResponse<ProductDTO>> findAllProducts(
             @RequestParam(name = "query", required = false, defaultValue = "") String query,
             Pageable page
-    ) {
+    ) throws InterruptedException {
         return ResponseEntity.ok(productService.findAllProducts(query, page));
     }
 

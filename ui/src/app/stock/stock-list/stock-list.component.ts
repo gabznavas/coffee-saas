@@ -22,6 +22,7 @@ export class StockListComponent implements OnInit {
   protected list = {
     data: {} as PaginatedResponse<Product>,
     searchInput: '',
+    isLoading: false,
     messages: {
       errors: [] as string[],
       info: [] as string[],
@@ -56,16 +57,28 @@ export class StockListComponent implements OnInit {
     if (!this.productSelected) {
       return
     }
-    this.isShowConfirmDelete = false
+    this.list.isLoading = true
     this.productService.deleteProduct(this.productSelected)
       .subscribe({
         next: () => {
           this.isShowConfirmDelete = false
           this.list.messages.info = ['Produto deletado.']
           this.findAllProducts()
+          this.list.isLoading = false
         },
         error: err => {
-
+          this.list.isLoading = false
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message) {
+              this.list.messages.errors.push(err.error.message)
+            } else if (err.error.messages) {
+              this.list.messages.errors.concat(err.error.messages)
+            } else {
+              this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+            }
+          } else {
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
         }
       })
   }
@@ -114,6 +127,7 @@ export class StockListComponent implements OnInit {
   }
 
   protected findAllProducts(query: string = '', page: number = 0, size = 5) {
+    this.list.isLoading = true
     this.productService.findProducts(query, page, size)
       .subscribe({
         next: products => {
@@ -123,9 +137,10 @@ export class StockListComponent implements OnInit {
           } else {
             this.list.messages.info = []
           }
+          this.list.isLoading = false
         },
         error: err => {
-          debugger
+          this.list.isLoading = false
           if (err instanceof HttpErrorResponse) {
             if (err.error.message) {
               this.list.messages.errors.push(err.error.message)
