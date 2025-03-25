@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.service;
 
+import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.dto.ProductDTO;
 import io.github.gabznavas.api.entity.Product;
 import io.github.gabznavas.api.entity.ProductCategory;
@@ -13,6 +14,8 @@ import io.github.gabznavas.api.repository.ProductCategoryRepository;
 import io.github.gabznavas.api.repository.ProductRepository;
 import io.github.gabznavas.api.repository.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,11 +38,20 @@ public class ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    public List<ProductDTO> findAllProducts() {
-        return productRepository.findAllByDeletedAtIsNull()
+    public PaginatedResponse<ProductDTO> findAllProducts(String query, Pageable page) {
+        final Page<Product> productsPagened = productRepository.findByNameContainingIgnoreCase(query, page);
+        final List<ProductDTO> productDTOS = productsPagened
                 .stream()
                 .map(productMapper::entityToDTO)
                 .toList();
+
+        return new PaginatedResponse<>(
+                productDTOS,
+                productDTOS.size(),
+                productsPagened.getTotalPages(),
+                page.getPageSize(),
+                page.getPageNumber()
+        );
     }
 
     public ProductDTO findProductById(Long productId) {

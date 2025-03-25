@@ -77,7 +77,6 @@ export class StockFormComponent implements OnInit {
       unitId: Number(this.form.data.unitId),
     }).subscribe({
       next: () => {
-        debugger
         this.form.isLoading = false
         this.clearForm(form);
         this.form.messages.info = ['Produto adicionado.']
@@ -148,10 +147,13 @@ export class StockFormComponent implements OnInit {
   }
 
   private clearForm(form?: NgForm) {
-    if (form) {
-      form.reset()
-    }
-    this.form = this.initForm();
+    form?.reset({
+      name: '',
+      description: '',
+      category: '1',
+      unit: '1',
+      stock: 0,
+    })
   }
 
   private initForm() {

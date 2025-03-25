@@ -1,14 +1,14 @@
 package io.github.gabznavas.api.controller;
 
+import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.dto.ProductDTO;
 import io.github.gabznavas.api.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -16,9 +16,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // ...?page=0&size=10&sort=name,asc
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> findAllProducts() {
-        return ResponseEntity.ok(productService.findAllProducts());
+    public ResponseEntity<PaginatedResponse<ProductDTO>> findAllProducts(
+            @RequestParam(name = "query", required = false, defaultValue = "") String query,
+            Pageable page
+    ) {
+        return ResponseEntity.ok(productService.findAllProducts(query, page));
     }
 
     @GetMapping("/{productId}")

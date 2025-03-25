@@ -5,8 +5,9 @@
 
   <div class="header">
     <div class="search">
-      <input type="text" class="search-input" placeholder="Nome do produto...">
-      <button class="search-button">
+      <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
+        placeholder="Nome do produto..." (keyup.enter)="findAllProducts()">
+      <button class="search-button" (click)="findAllProducts()">
         <span class="material-icons">search</span>
         <span>Procurar</span>
       </button>
@@ -40,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of list.data">
+      <tr *ngFor="let product of list.data.content">
         <td>{{ product.id }} </td>
         <td class="text-limit">{{ product.name }} </td>
         <td class="text-limit">{{ product.description }} </td>
@@ -63,16 +64,17 @@
   </table>
 
   <ul *ngIf="showPages()" class="pagination">
-    <li class="previous">
+    <!-- TODO: transformar os li em container e usar buttons pra desabilitar os previous e next -->
+    <li class="previous" *ngIf="list.data.page > 0" (click)="previousPage()">
       <span class="material-icons">skip_previous</span>
       <span>Anterior</span>
     </li>
-    <li class="pages" *ngFor="let index of getPageCountItems()" [ngClass]="{
-        'pagination-actual-style' :isActualStyle(index)
+    <li class="pages" *ngFor="let index of getPageCountItems()" (click)="goPage(index)" [ngClass]="{
+        'pagination-actual-style': isActualPage(index)
        }">
-      {{ index }}
+      {{ index + 1 }}
     </li>
-    <li class="next">
+    <li class="next" *ngIf="list.data.page < list.data.totalPages - 1" (click)="nextPage()">
       <span>Próximo</span>
       <span class="material-icons">skip_next</span>
     </li>

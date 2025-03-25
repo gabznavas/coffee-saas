@@ -1,9 +1,12 @@
 @import '../../../styles.scss';
 
+$width-page : 1100px;
 
 .header {
   display: flex;
   gap: 1rem;
+
+  width: $width-page;
 
   &-button-add {
     display: flex;

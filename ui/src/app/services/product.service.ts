@@ -6,6 +6,7 @@ import { AuthorizationService } from './authorization.service';
 import { ProductResponse } from './types.ts/product-response.type';
 import { NewProduct } from './types.ts/new-product.type';
 import { environment } from '../../environments/environment';
+import { PaginatedResponse } from '../types/paginated-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +17,13 @@ export class ProductService {
     private authorizationService: AuthorizationService
   ) { }
 
-  findProducts(): Observable<Product[]> {
-    const url = `${environment.apiUrl}/v1/products`
+  findProducts(query: string = '', page = 0, size = 5, sortBy = 'name', orderBy = 'asc'): Observable<PaginatedResponse<Product>> {
+    const url = `${environment.apiUrl}/v1/products?page=${page}&size=${size}&sort=${sortBy},${orderBy}&query=${query}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
-    return this.client.get<ProductResponse[]>(url, { headers })
-      .pipe(
-        map(items => items.map(this.productResponseToProduct))
-      )
+    return this.client.get<PaginatedResponse<ProductResponse>>(url, { headers })
+      .pipe(map(this.mapPaginatedResponse))
   }
 
   newProduct(product: NewProduct): Observable<void> {
@@ -50,9 +49,7 @@ export class ProductService {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
     return this.client.get<ProductResponse>(url, { headers })
-      .pipe(
-        map(productResponse => this.productResponseToProduct(productResponse))
-      )
+      .pipe(map(this.mapProductResponse))
   }
 
   deleteProduct(product: Product): Observable<void> {
@@ -64,7 +61,18 @@ export class ProductService {
   }
 
 
-  private productResponseToProduct(item: ProductResponse): Product {
+  private mapPaginatedResponse = (paginatedResponse: PaginatedResponse<ProductResponse>): PaginatedResponse<Product> => {
+    const products = paginatedResponse.content.map(this.mapProductResponse)
+    return {
+      content: products,
+      page: paginatedResponse.page,
+      size: paginatedResponse.size,
+      totalElements: paginatedResponse.totalElements,
+      totalPages: paginatedResponse.totalPages,
+    }
+  }
+
+  private mapProductResponse = (item: ProductResponse): Product => {
     return {
       id: item.id,
       name: item.name,

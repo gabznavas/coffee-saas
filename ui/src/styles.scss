@@ -181,14 +181,12 @@ ol {
     background-color: $white;
     border-radius: 8px;
     padding: 5px 10px;
+  }
 
+  .previous,
+  .pages,
+  .next {
     cursor: pointer;
-
-    transition: 500ms;
-
-    &:hover {
-      transform: scale(1.05);
-    }
   }
 
   .previous,
@@ -220,6 +218,10 @@ table {
     text-overflow: ellipsis;
   }
 
+  tbody {
+    overflow-y: auto;
+  }
+
   th,
   td {
     padding: 15px;
@@ -227,7 +229,7 @@ table {
     font-size: 1rem;
     font-weight: 400;
     color: $black;
-
+    vertical-align: middle; // Mantém o conteúdo centralizado
   }
 
   td:first-child,

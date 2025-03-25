@@ -7,6 +7,7 @@ import { ProductCategory } from '../../types/product-category.type';
 import { ProductCategoryService } from '../../services/product-category.service';
 import { UnitService } from '../../services/unit.service';
 import { Unit } from '../../types/unit.type';
+import { PaginatedResponse } from '../../types/paginated-response.type';
 
 @Component({
   selector: 'app-stock-list',
@@ -14,14 +15,13 @@ import { Unit } from '../../types/unit.type';
   styleUrl: './stock-list.component.scss'
 })
 export class StockListComponent implements OnInit {
+
   isShowConfirmDelete = false
   productSelected: Product | null = null;
 
   list = {
-    data: [] as Product[],
-    actualPage: 1,
-    pageCount: 10,
-    itemsPerPage: 10,
+    data: {} as PaginatedResponse<Product>,
+    searchInput: '',
     messages: {
       errors: [] as string[],
       info: [] as string[],
@@ -56,7 +56,6 @@ export class StockListComponent implements OnInit {
     this.productService.deleteProduct(this.productSelected)
       .subscribe({
         next: () => {
-          debugger
           this.isShowConfirmDelete = false
           this.list.messages.info = ['Produto deletado.']
           this.findAllProducts()
@@ -73,11 +72,11 @@ export class StockListComponent implements OnInit {
   }
 
   getPageCountItems(): number[] {
-    return new Array(this.list.pageCount).fill('').map((_, index) => index + 1)
+    return new Array(this.list.data.totalPages).fill('').map((_, index) => index)
   }
 
-  isActualStyle(actualIndex: number): boolean {
-    return this.list.actualPage === actualIndex
+  isActualPage(actualIndex: number): boolean {
+    return this.list.data.page === actualIndex
   }
 
   goToStockForm() {
@@ -85,7 +84,7 @@ export class StockListComponent implements OnInit {
   }
 
   showPages(): boolean {
-    return this.list.data.length > 0
+    return this.list.data?.content?.length > 0
   }
 
   findCategoryNameById(categoryId: number) {
@@ -106,29 +105,46 @@ export class StockListComponent implements OnInit {
     this.router.navigate(['/stock', 'form', productId])
   }
 
-  private findAllProducts() {
-    this.productService.findProducts()
+  searchByInputQuery() {
+    this.findAllProducts(this.list.searchInput)
+  }
+
+  findAllProducts(query: string = '', page: number = 0, size = 5) {
+    this.productService.findProducts(query, page, size)
       .subscribe({
         next: products => {
           this.list.data = products;
-          if (this.list.data.length === 0) {
-            this.list.messages.info.push('Nenhum produto listado.')
+          if (this.list.data.content.length === 0) {
+            this.list.messages.info = ['Nenhum produto listado.']
+          } else {
+            this.list.messages.info = []
           }
         },
         error: err => {
+          debugger
           if (err instanceof HttpErrorResponse) {
             if (err.error.message) {
               this.list.messages.errors.push(err.error.message)
             } else if (err.error.messages) {
               this.list.messages.errors.concat(err.error.messages)
             } else {
-              this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+              this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
             }
           } else {
-            this.list.messages.errors.push('Ocorreu um problema.', 'Tente novamente mais tarde.')
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
           }
         }
       })
+  }
+
+  goPage(page: number) {
+    this.findAllProducts(this.list.searchInput, page)
+  }
+  previousPage() {
+    this.findAllProducts(this.list.searchInput, this.list.data.page - 1)
+  }
+  nextPage() {
+    this.findAllProducts(this.list.searchInput, this.list.data.page + 1)
   }
 
   private findAllProductCategories() {
