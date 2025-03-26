@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { TitleService } from '../services/title.service';
 
 @Component({
   selector: 'home',
@@ -8,8 +10,11 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router: Router) {
-
+  constructor(
+    private titleService: TitleService,
+    private router: Router
+  ) {
+    this.titleService.setTitle("Home");
   }
 
   goToStock() {

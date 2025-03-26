@@ -8,6 +8,8 @@ import { ProductCategoryService } from '../../services/product-category.service'
 import { UnitService } from '../../services/unit.service';
 import { Unit } from '../../types/unit.type';
 import { PaginatedResponse } from '../../types/paginated-response.type';
+import { Title } from '@angular/platform-browser';
+import { TitleService } from '../../services/title.service';
 
 @Component({
   selector: 'app-stock-list',
@@ -33,11 +35,14 @@ export class StockListComponent implements OnInit {
   protected units = [] as Unit[]
 
   constructor(
+    private titleService: TitleService,
     private router: Router,
     private productService: ProductService,
     private productCategoryService: ProductCategoryService,
     private unitService: UnitService,
-  ) { }
+  ) {
+    this.titleService.setTitle("Produtos");
+  }
 
   ngOnInit(): void {
     this.findAllProducts()

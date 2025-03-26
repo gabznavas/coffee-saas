@@ -5,6 +5,7 @@ import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TitleService } from '../../services/title.service';
 
 @Component({
   selector: 'settings-profile',
@@ -23,9 +24,11 @@ export class ProfileComponent implements OnInit {
   }
 
   constructor(
-    private userService: UserService,
-    private router: Router
-  ) { }
+    private titleService: TitleService,
+    private userService: UserService
+  ) {
+    this.titleService.setTitle("Perfil")
+  }
 
   ngOnInit(): void {
     // TODO: adicionar error, usando o estilo de código tap, onError no final etc...do angular

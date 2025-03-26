@@ -12,6 +12,7 @@ import { StockModule } from './stock/stock.module';
 import { LoginService } from './services/login.service';
 import { ProductService } from './services/product.service';
 import { ProductCategoryService } from './services/product-category.service';
+import { TitleService } from './services/title.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { ProductCategoryService } from './services/product-category.service';
     LoginModule,
     StockModule
   ],
-  providers: [AuthorizationService, LoginService, ProductService, ProductCategoryService],
+  providers: [TitleService, AuthorizationService, LoginService, ProductService, ProductCategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

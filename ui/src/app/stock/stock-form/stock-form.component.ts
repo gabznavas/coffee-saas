@@ -8,6 +8,8 @@ import { UnitService } from '../../services/unit.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../types/product.type';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
+import { TitleService } from '../../services/title.service';
 
 @Component({
   selector: 'app-stock-form',
@@ -18,6 +20,7 @@ export class StockFormComponent implements OnInit {
   form = this.initForm();
 
   constructor(
+    private titleService: TitleService,
     private router: Router,
     private unitService: UnitService,
     private productCategoryService: ProductCategoryService,
@@ -32,6 +35,9 @@ export class StockFormComponent implements OnInit {
         this.form.data.id = Number(productId)
         this.form.isUpdate = true
         this.findProductById(this.form.data.id);
+        this.titleService.setTitle("Atualizar produto");
+      } else {
+        this.titleService.setTitle("Novo produto");
       }
     })
 

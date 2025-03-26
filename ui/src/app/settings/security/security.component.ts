@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TitleService } from '../../services/title.service';
 
 @Component({
   selector: 'app-security',
@@ -21,8 +22,11 @@ export class SecurityComponent {
   }
 
   constructor(
+    private titleService: TitleService,
     private userService: UserService
-  ) { }
+  ) {
+    this.titleService.setTitle("Segurança")
+  }
 
   onSubmit(form: NgForm) {
     if (this.form.password !== this.form.passwordConfirmation) {
