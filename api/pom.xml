@@ -32,7 +32,7 @@
         <authjwt.version>4.5.0</authjwt.version>
     </properties>
     <dependencies>
-        
+
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
