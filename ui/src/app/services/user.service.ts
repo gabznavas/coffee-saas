@@ -9,6 +9,7 @@ import { UserRole, UserRoleName } from '../types/user-role.type';
 import { UserResponse } from './types.ts/user-response.type';
 
 import { environment } from '../../environments/environment';
+import { PaginatedResponse } from '../types/paginated-response.type';
 
 @Injectable({
   providedIn: 'root'
@@ -36,17 +37,23 @@ export class UserService {
     return this.client.get<UserResponse>(url, { headers })
       .pipe(
         map(userResponse => {
-          const user = new User()
-          user.id = userResponse.id
-          user.fullName = userResponse.fullName
-          user.email = userResponse.email
-          user.profileImageUrl = userResponse.profileImageUrl
-          user.roles = userResponse.roles.map(userRoleName => new UserRole(userRoleName as UserRoleName))
-
+          const user = this.mapResponseToUser(userResponse)
           this.setUserLocalStorage(user)
           this.dataSubject.next(user);
           return user;
         }),
+      )
+  }
+
+  findAllUsers(query: string = '', page = 0, size = 5, sortBy = 'fullName,email', orderBy = 'asc'): Observable<PaginatedResponse<User>> {
+    const url = `${environment.apiUrl}/v1/user?page=${page}&size=${size}&sort=${sortBy},${orderBy}&query=${query}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.get<PaginatedResponse<UserResponse>>(url, { headers })
+      .pipe(
+        map(paginatedUserResponse => this.mapPaginatedResponseToUser(paginatedUserResponse)),
       )
   }
 
@@ -91,5 +98,28 @@ export class UserService {
 
   logout() {
     localStorage.clear()
+  }
+
+  private mapResponseToUser(data: UserResponse): User {
+    return new User(
+      data.id,
+      data.fullName,
+      data.email,
+      data.profileImageUrl,
+      new Date(data.createdAt),
+      data.updatedAt ? new Date(data.updatedAt) : null,
+      data.disabledAt ? new Date(data.disabledAt) : null,
+      data.roles.map(userRoleName => new UserRole(userRoleName as UserRoleName)),
+    )
+  }
+
+  private mapPaginatedResponseToUser(paginatedUserResponse: PaginatedResponse<UserResponse>): PaginatedResponse<User> {
+    return {
+      content: paginatedUserResponse.content.map(this.mapResponseToUser),
+      page: paginatedUserResponse.page,
+      size: paginatedUserResponse.size,
+      totalElements: paginatedUserResponse.totalElements,
+      totalPages: paginatedUserResponse.totalPages,
+    }
   }
 }

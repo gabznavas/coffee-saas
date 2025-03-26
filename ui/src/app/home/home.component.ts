@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TitleService } from '../services/title.service';
 
@@ -21,7 +20,9 @@ export class HomeComponent {
     this.router.navigate(['/stock'])
   }
 
-  goToEmployers() { }
+  goToUsers() {
+    this.router.navigate(['/user'])
+  }
 
   goToTables() { }
 }

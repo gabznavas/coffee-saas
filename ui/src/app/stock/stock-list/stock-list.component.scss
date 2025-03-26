@@ -1,42 +1,5 @@
 @import '../../../styles.scss';
 
-$width-page : 1100px;
-
-.header {
-  display: flex;
-  gap: 1rem;
-
-  width: $width-page;
-
-  &-button-add {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background-color: $dark-grey;
-    width: 170px;
-
-    &:hover {
-      background-color: $light-grey;
-      color: $dark-grey;
-    }
-  }
-
-  .search {
-    display: flex;
-    gap: 1rem;
-    flex-grow: 1;
-
-    &-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 170px;
-    }
-  }
-}
-
 .messages {
   margin: 1rem 0;
 }

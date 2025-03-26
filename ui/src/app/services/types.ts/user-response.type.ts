@@ -7,4 +7,5 @@ export type UserResponse = {
   createdAt: string
   updatedAt: string | null
   deletedAt: string | null
+  disabledAt: string | null
 }

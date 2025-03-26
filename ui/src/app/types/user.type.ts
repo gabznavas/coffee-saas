@@ -1,16 +1,21 @@
 import { UserRole, UserRoleName } from "./user-role.type"
 
 export class User {
-  id: number = 0
-  fullName: string = ''
-  email: string = ''
-  profileImageUrl: string = ''
-  roles: UserRole[] = []
+  constructor(
+    public id: number = 0,
+    public fullName: string = '',
+    public email: string = '',
+    public profileImageUrl: string = '',
+    public createdAt: Date = new Date(),
+    public updatedAt: Date | null = null,
+    public disabledAt: Date | null = null,
+    public roles: UserRole[] = [],
+  ) { }
 
   rankedRoles = (): UserRole => {
     const rank = Object.values(UserRoleName);
 
-    let rankIndex = 2;
+    let rankIndex = this.roles.length - 1;
     let rankObj = this.roles[0]
 
     for (let role of this.roles) {

@@ -1,9 +1,6 @@
 package io.github.gabznavas.api.service;
 
-import io.github.gabznavas.api.dto.ProfileDTO;
-import io.github.gabznavas.api.dto.RegisterDTO;
-import io.github.gabznavas.api.dto.SecurityDTO;
-import io.github.gabznavas.api.dto.UserDTO;
+import io.github.gabznavas.api.dto.*;
 import io.github.gabznavas.api.entity.Role;
 import io.github.gabznavas.api.entity.RoleNameType;
 import io.github.gabznavas.api.entity.User;
@@ -18,9 +15,12 @@ import io.github.gabznavas.api.repository.UserRepository;
 import io.github.gabznavas.api.repository.UserRoleRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -140,5 +140,29 @@ public class UserService {
         userToUpdate.setPassword(passwordEncoder.encode(dto.password()));
 
         userRepository.save(userToUpdate);
+    }
+
+    public PaginatedResponse<UserDTO> findAllUsers(String query, Pageable page) {
+        final Page<User> paginatedUsers = userRepository.findAllByQuery(
+                query,
+                page
+        );
+        final List<UserDTO> userDTOs = paginatedUsers
+                .stream()
+                .map(userMapper::entityToDTO)
+                .toList();
+
+        return new PaginatedResponse<>(
+                userDTOs,
+                userDTOs.size(),
+                paginatedUsers.getTotalPages(),
+                page.getPageSize(),
+                page.getPageNumber()
+        );
+    }
+
+    public UserDTO findUserByEmail(String email) {
+        final User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundByException("e-mail"));
+        return userMapper.entityToDTO(user);
     }
 }

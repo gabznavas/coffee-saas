@@ -18,6 +18,10 @@ const routes: Routes = [{
   canActivate: [authenticatedGuard],
   loadChildren: () => import('./stock/stock.module').then(m => m.StockModule)
 }, {
+  path: 'user',
+  canActivate: [authenticatedGuard],
+  loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+}, {
   path: '',
   redirectTo: 'home',
   pathMatch: 'full',

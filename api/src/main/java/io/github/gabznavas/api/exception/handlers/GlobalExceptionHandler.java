@@ -19,8 +19,12 @@ import java.util.Map;
 @RestController
 public class GlobalExceptionHandler {
 
+    // TODO: add Log
+
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
+        // TODO: add Log
+        // TODO:  não mandar erro pro cliente. logar o erro e mandar uma mensagem genérica
         ExceptionResponse response = new ExceptionResponse(
                 LocalDateTime.now(),
                 ex.getMessage(),

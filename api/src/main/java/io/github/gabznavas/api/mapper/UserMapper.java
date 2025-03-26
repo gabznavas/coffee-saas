@@ -13,6 +13,10 @@ public class UserMapper {
                 user.getFullName(),
                 user.getUsername(),
                 user.getProfileImageUrl(),
+                user.getCreatedAt(),
+                user.getUpdatedAt(),
+                user.getDisabledAt(),
+                user.getDeletedAt(),
                 user.getUserRoles().stream()
                         .map(userRole -> userRole.getRole().getNameType().name())
                         .toList()

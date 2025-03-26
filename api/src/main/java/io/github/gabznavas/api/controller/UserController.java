@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.controller;
 
+import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.dto.ProfileDTO;
 import io.github.gabznavas.api.dto.SecurityDTO;
 import io.github.gabznavas.api.dto.UserDTO;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,8 +62,22 @@ public class UserController {
             }
     )
     public ResponseEntity<UserDTO> getUserLogged(@AuthenticationPrincipal UserDetails user) {
-        final UserDTO dto = this.userMapper.entityToDTO((User) user);
+        final UserDTO dto = userService.findUserByEmail(user.getUsername());
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping(
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            }
+    )
+    public ResponseEntity<PaginatedResponse<UserDTO>> findAllUsers(
+            @RequestParam(name = "query", required = false, defaultValue = "") String query,
+            Pageable page
+    ) {
+        return ResponseEntity.ok(userService.findAllUsers(query, page));
     }
 
     @Operation(

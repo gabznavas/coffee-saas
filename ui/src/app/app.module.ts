@@ -13,10 +13,12 @@ import { LoginService } from './services/login.service';
 import { ProductService } from './services/product.service';
 import { ProductCategoryService } from './services/product-category.service';
 import { TitleService } from './services/title.service';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

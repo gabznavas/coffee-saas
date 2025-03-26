@@ -1,19 +1,19 @@
-<paper (headerLeftClick)="goToHome()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Estoque"
-  centerMaterialIcon="inventory_2">
+<paper (headerLeftClick)="goToHome()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Usuários"
+  centerMaterialIcon="people_outline">
 
   <confirm [isShow]="isShowConfirmDelete" [cancelTitle]="'Cancelar'" [confirmTitle]="'Confirmar'"
-    (onConfirm)="deleteProductSelected()" (onCancel)="toggleIsShowConfirmDelete()"></confirm>
+    (onConfirm)="deleteUserSelected()" (onCancel)="toggleIsShowConfirmDelete()"></confirm>
 
   <div class="header-list">
     <div class="search">
       <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
-        placeholder="Nome do produto..." (keyup.enter)="searchByInputQuery()">
-      <button class="search-button" (click)="findAllProducts()">
+        placeholder="Nome, e-mail do usuário..." (keyup.enter)="searchByInputQuery()">
+      <button class="search-button" (click)="findAllUsers()">
         <span class="material-icons">search</span>
         <span>Procurar</span>
       </button>
     </div>
-    <button class="button-add" (click)="goToStockForm()">
+    <button class="button-add" (click)="goToUserForm()">
       <span class="material-icons">add</span>
       <span>Adicionar</span>
     </button>
@@ -36,30 +36,30 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Unidade</th>
-        <th>Categoria</th>
+        <th>Nome completo</th>
+        <th>E-mail</th>
+        <th>Funções de acesso</th>
         <th>Criado em</th>
         <th>Atualizado em</th>
+        <th>Desabilitado em</th>
         <th>Ações</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of list.data.content">
-        <td>{{ product.id }} </td>
-        <td class="text-limit">{{ product.name }} </td>
-        <td class="text-limit">{{ product.description }} </td>
-        <td>{{ findUnitNameById(product.unitId) }} </td>
-        <td>{{ findCategoryNameById(product.categoryId) }} </td>
-        <td>{{ product.createdAt | date }} </td>
-        <td>{{ product.updatedAt ? (product.updatedAt | date) : '-' }} </td>
+      <tr *ngFor="let user of list.data.content">
+        <td>{{ user.id }} </td>
+        <td>{{ user.fullName }} </td>
+        <td>{{ user.email }} </td>
+        <td>{{ getRolesNames(user) }} </td>
+        <td>{{ user.createdAt | date }} </td>
+        <td>{{ user.updatedAt ? (user.updatedAt | date) : '-' }} </td>
+        <td>{{ user.disabledAt ? (user.disabledAt | date) : '-' }} </td>
         <td>
           <div class="action-buttons">
-            <button (click)="goToUpdateProduct(product.id)">
+            <button (click)="goToUpdateUser(user.id)">
               <span class="material-icons">edit</span>
             </button>
-            <button (click)="openModalToDelete(product)">
+            <button (click)="openModalToDelete(user)">
               <span class="material-icons">delete</span>
             </button>
           </div>
