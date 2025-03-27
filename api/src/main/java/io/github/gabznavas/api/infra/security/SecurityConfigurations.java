@@ -49,11 +49,23 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/:userId").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
                         .requestMatchers(HttpMethod.GET, "/api/v1/user").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/{userId}").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/role").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()

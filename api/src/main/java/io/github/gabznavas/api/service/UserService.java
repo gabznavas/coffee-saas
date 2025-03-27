@@ -14,12 +14,16 @@ import io.github.gabznavas.api.repository.RoleRepository;
 import io.github.gabznavas.api.repository.UserRepository;
 import io.github.gabznavas.api.repository.UserRoleRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +31,7 @@ import java.util.Optional;
 public class UserService {
 
 
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -44,7 +49,7 @@ public class UserService {
 
 
     @Transactional
-    public UserDTO registerUser(RegisterDTO dto) {
+    public UserDTO registerUser(RegisterUserDTO dto) {
         if (!dto.password().equals(dto.passwordConfirmation())) {
             throw new PasswordAndPasswordConfirmationDoesNotEqual();
         }
@@ -61,19 +66,88 @@ public class UserService {
 
         userRepository.save(user);
 
-        final Role role = roleRepository.findByNameType(RoleNameType.ATTENDANT)
-                .orElseThrow(() -> new RoleNotFoundByException("name"));
+        final List<UserRole> userRoles = dto.rolesIds().stream().map(roleId -> {
+            final Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new RoleNotFoundByException("name"));
+            final UserRole userRole = new UserRole();
+            userRole.setUser(user);
+            userRole.setRole(role);
+            userRole.setUserRoleId(new UserRole.UserRoleId(user.getId(), role.getId()));
+            return userRole;
+        }).toList();
 
-        final UserRole userRole = new UserRole();
-        userRole.setUser(user);
-        userRole.setRole(role);
-        userRole.setUserRoleId(new UserRole.UserRoleId(user.getId(), role.getId()));
-
-        user.getUserRoles().add(userRole);
-        userRoleRepository.save(user.getUserRoles().get(0));
+        user.getUserRoles().addAll(userRoles);
+        userRoleRepository.saveAll(user.getUserRoles());
 
         return userMapper.entityToDTO(user);
     }
+
+
+    @Transactional
+    public void updateUser(Long userId, UpdateUserDTO dto) {
+        // Verifica se o e-mail já está em uso
+        final Optional<User> optionalUserByEmail = userRepository.findByEmail(dto.email());
+        if (optionalUserByEmail.isPresent() && !optionalUserByEmail.get().getId().equals(userId)) {
+            throw new UserAlreadyExistsWithException("email");
+        }
+
+        // Busca o usuário pelo ID
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundByException("id"));
+
+        // Atualiza os dados do usuário
+        user.setFullName(dto.fullName());
+        user.setEmail(dto.email());
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.saveAndFlush(user);
+
+
+        // remover e adicionar
+        final List<Long> addUserRoles = new ArrayList<>();
+        final List<UserRole> removeUserRoles = new ArrayList<>();
+
+        // Quais o usuário precisa remover
+        for (UserRole userRole : user.getUserRoles()) {
+            boolean has = false;
+            for (Long userRoleId : dto.roleIds()) {
+                if (userRole.getRole().getId().equals(userRoleId)) {
+                    has = true;
+                    break;
+                }
+            }
+            if (!has) {
+                removeUserRoles.add(userRole);
+            }
+        }
+
+        // Quais o usuário precisa adicionar
+        for (Long userRoleId : dto.roleIds()) {
+            boolean has = false;
+            for (UserRole userRole : user.getUserRoles()) {
+                if (userRoleId.equals(userRole.getRole().getId())) {
+                    has = true;
+                    break;
+                }
+            }
+            if (!has) {
+                addUserRoles.add(userRoleId);
+            }
+        }
+
+        // remover os escolhidos
+        for (UserRole userRole : removeUserRoles) {
+            userRoleRepository.deleteByUserIdAndRoleId(userRole.getUser().getId(), userRole.getRole().getId());
+        }
+
+        // adicionar os escolhidos
+        for (Long roleId : addUserRoles) {
+            final Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new RoleNotFoundByException("id"));
+            userRoleRepository.save(new UserRole(user, role));
+        }
+
+    }
+
 
     @Transactional
     public void registerAdmin() {
@@ -87,7 +161,7 @@ public class UserService {
             throw new UserAlreadyExistsWithException("email");
         }
 
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         final Role roleAttendant = roleRepository.findByNameType(RoleNameType.ATTENDANT)
                 .orElseThrow(() -> new RoleNotFoundByException("name"));
@@ -103,7 +177,9 @@ public class UserService {
         user.getUserRoles().add(new UserRole(user, roleManager));
         user.getUserRoles().add(new UserRole(user, roleAdmin));
 
-        user.getUserRoles().forEach(userRoleRepository::save);
+        for (UserRole userRole : user.getUserRoles()) {
+            userRoleRepository.save(userRole);
+        }
     }
 
     @Transactional
@@ -113,6 +189,7 @@ public class UserService {
 
         userToUpdate.setFullName(dto.fullName());
         userToUpdate.setProfileImageUrl(dto.profileImageUrl());
+        userToUpdate.setUpdatedAt(LocalDateTime.now());
 
         userRepository.save(userToUpdate);
     }
@@ -137,6 +214,7 @@ public class UserService {
 
         userToUpdate.setEmail(dto.email());
         userToUpdate.setPassword(passwordEncoder.encode(dto.password()));
+        userToUpdate.setUpdatedAt(LocalDateTime.now());
 
         userRepository.save(userToUpdate);
     }
@@ -161,7 +239,14 @@ public class UserService {
     }
 
     public UserDTO findUserByEmail(String email) {
-        final User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundByException("e-mail"));
+        final User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundByException("e-mail"));
+        return userMapper.entityToDTO(user);
+    }
+
+    public UserDTO findUserById(Long userId) {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundByException("e-mail"));
         return userMapper.entityToDTO(user);
     }
 }

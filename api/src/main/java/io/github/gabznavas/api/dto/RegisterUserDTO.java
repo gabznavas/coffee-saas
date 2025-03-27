@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
-public record RegisterDTO(
+public record RegisterUserDTO(
         @NotBlank
         @Size(min = 2, max = 100, message = "minimum 2 characters and maximum 100 characters")
         String fullName,

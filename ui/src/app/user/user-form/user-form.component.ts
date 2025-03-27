@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TitleService } from '../../services/title.service';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService } from '../../services/role.service';
 import { Role } from '../../types/user-role.type';
 import { map, of, pipe } from 'rxjs';
@@ -38,14 +38,49 @@ export class UserFormComponent implements OnInit {
     private router: Router,
     private roleService: RoleService,
     private userService: UserService,
+    private route: ActivatedRoute,
   ) {
     this.titleService.setTitle("Usuários")
   }
 
   ngOnInit(): void {
     this.findRoles()
+    this.route.params.subscribe(
+      params => {
+        const userId = params["userId"]
+        if (userId) {
+          this.form.isUpdate = true
+          this.findUserByIdToUpdate(Number(userId))
+        }
+      }
+    )
   }
 
+  protected findUserByIdToUpdate(userId: number) {
+    this.userService.findUserById(userId)
+      .subscribe({
+        next: user => {
+          this.form.isLoading = false
+
+          this.form.data.id = user.id
+          this.form.data.email = user.email
+          this.form.data.fullName = user.fullName
+          this.form.data.rolesSelected = user.roles
+        },
+        error: err => {
+          this.form.isLoading = false
+          if (err instanceof HttpErrorResponse) {
+            if (err.error?.message && typeof err.error.message === 'string') {
+              this.form.messages.errors = [err.error.message]
+            } else if (err.error?.messages && typeof err.error.messages === 'object') {
+              this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+            }
+          } else {
+            this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
+        }
+      })
+  }
 
   protected goToUserList() {
     this.router.navigate(['/user'])
@@ -93,6 +128,56 @@ export class UserFormComponent implements OnInit {
   }
 
   protected onSubmit(form: NgForm) {
+    if (this.form.isUpdate) {
+      this.onSubmitUpdateUser(form)
+    } else {
+      this.onSubmitRegisterUser(form)
+    }
+  }
+
+  private onSubmitUpdateUser(form: NgForm) {
+    this.form.isLoading = true
+    this.userService.updateUser(this.form.data.id, {
+      email: this.form.data.email,
+      fullName: this.form.data.fullName,
+      roleIds: this.form.data.rolesSelected.map(role => role.id)
+    }).subscribe({
+      next: () => {
+        this.form.isLoading = false
+
+        this.userService.getUserLocalStorage()
+          .subscribe({
+            next: userFromLocalStorage => {
+              if (userFromLocalStorage.id === this.form.data.id) {
+                const newUserToLocalStorage = {
+                  ...userFromLocalStorage,
+                  email: this.form.data.email.trim(),
+                  fullName: this.form.data.fullName.trim(),
+                  roles: this.form.data.rolesSelected,
+                }
+                this.userService.setUserLocalStorage(newUserToLocalStorage)
+              }
+            }
+          })
+        this.clearForm(form);
+        this.router.navigate(["/user"])
+      },
+      error: err => {
+        this.form.isLoading = false
+        if (err instanceof HttpErrorResponse) {
+          if (err.error.message && typeof err.error.message === 'string') {
+            this.form.messages.errors = [err.error.message]
+          } else if (err.error.messages && typeof err.error.messages === 'object') {
+            this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+          }
+        } else {
+          this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+        }
+      }
+    })
+  }
+
+  private onSubmitRegisterUser(form: NgForm) {
     if (!this.isPasswordsEquals(form)) {
       this.form.messages.errors = ['Senha e confirmação de senha estão diferentes.']
       return
@@ -158,9 +243,9 @@ export class UserFormComponent implements OnInit {
         error: err => {
           this.form.isLoading = false
           if (err instanceof HttpErrorResponse) {
-            if (err.error.message && typeof err.error.message === 'string') {
+            if (err.error?.message && typeof err.error.message === 'string') {
               this.form.messages.errors = [err.error.message]
-            } else if (err.error.messages && typeof err.error.messages === 'object') {
+            } else if (err.error?.messages && typeof err.error.messages === 'object') {
               this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
             }
           } else {

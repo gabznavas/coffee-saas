@@ -31,9 +31,57 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PatchMapping(
+            value = "/{userId}",
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            }
+    )
+    public ResponseEntity<?> updateUser(
+            @PathVariable("userId") Long userId,
+            @RequestBody UpdateUserDTO dto
+    ) {
+        // TODO: o request nao ta chegando aqui?
+        userService.updateUser(userId, dto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> registerUser(@RequestBody RegisterDTO dto) {
+
+    @Operation(
+            summary = "Register user.",
+            description = "Register user.",
+            security = @SecurityRequirement(name = "bearerAuth"),
+            tags = {"User"},
+            responses = {
+                    @ApiResponse(
+                            description = "Ok",
+                            responseCode = "200",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = UserDTO.class)
+                            )
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+            }
+    )
+    @PostMapping(
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            },
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            }
+    )
+    public ResponseEntity<UserDTO> registerUser(@RequestBody RegisterUserDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(dto));
     }
 
@@ -67,6 +115,42 @@ public class UserController {
     )
     public ResponseEntity<UserDTO> getUserLogged(@AuthenticationPrincipal UserDetails user) {
         final UserDTO dto = userService.findUserByEmail(user.getUsername());
+        return ResponseEntity.ok(dto);
+    }
+
+
+    @Operation(
+            summary = "Find User by Id.",
+            description = "Find User By Id.",
+            security = @SecurityRequirement(name = "bearerAuth"),
+            tags = {"User"},
+            responses = {
+                    @ApiResponse(
+                            description = "Ok",
+                            responseCode = "200",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = UserDTO.class)
+                            )
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+            }
+    )
+    @GetMapping(
+            value = "/{userId}",
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE,
+                    MediaType.APPLICATION_YAML_VALUE,
+            }
+    )
+    public ResponseEntity<UserDTO> findUserById(
+            @PathVariable("userId") Long userId
+    ) {
+        final UserDTO dto = userService.findUserById(userId);
         return ResponseEntity.ok(dto);
     }
 

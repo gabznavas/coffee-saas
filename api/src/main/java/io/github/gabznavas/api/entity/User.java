@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -48,7 +47,7 @@ public class User implements Serializable, UserDetails {
     private LocalDateTime deletedAt = null;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonManagedReference  // Impede recursão ao serializar a lista de UserRole
+    @JsonManagedReference
     private List<UserRole> userRoles = new ArrayList<>();
 
     @Override
@@ -147,15 +146,5 @@ public class User implements Serializable, UserDetails {
         this.userRoles = userRoles;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(profileImageUrl, user.profileImageUrl) && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt) && Objects.equals(disabledAt, user.disabledAt) && Objects.equals(deletedAt, user.deletedAt) && Objects.equals(userRoles, user.userRoles);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, fullName, email, password, profileImageUrl, createdAt, updatedAt, disabledAt, deletedAt, userRoles);
-    }
 }

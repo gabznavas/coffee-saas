@@ -29,7 +29,6 @@ export class UserListComponent implements OnInit {
     private titleService: TitleService,
     private router: Router,
     private userService: UserService,
-    private roleService: RoleService,
   ) {
     this.titleService.setTitle("Usuários")
   }
@@ -47,7 +46,7 @@ export class UserListComponent implements OnInit {
   }
 
   protected goToUpdateUser(userId: number) {
-    throw new Error('Method not implemented.');
+    this.router.navigate(["/user", "form", userId])
   }
 
   protected deleteUserSelected() {

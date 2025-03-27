@@ -1,7 +1,6 @@
 package io.github.gabznavas.api.controller;
 
 import io.github.gabznavas.api.dto.LoginDTO;
-import io.github.gabznavas.api.dto.RegisterDTO;
 import io.github.gabznavas.api.dto.TokenDTO;
 import io.github.gabznavas.api.log.LoggerCustom;
 import io.github.gabznavas.api.service.LoginService;
@@ -80,56 +79,5 @@ public class AuthenticationController {
         LoggerCustom.logInfo(AuthenticationController.class, "Login successful for user: %s (%dms)", dto.email(), duration);
 
         return ResponseEntity.status(HttpStatus.OK).body(tokenDTO);
-    }
-
-    @Operation(
-            summary = "Register",
-            description = "Create a account to access application.",
-            tags = {"Security"},
-            responses = {
-                    @ApiResponse(
-                            description = "Ok",
-                            responseCode = "204",
-                            content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = TokenDTO.class)
-                            )
-                    ),
-                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
-                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
-                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
-            }
-    )
-    @PostMapping(
-            value = "/register",
-            consumes = {
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE,
-                    MediaType.APPLICATION_YAML_VALUE,
-            },
-            produces = {
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.APPLICATION_XML_VALUE,
-                    MediaType.APPLICATION_YAML_VALUE,
-            }
-    )
-    public ResponseEntity<TokenDTO> register(@RequestBody @Valid RegisterDTO dto) {
-        LoggerCustom.logInfo(AuthenticationController.class, "Register and Login attempt for user: %s", dto.email());
-        long startTime = System.currentTimeMillis();
-
-        // TODO: a ideia é que apenas ADMIN e MANAGER consiga criar novos usuários
-//        List<RoleDTO> roles = new ArrayList<>();
-//        roles.add(new RoleDTO(RoleNameType.ATTENDANT));
-//        userService.register(dto, roles);
-        userService.register(dto);
-
-        final String token = loginService.login(new LoginDTO(dto.email(), dto.password()));
-        final TokenDTO tokenDTO = new TokenDTO(token);
-
-        long duration = System.currentTimeMillis() - startTime;
-        LoggerCustom.logInfo(AuthenticationController.class, "Register and Login successful for user: %s (%dms)", dto.email(), duration);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(tokenDTO);
     }
 }

@@ -11,6 +11,7 @@ import { UserResponse } from './types.ts/user-response.type';
 import { environment } from '../../environments/environment';
 import { PaginatedResponse } from '../types/paginated-response.type';
 import { CreateUserRequest } from './types.ts/create-user-request.type';
+import { UpdateUserRequest } from './types.ts/update-user-request.type';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,16 @@ export class UserService {
       )
   }
 
+  findUserById(userId: number): Observable<User> {
+    const url = `${environment.apiUrl}/v1/user/${userId}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.get<UserResponse>(url, { headers })
+      .pipe(map(userResponse => this.mapResponseToUser(userResponse)))
+  }
+
   registerUser(createUser: CreateUserRequest): Observable<User> {
     const url = `${environment.apiUrl}/v1/user`
     const headers = {
@@ -53,19 +64,16 @@ export class UserService {
     }
 
     return this.client.post<UserResponse>(url, createUser, { headers })
-      .pipe(
-        map(userResponse => this.mapResponseToUser(userResponse)),
-      )
+      .pipe(map(userResponse => this.mapResponseToUser(userResponse)))
   }
 
-  updateUser(createUser: CreateUserRequest): Observable<void> {
-    const url = `${environment.apiUrl}/v1/user`
+  updateUser(userId: number, updateUserRequest: UpdateUserRequest): Observable<void> {
+    const url = `${environment.apiUrl}/v1/user/${userId}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
 
-    return this.client.patch<void>(url, createUser, { headers })
-
+    return this.client.patch<void>(url, updateUserRequest, { headers })
   }
 
   findAllUsers(query: string = '', page = 0, size = 5, sortBy = 'fullName,email', orderBy = 'asc'): Observable<PaginatedResponse<User>> {
@@ -82,6 +90,7 @@ export class UserService {
 
   setUserLocalStorage(user: User): void {
     localStorage.setItem(this.userKey, JSON.stringify(user))
+    this.dataSubject.next(user);
   }
 
   getUserLocalStorage(): Observable<User> {

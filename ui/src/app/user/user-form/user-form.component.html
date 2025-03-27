@@ -1,4 +1,4 @@
-<paper centerTitle="{{ form.isUpdate ? 'Atualizar produto' : 'Novo produto' }}" centerMaterialIcon="inventory_2">
+<paper centerTitle="{{ form.isUpdate ? 'Atualizar usuário' : 'Novo usuário' }}" centerMaterialIcon="inventory_2">
   <form #f="ngForm" (submit)="onSubmit(f)">
     <div class="group-form">
       <label>Nome completo <span class="required">*</span></label>
@@ -20,7 +20,7 @@
         <li>Máximo de 45 caracteres.</li>
       </ul>
     </div>
-    <div class="group-form">
+    <div class="group-form" *ngIf="!form.isUpdate">
       <label>Senha <span class="required">*</span></label>
       <input #password="ngModel" autocomplete="off" [(ngModel)]="form.data.password" required minlength="2"
         maxlength="50" type="password" placeholder="******" id="password" name="password">
@@ -30,7 +30,7 @@
         <li>Máximo de 45 caracteres.</li>
       </ul>
     </div>
-    <div class="group-form">
+    <div class="group-form" *ngIf="!form.isUpdate">
       <label>Confirmação de senha <span class="required">*</span></label>
       <input #passwordConfirmation="ngModel" autocomplete="off" [(ngModel)]="form.data.passwordConfirmation" required
         minlength="2" maxlength="50" type="password" placeholder="******" id="passwordConfirmation"
@@ -59,7 +59,7 @@
         </div>
         <ul class="show">
           <li *ngFor="let role of form.data.rolesSelected">
-            <span>{{ role.name }}</span>
+            <span>{{ role.translate() }}</span>
             <button type="button" (click)="removeRoleFromList(role.id)">
               <span class="material-icons">restore_from_trash</span>
             </button>
