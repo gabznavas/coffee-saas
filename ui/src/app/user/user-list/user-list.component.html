@@ -19,7 +19,7 @@
     </button>
   </div>
 
-  <div class="messages">
+  <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
     <ul *ngIf="list.messages.errors.length > 0" class="alert error">
       <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
     </ul>
