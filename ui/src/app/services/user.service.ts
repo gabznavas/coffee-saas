@@ -46,7 +46,7 @@ export class UserService {
       )
   }
 
-  registerUser(createUser: CreateUserRequest) {
+  registerUser(createUser: CreateUserRequest): Observable<User> {
     const url = `${environment.apiUrl}/v1/user`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
@@ -56,6 +56,16 @@ export class UserService {
       .pipe(
         map(userResponse => this.mapResponseToUser(userResponse)),
       )
+  }
+
+  updateUser(createUser: CreateUserRequest): Observable<void> {
+    const url = `${environment.apiUrl}/v1/user`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.patch<void>(url, createUser, { headers })
+
   }
 
   findAllUsers(query: string = '', page = 0, size = 5, sortBy = 'fullName,email', orderBy = 'asc'): Observable<PaginatedResponse<User>> {

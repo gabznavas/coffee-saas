@@ -46,44 +46,6 @@ export class UserFormComponent implements OnInit {
     this.findRoles()
   }
 
-  protected onSubmit(form: NgForm) {
-    this.form.isLoading = true
-    this.userService.registerUser({
-      email: this.form.data.email,
-      fullName: this.form.data.fullName,
-      password: this.form.data.password,
-      passwordConfirmation: this.form.data.passwordConfirmation,
-      roleIds: this.form.data.rolesSelected.map(role => role.id)
-    }).subscribe({
-      next: user => {
-        this.form.isLoading = false
-        this.clearForm(form);
-        this.form.messages.info = ['Usuário registrado.']
-      },
-      error: err => {
-        this.form.isLoading = false
-        if (err instanceof HttpErrorResponse) {
-          if (err.error.message && typeof err.error.message === 'string') {
-            this.form.messages.errors = [err.error.message]
-          } else if (err.error.messages && typeof err.error.messages === 'object') {
-            this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
-          }
-        } else {
-          this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
-        }
-      }
-    })
-  }
-
-  private clearForm(form?: NgForm) {
-    form?.reset({
-      name: '',
-      description: '',
-      category: '1',
-      unit: '1',
-      stock: 0,
-    })
-  }
 
   protected goToUserList() {
     this.router.navigate(['/user'])
@@ -129,6 +91,55 @@ export class UserFormComponent implements OnInit {
 
     this.form.data.rolesSelected = this.form.data.rolesSelected.filter(role => role.id !== roleId)
   }
+
+  protected onSubmit(form: NgForm) {
+    if (!this.isPasswordsEquals(form)) {
+      this.form.messages.errors = ['Senha e confirmação de senha estão diferentes.']
+      return
+    }
+
+    this.form.isLoading = true
+    this.userService.registerUser({
+      email: this.form.data.email,
+      fullName: this.form.data.fullName,
+      password: this.form.data.password,
+      passwordConfirmation: this.form.data.passwordConfirmation,
+      roleIds: this.form.data.rolesSelected.map(role => role.id)
+    }).subscribe({
+      next: user => {
+        this.form.isLoading = false
+        this.clearForm(form);
+        this.form.messages.info = ['Usuário registrado.']
+      },
+      error: err => {
+        this.form.isLoading = false
+        if (err instanceof HttpErrorResponse) {
+          if (err.error.message && typeof err.error.message === 'string') {
+            this.form.messages.errors = [err.error.message]
+          } else if (err.error.messages && typeof err.error.messages === 'object') {
+            this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+          }
+        } else {
+          this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+        }
+      }
+    })
+  }
+
+  private isPasswordsEquals(form: NgForm): boolean {
+    return this.form.data.password === this.form.data.passwordConfirmation
+  }
+
+  private clearForm(form?: NgForm) {
+    form?.reset({
+      name: '',
+      description: '',
+      category: '1',
+      unit: '1',
+      stock: 0,
+    })
+  }
+
 
   private findRoles() {
     this.roleService.findRoles()
