@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap, throwError } from 'rxjs';
 import { User } from '../types/user.type';
 import { AuthorizationService } from './authorization.service';
 import { Profile } from '../types/profile.type';
@@ -17,6 +17,7 @@ import { UpdateUserRequest } from './types.ts/update-user-request.type';
   providedIn: 'root'
 })
 export class UserService {
+
   private userKey = "user";
 
   private dataSubject = new BehaviorSubject<User>({} as User);
@@ -67,6 +68,25 @@ export class UserService {
       .pipe(map(userResponse => this.mapResponseToUser(userResponse)))
   }
 
+  deleteUserById(user: User): Observable<void> {
+    const userFromLocalStorage = this.getUserLocalStorage();
+
+    if (userFromLocalStorage && userFromLocalStorage.id === user.id) {
+      return throwError(() => new HttpErrorResponse({
+        error: {
+          messages: ['Você está logado.', 'Entre com outro usuário para conseguir se deletar.']
+        }
+      }));
+    } else {
+      const url = `${environment.apiUrl}/v1/user/${user.id}`;
+      const headers = {
+        Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+      };
+
+      return this.client.delete<void>(url, { headers });
+    }
+  }
+
   updateUser(userId: number, updateUserRequest: UpdateUserRequest): Observable<void> {
     const url = `${environment.apiUrl}/v1/user/${userId}`
     const headers = {
@@ -93,17 +113,14 @@ export class UserService {
     this.dataSubject.next(user);
   }
 
-  getUserLocalStorage(): Observable<User> {
+  getUserLocalStorage(): User | null {
     const userJson = localStorage.getItem(this.userKey);
 
     if (userJson) {
-      return of(JSON.parse(userJson));
-    } else {
-      return this.getUserLogged()
-        .pipe(
-          tap(user => this.setUserLocalStorage(user))
-        );
+      return JSON.parse(userJson)
     }
+
+    return null;
   }
 
   isAuthenticated(): boolean {

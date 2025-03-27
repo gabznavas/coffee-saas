@@ -26,6 +26,6 @@ public record RegisterUserDTO(
         String passwordConfirmation,
 
         @NotEmpty(message = "At least one role is required")
-        List<Long> rolesIds
+        List<Long> roleIds
 ) {
 }

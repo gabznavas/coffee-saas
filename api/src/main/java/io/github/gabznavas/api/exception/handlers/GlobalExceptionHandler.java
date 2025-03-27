@@ -78,6 +78,8 @@ public class GlobalExceptionHandler {
             ProductCategoryNotFoundByException.class,
             ProductAlreadyExistsByException.class,
             ProductNotFoundByException.class,
+            UniqueUserAdminException.class,
+            UserRoleNotFoundException.class,
     })
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(
             Exception ex,

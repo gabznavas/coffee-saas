@@ -49,7 +49,7 @@
         <div class="add">
           <select id="roles" name="roles" #roles="ngModel" required [(ngModel)]="form.roleSelectedId">
             <option *ngFor="let role of form.roles" value="{{ role.id }}">
-              {{ role.name }}
+              {{ role.translate() }}
             </option>
           </select>
           <button type="button" (click)="addRoleSelected()">

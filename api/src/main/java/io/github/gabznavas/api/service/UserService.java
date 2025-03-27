@@ -5,10 +5,7 @@ import io.github.gabznavas.api.entity.Role;
 import io.github.gabznavas.api.entity.RoleNameType;
 import io.github.gabznavas.api.entity.User;
 import io.github.gabznavas.api.entity.UserRole;
-import io.github.gabznavas.api.exception.PasswordAndPasswordConfirmationDoesNotEqual;
-import io.github.gabznavas.api.exception.RoleNotFoundByException;
-import io.github.gabznavas.api.exception.UserAlreadyExistsWithException;
-import io.github.gabznavas.api.exception.UserNotFoundByException;
+import io.github.gabznavas.api.exception.*;
 import io.github.gabznavas.api.mapper.UserMapper;
 import io.github.gabznavas.api.repository.RoleRepository;
 import io.github.gabznavas.api.repository.UserRepository;
@@ -66,7 +63,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        final List<UserRole> userRoles = dto.rolesIds().stream().map(roleId -> {
+        final List<UserRole> userRoles = dto.roleIds().stream().map(roleId -> {
             final Role role = roleRepository.findById(roleId)
                     .orElseThrow(() -> new RoleNotFoundByException("name"));
             final UserRole userRole = new UserRole();
@@ -145,7 +142,6 @@ public class UserService {
                     .orElseThrow(() -> new RoleNotFoundByException("id"));
             userRoleRepository.save(new UserRole(user, role));
         }
-
     }
 
 
@@ -161,7 +157,7 @@ public class UserService {
             throw new UserAlreadyExistsWithException("email");
         }
 
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
 
         final Role roleAttendant = roleRepository.findByNameType(RoleNameType.ATTENDANT)
                 .orElseThrow(() -> new RoleNotFoundByException("name"));
@@ -248,5 +244,24 @@ public class UserService {
         final User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundByException("e-mail"));
         return userMapper.entityToDTO(user);
+    }
+
+    @Transactional()
+    public void deleteUser(Long userId) {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundByException("id"));
+
+        final Long countAdminUsers = userRepository.countUsersByRole(RoleNameType.ADMIN);
+        final boolean uniqueAdmin = countAdminUsers == 1;
+        if (uniqueAdmin) {
+            throw new UniqueUserAdminException();
+        }
+
+        for (UserRole userRole : user.getUserRoles()) {
+            userRoleRepository.findById(new UserRole.UserRoleId(userRole.getUser().getId(), userRole.getRole().getId()))
+                    .orElseThrow(UserRoleNotFoundException::new);
+            userRoleRepository.deleteByUserIdAndRoleId(userRole.getUser().getId(), userRole.getRole().getId());
+        }
+        userRepository.deleteById(user.getId());
     }
 }

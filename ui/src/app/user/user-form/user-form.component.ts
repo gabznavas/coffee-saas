@@ -87,6 +87,7 @@ export class UserFormComponent implements OnInit {
   }
 
   protected addRoleSelected() {
+    debugger
     if (!this.form.roleSelectedId) {
       return
     }
@@ -145,20 +146,17 @@ export class UserFormComponent implements OnInit {
       next: () => {
         this.form.isLoading = false
 
-        this.userService.getUserLocalStorage()
-          .subscribe({
-            next: userFromLocalStorage => {
-              if (userFromLocalStorage.id === this.form.data.id) {
-                const newUserToLocalStorage = {
-                  ...userFromLocalStorage,
-                  email: this.form.data.email.trim(),
-                  fullName: this.form.data.fullName.trim(),
-                  roles: this.form.data.rolesSelected,
-                }
-                this.userService.setUserLocalStorage(newUserToLocalStorage)
-              }
-            }
-          })
+        const userFromLocalStorage = this.userService.getUserLocalStorage()
+        if (userFromLocalStorage && userFromLocalStorage.id === this.form.data.id) {
+          const newUserToLocalStorage = {
+            ...userFromLocalStorage,
+            email: this.form.data.email.trim(),
+            fullName: this.form.data.fullName.trim(),
+            roles: this.form.data.rolesSelected,
+          }
+          this.userService.setUserLocalStorage(newUserToLocalStorage)
+        }
+
         this.clearForm(form);
         this.router.navigate(["/user"])
       },
@@ -194,6 +192,7 @@ export class UserFormComponent implements OnInit {
       next: user => {
         this.form.isLoading = false
         this.clearForm(form);
+        this.form.messages.errors = []
         this.form.messages.info = ['Usuário registrado.']
       },
       error: err => {
@@ -234,10 +233,10 @@ export class UserFormComponent implements OnInit {
           if (!roles || typeof roles !== 'object' || !roles.length || roles.length === 0) {
             this.form.messages.errors = ['Não foi possível carregar as funções de acesso.', 'Tente novamente mais tarde']
           } else {
-            this.form.roles = roles.map(role => new Role(role.id, role.translate() as any))
+            this.form.roles = roles.map(role => new Role(role.id, role.name))
 
             this.form.roleSelectedId = this.form.roles[0].id.toString()
-            this.form.data.rolesSelected.push(this.form.roles[0])
+            this.form.data.rolesSelected.push(...this.form.roles)
           }
         },
         error: err => {

@@ -61,7 +61,11 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/{userId}").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/:userId").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/user/:userId").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )

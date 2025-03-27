@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.repository;
 
+import io.github.gabznavas.api.entity.RoleNameType;
 import io.github.gabznavas.api.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
                 ORDER BY u.fullName ASC
             """)
     Page<User> findAllByQuery(@Param("query") String query, Pageable pageable);
+
+    @Query("""
+            SELECT COUNT(u) 
+            FROM User u 
+            JOIN u.userRoles ur 
+            JOIN ur.role r 
+            WHERE r.nameType = :roleName
+            """)
+    Long countUsersByRole(@Param("roleName") RoleNameType roleName);
 }

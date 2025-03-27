@@ -33,20 +33,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     // TODO: adicionar error, usando o estilo de código tap, onError no final etc...do angular
     this.form.isLoading = true
-    this.userService.getUserLocalStorage()
-      .subscribe({
-        next: user => {
-          this.form = {
-            ... this.form,
-            fullName: user.fullName,
-            isLoading: false,
-            profileImageUrl: user.profileImageUrl
-          }
-        },
-        error: () => {
-          this.form.isLoading = false
-        }
-      })
+    const user = this.userService.getUserLocalStorage()
+    if (user) {
+      this.form = {
+        ... this.form,
+        fullName: user.fullName,
+        isLoading: false,
+        profileImageUrl: user.profileImageUrl
+      }
+    }
   }
 
   protected loadDefaultProfileImageUrl(event: Event) {

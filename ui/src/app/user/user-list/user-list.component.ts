@@ -14,6 +14,8 @@ import { RoleService } from '../../services/role.service';
 })
 export class UserListComponent implements OnInit {
   protected isShowConfirmDelete = false;
+  protected userSelected: User | null = null
+
 
   protected list = {
     data: {} as PaginatedResponse<User>,
@@ -50,7 +52,30 @@ export class UserListComponent implements OnInit {
   }
 
   protected deleteUserSelected() {
+    if (!this.userSelected) {
+      return
+    }
 
+    this.userService.deleteUserById(this.userSelected)
+      .subscribe({
+        next: () => {
+          this.list.isLoading = false;
+          this.isShowConfirmDelete = false;
+          this.findAllUsers(this.list.searchInput, 0, 10);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.list.isLoading = false;
+          this.isShowConfirmDelete = false;
+
+          if (err.error?.message) {
+            this.list.messages.errors = [err.error.message];
+          } else if (err.error?.messages) {
+            this.list.messages.errors = err.error.messages;
+          } else {
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.'];
+          }
+        }
+      });
   }
 
   protected searchByInputQuery() {
@@ -66,13 +91,14 @@ export class UserListComponent implements OnInit {
     this.userService.findAllUsers(query, page, size)
       .subscribe({
         next: users => {
+          this.list.isLoading = false
           this.list.data = users;
           if (this.list.data.content.length === 0) {
             this.list.messages.info = ['Nenhum usuário listado.']
           } else {
             this.list.messages.info = []
           }
-          this.list.isLoading = false
+
         },
         error: err => {
           this.list.isLoading = false
@@ -96,7 +122,8 @@ export class UserListComponent implements OnInit {
   }
 
   protected openModalToDelete(user: User) {
-    throw new Error('Method not implemented.');
+    this.isShowConfirmDelete = true
+    this.userSelected = user
   }
 
 

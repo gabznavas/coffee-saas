@@ -31,6 +31,46 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(
+            summary = "Delete user by id.",
+            description = "Delete user by id.",
+            security = @SecurityRequirement(name = "bearerAuth"),
+            tags = {"User"},
+            responses = {
+                    @ApiResponse(
+                            description = "No COntent",
+                            responseCode = "204",
+                            content = @Content
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+            }
+    )
+    @DeleteMapping(value = "/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(
+            summary = "Update user.",
+            description = "Update user by Admin or Manager.",
+            security = @SecurityRequirement(name = "bearerAuth"),
+            tags = {"User"},
+            responses = {
+                    @ApiResponse(
+                            description = "No COntent",
+                            responseCode = "204",
+                            content = @Content
+                    ),
+                    @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+                    @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+            }
+    )
     @PatchMapping(
             value = "/{userId}",
             consumes = {
@@ -43,11 +83,9 @@ public class UserController {
             @PathVariable("userId") Long userId,
             @RequestBody UpdateUserDTO dto
     ) {
-        // TODO: o request nao ta chegando aqui?
         userService.updateUser(userId, dto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
 
     @Operation(
             summary = "Register user.",
