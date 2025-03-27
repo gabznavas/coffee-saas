@@ -68,7 +68,7 @@
     </tbody>
   </table>
 
-  <ul *ngIf="showPages() && !list.isLoading" class="pagination">
+  <ul *ngIf="showPages()" class="pagination">
     <li (click)="previousPage()">
       <button class="previous" [disabled]="list.data.page === 0">
         <span class="material-icons">skip_previous</span>

@@ -1,22 +1,23 @@
-export enum UserRoleName {
+export enum RoleName {
   ADMIN = "ADMIN",
   MANAGER = "MANAGER",
   CASHIER = "CASHIER",
   ATTENDANT = "ATTENDANT",
 }
 
-export class UserRole {
+export class Role {
   constructor(
-    public name: UserRoleName = UserRoleName.ATTENDANT
+    public id: number,
+    public name: RoleName = RoleName.ATTENDANT
   ) { }
 
   translate() {
     switch (this.name) {
-      case UserRoleName.ADMIN:
+      case RoleName.ADMIN:
         return "Administrador"
-      case UserRoleName.MANAGER:
+      case RoleName.MANAGER:
         return "Gerente"
-      case UserRoleName.CASHIER:
+      case RoleName.CASHIER:
         return "Caixa"
       default:
         return "Atendente"

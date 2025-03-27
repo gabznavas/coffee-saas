@@ -53,6 +53,12 @@ public class SecurityConfigurations {
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
+                        
+                        .requestMatchers(HttpMethod.GET, "/api/v1/role").hasAnyAuthority(
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/unit").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),

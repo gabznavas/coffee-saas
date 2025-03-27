@@ -1,1 +1,101 @@
-<p>user-form works!</p>
+<paper centerTitle="{{ form.isUpdate ? 'Atualizar produto' : 'Novo produto' }}" centerMaterialIcon="inventory_2">
+  <form #f="ngForm" (submit)="onSubmit(f)">
+    <div class="group-form">
+      <label>Nome completo <span class="required">*</span></label>
+      <input #fullName="ngModel" [(ngModel)]="form.data.fullName" required minlength="2" maxlength="50" type="text"
+        placeholder="John Doe..." id="fullName" name="fullName">
+      <ul *ngIf="!fullName.valid && fullName.touched" class="alert error">
+        <li>Campo Nome completo inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+    <div class="group-form">
+      <label>E-mail <span class="required">*</span></label>
+      <input #email="ngModel" [(ngModel)]="form.data.email" required minlength="2" maxlength="50" type="email"
+        placeholder="John Doe..." id="email" name="email">
+      <ul *ngIf="!email.valid && email.touched" class="alert error">
+        <li>Campo E-mail inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+    <div class="group-form">
+      <label>Senha <span class="required">*</span></label>
+      <input #password="ngModel" autocomplete="off" [(ngModel)]="form.data.password" required minlength="2"
+        maxlength="50" type="password" placeholder="******" id="password" name="password">
+      <ul *ngIf="!password.valid && password.touched" class="alert error">
+        <li>Campo Senha inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+    <div class="group-form">
+      <label>Confirmação de senha <span class="required">*</span></label>
+      <input #passwordConfirmation="ngModel" autocomplete="off" [(ngModel)]="form.data.passwordConfirmation" required
+        minlength="2" maxlength="50" type="password" placeholder="******" id="passwordConfirmation"
+        name="passwordConfirmation">
+      <ul *ngIf="!passwordConfirmation.valid && passwordConfirmation.touched" class="alert error">
+        <li>Campo Confirmação de senha inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+
+    <div class="group-form ">
+      <label>Funções de acesso <span class="required">*</span></label>
+
+      <div class="select-group ">
+        <div class="add">
+          <select id="roles" name="roles" #roles="ngModel" required [(ngModel)]="form.roleSelectedId">
+            <option *ngFor="let role of form.roles" value="{{ role.id }}">
+              {{ role.name }}
+            </option>
+          </select>
+          <button type="button" (click)="addRoleSelected()">
+            <span class="material-icons">add</span>
+            <span>Adicionar</span>
+          </button>
+        </div>
+        <ul class="show">
+          <li *ngFor="let role of form.data.rolesSelected">
+            <span>{{ role.name }}</span>
+            <button type="button" (click)="removeRoleFromList(role.id)">
+              <span class="material-icons">restore_from_trash</span>
+            </button>
+          </li>
+          <li *ngIf="form.data.rolesSelected.length === 0" class="alert error">
+            <span>Deve ter pelo menos uma função de acesso.</span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <ul *ngIf="form.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of form.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="form.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of form.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
+    <div *ngIf="form.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
+    <div class="group-form buttons">
+      <button type="submit" [disabled]="f.invalid || form.isLoading">
+        <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>
+        <span>{{form.isUpdate ? 'Atualizar' : 'Salvar'}}</span>
+      </button>
+      <button type="button" class="back" (click)="goToUserList()">
+        <span class="material-icons">arrow_back</span>
+        <span>Voltar</span>
+      </button>
+    </div>
+  </form>
+</paper>

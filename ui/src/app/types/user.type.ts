@@ -1,4 +1,4 @@
-import { UserRole, UserRoleName } from "./user-role.type"
+import { RoleName, Role, } from "./user-role.type"
 
 export class User {
   constructor(
@@ -9,11 +9,12 @@ export class User {
     public createdAt: Date = new Date(),
     public updatedAt: Date | null = null,
     public disabledAt: Date | null = null,
-    public roles: UserRole[] = [],
+    public roles: Role[] = [],
   ) { }
 
-  rankedRoles = (): UserRole => {
-    const rank = Object.values(UserRoleName);
+  // TODO: transferir essa logica pro role type
+  rankedRoles = (): Role => {
+    const rank = Object.values(RoleName);
 
     let rankIndex = this.roles.length - 1;
     let rankObj = this.roles[0]

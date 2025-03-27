@@ -1,9 +1,6 @@
 package io.github.gabznavas.api.controller;
 
-import io.github.gabznavas.api.dto.PaginatedResponse;
-import io.github.gabznavas.api.dto.ProfileDTO;
-import io.github.gabznavas.api.dto.SecurityDTO;
-import io.github.gabznavas.api.dto.UserDTO;
+import io.github.gabznavas.api.dto.*;
 import io.github.gabznavas.api.entity.User;
 import io.github.gabznavas.api.mapper.UserMapper;
 import io.github.gabznavas.api.service.UserService;
@@ -16,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,6 +30,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    @PostMapping
+    public ResponseEntity<UserDTO> registerUser(@RequestBody RegisterDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(dto));
+    }
 
     @Operation(
             summary = "Get user logged.",

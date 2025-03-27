@@ -14,6 +14,7 @@ import { ProductService } from './services/product.service';
 import { ProductCategoryService } from './services/product-category.service';
 import { TitleService } from './services/title.service';
 import { UserComponent } from './user/user.component';
+import { RoleService } from './services/role.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { UserComponent } from './user/user.component';
     LoginModule,
     StockModule
   ],
-  providers: [TitleService, AuthorizationService, LoginService, ProductService, ProductCategoryService],
+  providers: [TitleService, AuthorizationService, LoginService, ProductService, ProductCategoryService, RoleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

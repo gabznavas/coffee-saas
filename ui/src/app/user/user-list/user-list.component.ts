@@ -4,7 +4,8 @@ import { PaginatedResponse } from '../../types/paginated-response.type';
 import { User } from '../../types/user.type';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserRole } from '../../types/user-role.type';
+import { TitleService } from '../../services/title.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-user-list',
@@ -12,7 +13,6 @@ import { UserRole } from '../../types/user-role.type';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit {
-
   protected isShowConfirmDelete = false;
 
   protected list = {
@@ -25,11 +25,14 @@ export class UserListComponent implements OnInit {
     isLoading: false,
   }
 
-
   constructor(
+    private titleService: TitleService,
     private router: Router,
-    private userService: UserService
-  ) { }
+    private userService: UserService,
+    private roleService: RoleService,
+  ) {
+    this.titleService.setTitle("Usuários")
+  }
 
   ngOnInit(): void {
     this.findAllUsers()
@@ -43,16 +46,20 @@ export class UserListComponent implements OnInit {
     this.router.navigate([""])
   }
 
+  protected goToUpdateUser(userId: number) {
+    throw new Error('Method not implemented.');
+  }
+
   protected deleteUserSelected() {
 
   }
 
   protected searchByInputQuery() {
-
+    this.findAllUsers(this.list.searchInput)
   }
 
   protected goToUserForm() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(["/user/form"])
   }
 
   protected findAllUsers(query: string = '', page: number = 0, size = 5) {
@@ -93,31 +100,28 @@ export class UserListComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  protected goToUpdateUser(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
 
   protected showPages(): boolean {
-    return true
+    return this.list.data.page > 0 && !this.list.isLoading
   }
 
   protected nextPage() {
-    throw new Error('Method not implemented.');
-  }
-
-  protected isActualPage(indexPage: Number): boolean {
-    return true;
-  }
-
-  protected goPage(page: number) {
-    throw new Error('Method not implemented.');
-  }
-
-  protected getPageCountItems(): number[] {
-    return [1]
+    this.findAllUsers(this.list.searchInput, this.list.data.page + 1)
   }
 
   protected previousPage(): void {
+    this.findAllUsers(this.list.searchInput, this.list.data.page - 1)
+  }
 
+  protected isActualPage(indexPage: Number): boolean {
+    return this.list.data.page === indexPage;
+  }
+
+  protected goPage(page: number) {
+    this.findAllUsers(this.list.searchInput, page)
+  }
+
+  protected getPageCountItems(): number[] {
+    return new Array(this.list.data.page).fill('').map((_, index) => index)
   }
 }

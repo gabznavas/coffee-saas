@@ -12,6 +12,6 @@ public record UserDTO(
         LocalDateTime updatedAt,
         LocalDateTime disabledAt,
         LocalDateTime deletedAt,
-        List<String> roles
+        List<RoleDTO> roles
 ) {
 }

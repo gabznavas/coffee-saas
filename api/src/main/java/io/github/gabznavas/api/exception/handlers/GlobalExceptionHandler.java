@@ -3,6 +3,7 @@ package io.github.gabznavas.api.exception.handlers;
 import io.github.gabznavas.api.exception.*;
 import io.github.gabznavas.api.exception.responses.ExceptionMapResponse;
 import io.github.gabznavas.api.exception.responses.ExceptionResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,24 +34,35 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError().body(response);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public final ResponseEntity<ExceptionMapResponse> handleValidationExceptions(
-            MethodArgumentNotValidException ex,
+            Exception ex,
             WebRequest request
     ) {
         final Map<String, String> validations = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = (((FieldError) error).getField());
-            String errorMessage = error.getDefaultMessage();
-            validations.put(fieldName, errorMessage);
-        });
+        if (ex instanceof MethodArgumentNotValidException manve) {
+            // Tratamento para validações de DTOs com @Valid
+            manve.getBindingResult().getAllErrors().forEach(error -> {
+                String fieldName = (((FieldError) error).getField());
+                String errorMessage = error.getDefaultMessage();
+                validations.put(fieldName, errorMessage);
+            });
+        } else if (ex instanceof ConstraintViolationException cve) {
+            // Tratamento para validações de anotações em @RequestParam, @PathVariable, etc.
+            cve.getConstraintViolations().forEach(violation -> {
+                String fieldName = violation.getPropertyPath().toString();
+                String errorMessage = violation.getMessage();
+                validations.put(fieldName, errorMessage);
+            });
+        }
 
         ExceptionMapResponse response = new ExceptionMapResponse(
                 LocalDateTime.now(),
                 validations,
                 request.getDescription(false)
         );
+
         return ResponseEntity.badRequest().body(response);
     }
 

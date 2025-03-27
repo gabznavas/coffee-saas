@@ -2,8 +2,11 @@ package io.github.gabznavas.api.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
 
 public record RegisterDTO(
         @NotBlank
@@ -20,6 +23,9 @@ public record RegisterDTO(
 
         @Length(min = 6, max = 255, message = "minimum 6 characters and maximum 255 characters")
         @NotBlank
-        String passwordConfirmation
+        String passwordConfirmation,
+
+        @NotEmpty(message = "At least one role is required")
+        List<Long> rolesIds
 ) {
 }

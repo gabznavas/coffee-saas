@@ -106,7 +106,7 @@ export class StockListComponent implements OnInit {
   }
 
   protected showPages(): boolean {
-    return this.list.data?.content?.length > 0
+    return this.list.data?.page > 0 && !this.list.isLoading
   }
 
   protected findCategoryNameById(categoryId: number) {

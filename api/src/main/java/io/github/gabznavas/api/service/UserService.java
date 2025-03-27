@@ -44,8 +44,7 @@ public class UserService {
 
 
     @Transactional
-    public UserDTO register(RegisterDTO dto) {
-        // TODO: Melhorar esse método
+    public UserDTO registerUser(RegisterDTO dto) {
         if (!dto.password().equals(dto.passwordConfirmation())) {
             throw new PasswordAndPasswordConfirmationDoesNotEqual();
         }

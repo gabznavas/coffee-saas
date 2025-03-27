@@ -5,11 +5,12 @@ import { User } from '../types/user.type';
 import { AuthorizationService } from './authorization.service';
 import { Profile } from '../types/profile.type';
 import { Security } from '../types/security.type';
-import { UserRole, UserRoleName } from '../types/user-role.type';
+import { Role, RoleName } from '../types/user-role.type';
 import { UserResponse } from './types.ts/user-response.type';
 
 import { environment } from '../../environments/environment';
 import { PaginatedResponse } from '../types/paginated-response.type';
+import { CreateUserRequest } from './types.ts/create-user-request.type';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,18 @@ export class UserService {
           this.dataSubject.next(user);
           return user;
         }),
+      )
+  }
+
+  registerUser(createUser: CreateUserRequest) {
+    const url = `${environment.apiUrl}/v1/user`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.post<UserResponse>(url, createUser, { headers })
+      .pipe(
+        map(userResponse => this.mapResponseToUser(userResponse)),
       )
   }
 
@@ -109,7 +122,10 @@ export class UserService {
       new Date(data.createdAt),
       data.updatedAt ? new Date(data.updatedAt) : null,
       data.disabledAt ? new Date(data.disabledAt) : null,
-      data.roles.map(userRoleName => new UserRole(userRoleName as UserRoleName)),
+      data.roles.map(role => new Role(
+        role.id,
+        role.name as RoleName
+      )),
     )
   }
 

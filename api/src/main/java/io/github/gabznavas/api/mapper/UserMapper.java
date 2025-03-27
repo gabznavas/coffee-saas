@@ -1,5 +1,6 @@
 package io.github.gabznavas.api.mapper;
 
+import io.github.gabznavas.api.dto.RoleDTO;
 import io.github.gabznavas.api.dto.UserDTO;
 import io.github.gabznavas.api.entity.User;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,10 @@ public class UserMapper {
                 user.getDisabledAt(),
                 user.getDeletedAt(),
                 user.getUserRoles().stream()
-                        .map(userRole -> userRole.getRole().getNameType().name())
+                        .map(userRole -> new RoleDTO(
+                                userRole.getRole().getId(),
+                                userRole.getRole().getNameType().name()
+                        ))
                         .toList()
         );
     }
