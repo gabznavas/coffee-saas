@@ -22,9 +22,9 @@ const routes: Routes = [{
   canActivate: [authenticatedGuard],
   loadChildren: () => import('./user/user.module').then(m => m.UserModule)
 }, {
-  path: 'table',
+  path: 'dining-table',
   canActivate: [authenticatedGuard],
-  loadChildren: () => import('./table/table.module').then(m => m.TableModule)
+  loadChildren: () => import('./dining-table/dining-table.module').then(m => m.DiningTableModule)
 }, {
   path: '',
   redirectTo: 'home',

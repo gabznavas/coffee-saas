@@ -150,7 +150,8 @@ public class UserService {
         final User user = new User();
         user.setFullName("admin");
         user.setEmail("admin@email.com");
-        user.setPassword(passwordEncoder.encode("123123"));
+        final String passwordEncoded = passwordEncoder.encode("123123");
+        user.setPassword(passwordEncoded);
 
         final Optional<User> optionalUserByEmail = userRepository.findByEmail(user.getEmail());
         if (optionalUserByEmail.isPresent()) {

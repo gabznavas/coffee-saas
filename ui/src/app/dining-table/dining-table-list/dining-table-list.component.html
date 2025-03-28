@@ -1,0 +1,84 @@
+<paper (headerLeftClick)="goToHome()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Mesas"
+  centerMaterialIcon="table_restaurant">
+
+  <confirm [isShow]="isShowConfirmDelete" [cancelTitle]="'Cancelar'" [confirmTitle]="'Confirmar'"
+    (onConfirm)="deleteTableSelected()" (onCancel)="toggleIsShowConfirmDelete()"></confirm>
+
+  <div class="header-list">
+    <div class="search">
+      <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
+        placeholder="Nome da mesa..." (keyup.enter)="searchByInputQuery()">
+      <button class="search-button" (click)="findAllTables()">
+        <span class="material-icons">search</span>
+        <span>Procurar</span>
+      </button>
+    </div>
+    <button class="button-add" (click)="goToTableForm()">
+      <span class="material-icons">add</span>
+      <span>Adicionar</span>
+    </button>
+  </div>
+
+  <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
+    <ul *ngIf="list.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
+    </ul>
+    <ul *ngIf="list.messages.info.length > 0" class="alert info">
+      <li *ngFor="let msg of list.messages.info">{{ msg }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="list.isLoading" class="is-loading">
+    <span>Carregando os produtos. Aguarde...</span>
+  </div>
+
+  <table *ngIf="!list.isLoading">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Criado em</th>
+        <th>Atualizado em</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let table of list.data.content">
+        <td>{{ table.id }} </td>
+        <td class="text-limit">{{ table.name }} </td>
+        <td>{{ table.createdAt | date }} </td>
+        <td>{{ table.updatedAt ? (table.updatedAt | date) : '-' }} </td>
+        <td>
+          <div class="action-buttons">
+            <button (click)="goToUpdateTable(table.id)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button (click)="openModalToDelete(table)">
+              <span class="material-icons">delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ul *ngIf="showPages()" class="pagination">
+    <li (click)="previousPage()">
+      <button class="previous" [disabled]="list.data.page === 0">
+        <span class="material-icons">skip_previous</span>
+        <span>Anterior</span>
+      </button>
+    </li>
+    <li class="pages" *ngFor="let index of getPageCountItems()" (click)="goPage(index)" [ngClass]="{
+        'pagination-actual-style': isActualPage(index)
+       }">
+      {{ index + 1 }}
+    </li>
+    <li (click)="nextPage()">
+      <button class="next" [disabled]="list.data.page === list.data.totalPages - 1">
+        <span>Próximo</span>
+        <span class="material-icons">skip_next</span>
+      </button>
+    </li>
+  </ul>
+</paper>

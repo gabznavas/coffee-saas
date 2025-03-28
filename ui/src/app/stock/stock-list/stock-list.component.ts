@@ -8,7 +8,6 @@ import { ProductCategoryService } from '../../services/product-category.service'
 import { UnitService } from '../../services/unit.service';
 import { Unit } from '../../types/unit.type';
 import { PaginatedResponse } from '../../types/paginated-response.type';
-import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../services/title.service';
 
 @Component({
@@ -106,7 +105,7 @@ export class StockListComponent implements OnInit {
   }
 
   protected showPages(): boolean {
-    return this.list.data?.page > 0 && !this.list.isLoading
+    return this.list.data?.totalPages > 0 && !this.list.isLoading
   }
 
   protected findCategoryNameById(categoryId: number) {

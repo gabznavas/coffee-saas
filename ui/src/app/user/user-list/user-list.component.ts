@@ -5,7 +5,6 @@ import { User } from '../../types/user.type';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TitleService } from '../../services/title.service';
-import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'app-user-list',
@@ -128,7 +127,7 @@ export class UserListComponent implements OnInit {
 
 
   protected showPages(): boolean {
-    return this.list.data.page > 0 && !this.list.isLoading
+    return this.list.data.totalElements > 0 && !this.list.isLoading
   }
 
   protected nextPage() {
@@ -148,6 +147,6 @@ export class UserListComponent implements OnInit {
   }
 
   protected getPageCountItems(): number[] {
-    return new Array(this.list.data.page).fill('').map((_, index) => index)
+    return new Array(this.list.data.totalPages).fill('').map((_, index) => index)
   }
 }

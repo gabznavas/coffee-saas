@@ -25,6 +25,6 @@ export class HomeComponent {
   }
 
   goToTables() {
-    this.router.navigate(['/table'])
+    this.router.navigate(['/dining-table'])
   }
 }
