@@ -22,6 +22,10 @@ const routes: Routes = [{
   canActivate: [authenticatedGuard],
   loadChildren: () => import('./user/user.module').then(m => m.UserModule)
 }, {
+  path: 'table',
+  canActivate: [authenticatedGuard],
+  loadChildren: () => import('./table/table.module').then(m => m.TableModule)
+}, {
   path: '',
   redirectTo: 'home',
   pathMatch: 'full',

@@ -24,5 +24,7 @@ export class HomeComponent {
     this.router.navigate(['/user'])
   }
 
-  goToTables() { }
+  goToTables() {
+    this.router.navigate(['/table'])
+  }
 }

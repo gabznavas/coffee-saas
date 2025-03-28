@@ -40,7 +40,6 @@ export class UserFormComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
   ) {
-    this.titleService.setTitle("Usuários")
   }
 
   ngOnInit(): void {
@@ -51,6 +50,9 @@ export class UserFormComponent implements OnInit {
         if (userId) {
           this.form.isUpdate = true
           this.findUserByIdToUpdate(Number(userId))
+          this.titleService.setTitle("Atualizar usuário")
+        } else {
+          this.titleService.setTitle("Novo usuário")
         }
       }
     )

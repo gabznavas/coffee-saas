@@ -15,6 +15,7 @@ import { ProductCategoryService } from './services/product-category.service';
 import { TitleService } from './services/title.service';
 import { UserComponent } from './user/user.component';
 import { RoleService } from './services/role.service';
+import { TableModule } from './table/table.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RoleService } from './services/role.service';
     HeaderModule,
     HomeModule,
     LoginModule,
-    StockModule
+    StockModule,
+    TableModule,
   ],
   providers: [TitleService, AuthorizationService, LoginService, ProductService, ProductCategoryService, RoleService],
   bootstrap: [AppComponent]
