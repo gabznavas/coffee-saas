@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DiningTableListComponent },
       { path: 'form', component: DiningTableFormComponent },
-      { path: 'form/:tableId', component: DiningTableFormComponent },
+      { path: 'form/:diningTableId', component: DiningTableFormComponent },
     ]
   }
 ];

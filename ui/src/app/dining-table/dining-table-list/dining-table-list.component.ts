@@ -102,7 +102,7 @@ export class DiningTableListComponent implements OnInit {
   }
 
   protected goToUpdateTable(tableId: number) {
-    throw new Error('Method not implemented.');
+    this.router.navigate(["/dining-table", "form", tableId])
   }
 
   protected isActualPage(index: Number): any {

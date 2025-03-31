@@ -7,6 +7,7 @@ import { AuthorizationService } from './authorization.service';
 import { HttpClient } from '@angular/common/http';
 import { DiningTableResponse } from './types.ts/table-response.type';
 import { CreateDiningTableRequest } from './types.ts/create-dining-table-request.type';
+import { UpdateDiningTableRequest } from './types.ts/update-dining-table-request.type';
 
 
 @Injectable({
@@ -40,7 +41,25 @@ export class DiningTableService {
     }
 
     return this.client.post<DiningTableResponse>(url, data, { headers })
-      .pipe(map(paginatedTableResponse => this.mapResponseToTable(paginatedTableResponse)))
+      .pipe(map(tableResponse => this.mapResponseToTable(tableResponse)))
+  }
+
+  updateDiningTable(dinigTableId: number, data: UpdateDiningTableRequest): Observable<void> {
+    const url = `${environment.apiUrl}/v1/dining-table/${dinigTableId}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+    return this.client.patch<void>(url, data, { headers })
+  }
+
+  findDiningTableById(tableId: number) {
+    const url = `${environment.apiUrl}/v1/dining-table/${tableId}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.get<DiningTableResponse>(url, { headers })
+      .pipe(map(tableResponse => this.mapResponseToTable(tableResponse)))
   }
 
   mapPaginatedResponseToTable(
