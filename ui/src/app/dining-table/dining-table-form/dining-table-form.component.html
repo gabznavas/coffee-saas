@@ -1,1 +1,40 @@
-<p>dining-table-form works!</p>
+<paper centerTitle="{{ form.isUpdate ? 'Atualizar mesa' : 'Nova mesa' }}" centerMaterialIcon="table_restaurant">
+  <form #f="ngForm" (submit)="onSubmit(f)">
+    <div class="group-form">
+      <label>Nome <span class="required">*</span></label>
+      <input #name="ngModel" [(ngModel)]="form.data.name" required minlength="2" maxlength="45" type="text"
+        placeholder="Mesa externa C02" id="name" name="name">
+      <ul *ngIf="!name.valid && name.touched" class="alert error">
+        <li>Campo nome inválido</li>
+        <li>Mínimo de 2 caracteres.</li>
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+
+    <ul *ngIf="form.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of form.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="form.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of form.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
+    <div *ngIf="form.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
+    <div class="group-form buttons">
+      <button type="submit" [disabled]="f.invalid || form.isLoading">
+        <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>
+        <span>{{form.isUpdate ? 'Atualizar' : 'Salvar'}}</span>
+      </button>
+      <button type="button" class="back" (click)="goToDiningTableList()">
+        <span class="material-icons">arrow_back</span>
+        <span>Voltar</span>
+      </button>
+    </div>
+  </form>
+</paper>
