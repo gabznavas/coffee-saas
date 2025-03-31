@@ -73,7 +73,7 @@ export class DiningTableListComponent implements OnInit {
   }
 
   protected goToTableForm() {
-    this.router.navigate(["/table", "form"])
+    this.router.navigate(["/dining-table", "form"])
   }
 
   protected deleteTableSelected(): void {
