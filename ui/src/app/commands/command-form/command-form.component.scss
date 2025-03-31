@@ -1,0 +1,25 @@
+@import "../../../styles.scss";
+
+:host {
+  width: 500px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .back {
+    background-color: rgba($coffee-brown, 0.82);
+    color: $white;
+    font-weight: 400;
+  }
+}

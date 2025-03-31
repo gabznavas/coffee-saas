@@ -1,8 +1,10 @@
 package io.github.gabznavas.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +26,10 @@ public class DiningTable {
 
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
+
+    @OneToMany
+    @JsonManagedReference
+    private List<Command> commands;
 
     public Long getId() {
         return id;
@@ -65,15 +71,23 @@ public class DiningTable {
         this.updatedAt = updatedAt;
     }
 
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(List<Command> commands) {
+        this.commands = commands;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        DiningTable diningTable = (DiningTable) o;
-        return Objects.equals(id, diningTable.id) && Objects.equals(name, diningTable.name) && Objects.equals(busy, diningTable.busy) && Objects.equals(createdAt, diningTable.createdAt) && Objects.equals(updatedAt, diningTable.updatedAt);
+        DiningTable that = (DiningTable) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(busy, that.busy) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(commands, that.commands);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, busy, createdAt, updatedAt);
+        return Objects.hash(id, name, busy, createdAt, updatedAt, commands);
     }
 }

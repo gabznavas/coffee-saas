@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -75,6 +76,13 @@ public class DiningTableService {
     public void deleteDiningTableById(Long diningTableId) {
         final DiningTable diningTable = diningTableRepository.findById(diningTableId)
                 .orElseThrow(() -> new DiningTableNotFoundByException("id"));
-        diningTableRepository.deleteById(diningTableId);
+        diningTableRepository.deleteById(diningTable.getId());
+    }
+
+    public List<DiningTableDTO> findAllDiningTablesByBusy(Boolean busy) {
+        return diningTableRepository.findAllByBusy(busy, Sort.by("name"))
+                .stream()
+                .map(item -> diningTablesMapper.entityToDTO(item))
+                .toList();
     }
 }

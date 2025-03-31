@@ -35,6 +35,15 @@ export class DiningTableService {
       )
   }
 
+  findAllDiningTablesByBusy(busy: boolean): Observable<DiningTable[]> {
+    const url = `${environment.apiUrl}/v1/dining-table/busy/${busy}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+    return this.client.get<DiningTableResponse[]>(url, { headers })
+      .pipe(map(tableResponses => tableResponses.map(this.mapResponseToTable)))
+  }
+
   createDiningTable(data: CreateDiningTableRequest): Observable<DiningTable> {
     const url = `${environment.apiUrl}/v1/dining-table`
     const headers = {

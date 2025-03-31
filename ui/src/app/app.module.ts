@@ -17,6 +17,7 @@ import { UserComponent } from './user/user.component';
 import { RoleService } from './services/role.service';
 import { DiningTableModule } from './dining-table/dining-table.module';
 import { DiningTableService } from './services/dining-table.service';
+import { CommandService } from './services/command.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { DiningTableService } from './services/dining-table.service';
     ProductCategoryService,
     RoleService,
     DiningTableService,
+    CommandService,
   ],
   bootstrap: [AppComponent]
 })

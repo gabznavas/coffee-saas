@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/dining-table")
 public class DiningTableController {
@@ -20,9 +22,14 @@ public class DiningTableController {
     @GetMapping
     public ResponseEntity<PaginatedResponse<DiningTableDTO>> findAllDiningTables(
             @RequestParam(name = "query", required = false, defaultValue = "") String query,
-            Pageable page
+            Pageable pageable
     ) {
-        return ResponseEntity.ok(diningTableService.findAllTables(query, page));
+        return ResponseEntity.ok(diningTableService.findAllTables(query, pageable));
+    }
+
+    @GetMapping("/busy/{busy}")
+    public ResponseEntity<List<DiningTableDTO>> findAllDiningTablesByBusy(@PathVariable("busy") Boolean busy) {
+        return ResponseEntity.ok(diningTableService.findAllDiningTablesByBusy(busy));
     }
 
     @GetMapping("/{diningTableId}")

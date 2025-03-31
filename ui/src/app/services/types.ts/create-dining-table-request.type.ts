@@ -1,3 +1,3 @@
 export type CreateDiningTableRequest = {
-  name: string
+  name: string,
 }

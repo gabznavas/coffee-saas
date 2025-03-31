@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommandFormComponent } from './command-form/command-form.component';
 import { CommandListComponent } from './command-list/command-list.component';
+import { ComponentsModule } from '../components/components.module';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,6 +13,8 @@ import { CommandListComponent } from './command-list/command-list.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ComponentsModule,
   ],
   exports: [
     CommandFormComponent,

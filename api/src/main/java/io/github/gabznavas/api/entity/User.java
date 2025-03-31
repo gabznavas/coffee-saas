@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -49,6 +50,10 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<UserRole> userRoles = new ArrayList<>();
+
+    @OneToMany()
+    @JsonManagedReference
+    private List<Command> commands;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -146,5 +151,23 @@ public class User implements Serializable, UserDetails {
         this.userRoles = userRoles;
     }
 
+    public List<Command> getCommands() {
+        return commands;
+    }
 
+    public void setCommands(List<Command> commands) {
+        this.commands = commands;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(profileImageUrl, user.profileImageUrl) && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt) && Objects.equals(disabledAt, user.disabledAt) && Objects.equals(deletedAt, user.deletedAt) && Objects.equals(userRoles, user.userRoles) && Objects.equals(commands, user.commands);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fullName, email, password, profileImageUrl, createdAt, updatedAt, disabledAt, deletedAt, userRoles, commands);
+    }
 }

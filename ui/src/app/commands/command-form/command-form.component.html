@@ -1,1 +1,53 @@
-<p>command-form works!</p>
+<paper centerTitle="{{ form.isUpdate ? 'Atualizar comanda' : 'Nova comanda' }}" centerMaterialIcon="playlist_add">
+  <form #f="ngForm" (submit)="onSubmit(f)">
+    <div class="group-form">
+      <label>Nome do cliente (opcional)</label>
+      <input #clientName="ngModel" [(ngModel)]="form.data.clientName" type="text" placeholder="John Doe..."
+        id="clientName" name="clientName">
+      <ul *ngIf="clientName.value?.length > 45 && clientName.touched" class="alert error">
+        <li>Máximo de 45 caracteres.</li>
+      </ul>
+    </div>
+
+    <div class="group-form ">
+      <label>Mesas disponíveis <span class="required">*</span></label>
+
+      <div class="select-group ">
+        <div class="add">
+          <select id="diningTableId" name="diningTableId" #diningTableId="ngModel" required
+            [(ngModel)]="form.data.diningTableId">
+            <option *ngFor="let diningTable of form.diningTables" value="{{ diningTable.id }}">
+              {{ diningTable.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <ul *ngIf="form.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of form.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="form.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of form.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
+    <div *ngIf="form.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
+    <div class="group-form buttons">
+      <button type="submit" [disabled]="!isFormValid(f)">
+        <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>
+        <span>{{form.isUpdate ? 'Atualizar' : 'Salvar'}}</span>
+      </button>
+      <button type="button" class="back" (click)="goToHome()">
+        <span class="material-icons">arrow_back</span>
+        <span>Voltar</span>
+      </button>
+    </div>
+  </form>
+</paper>
