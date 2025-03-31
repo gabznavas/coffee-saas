@@ -23,3 +23,11 @@
     font-weight: 400;
   }
 }
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .group-details {}
+}

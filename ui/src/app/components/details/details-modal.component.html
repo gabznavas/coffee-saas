@@ -1,0 +1,13 @@
+<div *ngIf="isShow" class="overlay">
+  <div class="modal">
+    <div class="header">
+      <span class="title">{{ headerTitle }}</span>
+    </div>
+    <div class="description">
+      <ng-content></ng-content>
+    </div>
+    <div class="foot">
+      <button type="button" class="confirm-btn" (click)="onCloseClick()">{{ buttonCloseText }}</button>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { DiningTableService } from '../../services/dining-table.service';
 import { CommandService } from '../../services/command.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
+import { Command } from '../../types/command.type';
 
 @Component({
   selector: 'command-form',
@@ -13,7 +14,6 @@ import { UserService } from '../../services/user.service';
   styleUrl: './command-form.component.scss'
 })
 export class CommandFormComponent implements OnInit {
-
   form = {
     data: {
       id: '0',
@@ -30,6 +30,8 @@ export class CommandFormComponent implements OnInit {
       errors: [] as string[],
       info: [] as string[],
     },
+
+    commandCreated: null as Command | null
   }
 
   constructor(
@@ -44,7 +46,7 @@ export class CommandFormComponent implements OnInit {
     this.setLoggedUserId()
   }
 
-  setLoggedUserId() {
+  protected setLoggedUserId() {
     const userLogged = this.userService.getUserLocalStorage()
     if (!userLogged) {
       return
@@ -52,33 +54,33 @@ export class CommandFormComponent implements OnInit {
     this.form.data.attendentId = userLogged.id
   }
 
-  private findAllDiningTable() {
-    this.diningTableService.findAllDiningTablesByBusy(false)
-      .subscribe({
-        next: diningTablesNotBusy => {
-          this.form.diningTables = diningTablesNotBusy;
-          this.form.data.diningTableId = diningTablesNotBusy[0].id;
-        },
-        error: err => {
-          console.log(err);
-
-        }
-      });
+  protected getDiningTableName(diningTableId: number): string {
+    const diningTable = this.findDinigTableById(diningTableId)
+    if (diningTable) {
+      return diningTable.name
+    }
+    return ""
   }
 
-  onSubmit(form: NgForm) {
+
+  protected onCloseDetails() {
+    this.form.commandCreated = null
+  }
+
+  protected onSubmit(form: NgForm) {
     this.commandService.createCommand({
       clientName: this.form.data.clientName,
       attendentId: this.form.data.attendentId,
       diningTableId: this.form.data.diningTableId,
     })
       .subscribe({
-        next: () => {
+        next: command => {
           // mostrar um modal com os dados da comanda
           this.form.isLoading = false
           this.clearForm(form);
           this.form.messages.info = ['Comanda criada.']
           this.form.messages.errors = []
+          this.form.commandCreated = command
         },
         error: err => {
           this.form.isLoading = false
@@ -95,16 +97,33 @@ export class CommandFormComponent implements OnInit {
       })
   }
 
-  goToHome() {
+  protected goToHome() {
     this.router.navigate([""])
   }
 
-  isFormValid(f: NgForm): boolean {
+  protected isFormValid(f: NgForm): boolean {
     return !!f.valid
       && this.form.data.clientName.length < 45
       && !this.form.isLoading
   }
 
+  private findDinigTableById(diningTableId: number) {
+    return this.form.diningTables.find(dt => dt.id === diningTableId)
+  }
+
+  private findAllDiningTable() {
+    this.diningTableService.findAllDiningTablesByBusy(false)
+      .subscribe({
+        next: diningTablesNotBusy => {
+          this.form.diningTables = diningTablesNotBusy;
+          this.form.data.diningTableId = diningTablesNotBusy[0].id;
+        },
+        error: err => {
+          console.log(err);
+
+        }
+      });
+  }
 
   private clearForm(form?: NgForm) {
     form?.reset({
