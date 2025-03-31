@@ -16,6 +16,7 @@ import { TitleService } from './services/title.service';
 import { UserComponent } from './user/user.component';
 import { RoleService } from './services/role.service';
 import { DiningTableModule } from './dining-table/dining-table.module';
+import { DiningTableService } from './services/dining-table.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,14 @@ import { DiningTableModule } from './dining-table/dining-table.module';
     StockModule,
     DiningTableModule
   ],
-  providers: [TitleService, AuthorizationService, LoginService, ProductService, ProductCategoryService, RoleService],
+  providers: [TitleService,
+    AuthorizationService,
+    LoginService,
+    ProductService,
+    ProductCategoryService,
+    RoleService,
+    DiningTableService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-export type Table = {
+export type DiningTable = {
   id: number
   name: string
   createdAt: Date

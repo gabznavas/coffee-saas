@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PaginatedResponse } from '../../types/paginated-response.type';
-import { Table } from '../../types/table.type';
-import { TableService } from '../../services/table.service';
+import { DiningTable } from '../../types/dining-table.type';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DiningTableService } from '../../services/dining-table.service';
 
 
 @Component({
@@ -14,10 +14,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class DiningTableListComponent implements OnInit {
 
   protected isShowConfirmDelete: boolean = false;
-  protected tableSelected: Table | null = null;
+  protected tableSelected: DiningTable | null = null;
 
   protected list = {
-    data: {} as PaginatedResponse<Table>,
+    data: {} as PaginatedResponse<DiningTable>,
     searchInput: '',
     isLoading: false,
     messages: {
@@ -28,7 +28,7 @@ export class DiningTableListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private tableService: TableService,
+    private diningTableService: DiningTableService,
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +36,7 @@ export class DiningTableListComponent implements OnInit {
   }
 
   protected findAllTables(query: string = '', page: number = 0, size: number = 10) {
-    this.tableService.findAllTables(query, page, size)
+    this.diningTableService.findAllDiningTables(query, page, size)
       .subscribe({
         next: tables => {
           this.list.data = tables;
@@ -96,7 +96,7 @@ export class DiningTableListComponent implements OnInit {
     return this.list.data.totalPages > 1
   }
 
-  protected openModalToDelete(table: Table) {
+  protected openModalToDelete(table: DiningTable) {
     this.tableSelected = table
     this.isShowConfirmDelete = true
   }

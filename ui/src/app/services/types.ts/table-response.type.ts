@@ -1,4 +1,4 @@
-export type TableResponse = {
+export type DiningTableResponse = {
   id: number
   name: string
   createdAt: string

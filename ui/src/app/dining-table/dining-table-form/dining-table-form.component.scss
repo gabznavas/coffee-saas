@@ -1,5 +1,9 @@
 @import "../../../styles.scss";
 
+:host {
+  width: 500px;
+}
+
 .buttons {
   display: flex;
   flex-direction: column;

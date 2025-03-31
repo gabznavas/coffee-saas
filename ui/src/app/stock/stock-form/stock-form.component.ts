@@ -85,8 +85,10 @@ export class StockFormComponent implements OnInit {
         this.form.isLoading = false
         this.clearForm(form);
         this.form.messages.info = ['Produto adicionado.']
+        this.form.messages.errors = []
       },
       error: err => {
+        this.form.isLoading = false
         if (err instanceof HttpErrorResponse) {
           if (err.error.message && typeof err.error.message === 'string') {
             this.form.messages.errors = [err.error.message]
@@ -96,7 +98,6 @@ export class StockFormComponent implements OnInit {
         } else {
           this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
         }
-        this.form.isLoading = false
       }
     })
   }
@@ -124,6 +125,7 @@ export class StockFormComponent implements OnInit {
         this.clearForm(form);
       },
       error: err => {
+        this.form.isLoading = false
         if (err instanceof HttpErrorResponse) {
           if (err.error.message && typeof err.error.message === 'string') {
             this.form.messages.errors = [err.error.message]
@@ -133,7 +135,6 @@ export class StockFormComponent implements OnInit {
         } else {
           this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
         }
-        this.form.isLoading = false
       }
     })
   }
@@ -196,8 +197,16 @@ export class StockFormComponent implements OnInit {
           this.form.isLoading = false
         },
         error: err => {
-          // TODO: add errors
           this.form.isLoading = false
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message && typeof err.error.message === 'string') {
+              this.form.messages.errors = [err.error.message]
+            } else if (err.error.messages && typeof err.error.messages === 'object') {
+              this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+            }
+          } else {
+            this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
         }
       })
   }
@@ -216,8 +225,16 @@ export class StockFormComponent implements OnInit {
           this.form.isLoading = false
         },
         error: err => {
-          // TODO: add errors
           this.form.isLoading = false
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message && typeof err.error.message === 'string') {
+              this.form.messages.errors = [err.error.message]
+            } else if (err.error.messages && typeof err.error.messages === 'object') {
+              this.form.messages.errors = Object.entries(err.error.messages).map(item => `${item[0]}: ${item[1]}`)
+            }
+          } else {
+            this.form.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
         }
       })
   }
