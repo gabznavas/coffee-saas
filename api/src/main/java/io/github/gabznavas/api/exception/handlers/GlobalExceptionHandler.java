@@ -4,6 +4,7 @@ import io.github.gabznavas.api.exception.*;
 import io.github.gabznavas.api.exception.responses.ExceptionMapResponse;
 import io.github.gabznavas.api.exception.responses.ExceptionResponse;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -68,18 +69,14 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler({
-            UserNotFoundByException.class,
             TokenNotValidException.class,
             GenerateJWTTokenException.class,
             LoginIncorrectException.class,
             PasswordAndPasswordConfirmationDoesNotEqual.class,
-            RoleNotFoundByException.class,
             UserAlreadyExistsWithException.class,
-            ProductCategoryNotFoundByException.class,
             ProductAlreadyExistsByException.class,
-            ProductNotFoundByException.class,
             UniqueUserAdminException.class,
-            UserRoleNotFoundException.class,
+            DiningTableAlreadyExistsByException.class,
     })
     public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(
             Exception ex,
@@ -91,5 +88,25 @@ public class GlobalExceptionHandler {
                 request.getDescription(false)
         );
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler({
+            UserNotFoundByException.class,
+            RoleNotFoundByException.class,
+            ProductCategoryNotFoundByException.class,
+            ProductNotFoundByException.class,
+            UserRoleNotFoundException.class,
+            DiningTableNotFoundByException.class,
+    })
+    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(
+            Exception ex,
+            WebRequest request
+    ) {
+        ExceptionResponse response = new ExceptionResponse(
+                LocalDateTime.now(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

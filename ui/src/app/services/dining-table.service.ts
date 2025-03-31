@@ -15,6 +15,7 @@ import { UpdateDiningTableRequest } from './types.ts/update-dining-table-request
 })
 export class DiningTableService {
 
+
   constructor(
     private client: HttpClient,
     private authorizationService: AuthorizationService
@@ -52,8 +53,8 @@ export class DiningTableService {
     return this.client.patch<void>(url, data, { headers })
   }
 
-  findDiningTableById(tableId: number) {
-    const url = `${environment.apiUrl}/v1/dining-table/${tableId}`
+  findDiningTableById(diningTableId: number) {
+    const url = `${environment.apiUrl}/v1/dining-table/${diningTableId}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
@@ -62,7 +63,16 @@ export class DiningTableService {
       .pipe(map(tableResponse => this.mapResponseToTable(tableResponse)))
   }
 
-  mapPaginatedResponseToTable(
+  deleteDiningTableById(diningTableId: number): Observable<void> {
+    const url = `${environment.apiUrl}/v1/dining-table/${diningTableId}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.delete<void>(url, { headers })
+  }
+
+  private mapPaginatedResponseToTable(
     paginatedTableResponse: PaginatedResponse<DiningTableResponse>
   ): PaginatedResponse<DiningTable> {
     return {
@@ -73,7 +83,8 @@ export class DiningTableService {
       totalPages: paginatedTableResponse.totalPages,
     }
   }
-  mapResponseToTable(tableResponse: DiningTableResponse): DiningTable {
+
+  private mapResponseToTable(tableResponse: DiningTableResponse): DiningTable {
     return {
       id: tableResponse.id,
       name: tableResponse.name,

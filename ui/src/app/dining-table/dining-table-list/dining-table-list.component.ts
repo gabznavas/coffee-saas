@@ -77,7 +77,36 @@ export class DiningTableListComponent implements OnInit {
   }
 
   protected deleteTableSelected(): void {
+    if (!this.tableSelected) {
+      this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+      return
+    }
+
     this.isShowConfirmDelete = false
+    this.diningTableService.deleteDiningTableById(this.tableSelected.id)
+      .subscribe({
+        next: () => {
+          this.list.isLoading = false
+          this.list.messages.info = ['Mesa deleta.']
+          this.isShowConfirmDelete = false
+          this.findAllTables(this.list.searchInput)
+        },
+        error: err => {
+          this.list.isLoading = false
+          this.isShowConfirmDelete = false
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.message) {
+              this.list.messages.errors.push(err.error.message)
+            } else if (err.error.messages) {
+              this.list.messages.errors.concat(err.error.messages)
+            } else {
+              this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+            }
+          } else {
+            this.list.messages.errors = ['Ocorreu um problema.', 'Tente novamente mais tarde.']
+          }
+        }
+      })
   }
 
   protected toggleIsShowConfirmDelete() {

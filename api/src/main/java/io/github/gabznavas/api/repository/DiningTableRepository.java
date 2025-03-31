@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface DiningTableRepository extends JpaRepository<DiningTable, Long> {
 
     @Query("""
@@ -14,4 +16,6 @@ public interface DiningTableRepository extends JpaRepository<DiningTable, Long> 
                 WHERE LOWER(dt.name) LIKE LOWER(CONCAT('%', :query, '%'))
             """)
     Page<DiningTable> findAllByQuery(@Param("query") String query, Pageable pageable);
+
+    Optional<DiningTable> findByName(String name);
 }

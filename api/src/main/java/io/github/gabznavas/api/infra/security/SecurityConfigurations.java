@@ -109,27 +109,27 @@ public class SecurityConfigurations {
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/table").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.GET, "/api/v1/dining-table").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.GET, "/api/v1/table/:tableId").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.GET, "/api/v1/dining-table/:diningTableId").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),
                                 RoleNameType.CASHIER.toSpringSecurityRole(),
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.POST, "/api/v1/table").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.POST, "/api/v1/dining-table").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/table/:tableId").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/dining-table/:diningTableId").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/table/:tableId").hasAnyAuthority(
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/dining-table/:diningTableId").hasAnyAuthority(
                                 RoleNameType.MANAGER.toSpringSecurityRole(),
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
