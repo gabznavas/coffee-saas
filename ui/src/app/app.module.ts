@@ -18,6 +18,7 @@ import { RoleService } from './services/role.service';
 import { DiningTableModule } from './dining-table/dining-table.module';
 import { DiningTableService } from './services/dining-table.service';
 import { CommandService } from './services/command.service';
+import { DateCustomService } from './services/date-custom.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CommandService } from './services/command.service';
     DiningTableModule
   ],
   providers: [TitleService,
+    DateCustomService,
     AuthorizationService,
     LoginService,
     ProductService,

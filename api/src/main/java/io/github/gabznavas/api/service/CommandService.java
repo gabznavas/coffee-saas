@@ -1,6 +1,7 @@
 package io.github.gabznavas.api.service;
 
 import io.github.gabznavas.api.dto.CommandDto;
+import io.github.gabznavas.api.dto.CommandFilterDto;
 import io.github.gabznavas.api.dto.CreateCommandDto;
 import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.entity.Command;
@@ -15,7 +16,6 @@ import io.github.gabznavas.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -61,15 +61,36 @@ public class CommandService {
         return commandMapper.entityToDTO(command);
     }
 
-    public PaginatedResponse<CommandDto> findAllOpenedCommands(String query, Pageable page) {
-        final Page<Command> commandsPage = commandRepository.findAllCommandsOpened(query, page);
+    public PaginatedResponse<CommandDto> findAllCommands(CommandFilterDto filter) {
+        LocalDateTime openedAtMin = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.minDate() : null;
+        LocalDateTime openedAtMax = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.maxDate() : null;
+
+        LocalDateTime closedAtMin = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.minDate() : null;
+        LocalDateTime closedAtMax = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.maxDate() : null;
+
+        LocalDateTime canceledInMin = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.minDate() : null;
+        LocalDateTime canceledInMax = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.maxDate() : null;
+
+        final Page<Command> commandsPage = commandRepository.findAllCommandsFiltered(
+                filter.query(),
+                null,
+                null, null,
+                openedAtMin,
+                openedAtMax,
+                closedAtMin,
+                closedAtMax,
+                canceledInMin,
+                canceledInMax,
+                filter.page()
+        );
+
         final List<CommandDto> commandDtos = commandsPage.map(commandMapper::entityToDTO).toList();
         return new PaginatedResponse<>(
                 commandDtos,
                 commandsPage.getSize(),
                 commandsPage.getTotalPages(),
-                page.getPageSize(),
-                page.getPageNumber()
+                filter.page().getPageSize(),
+                filter.page().getPageNumber()
         );
     }
 }

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthorizationService } from './authorization.service';
 import { CommandResponse } from './types.ts/command-response.type';
 import { PaginatedResponse } from '../types/paginated-response.type';
+import { FindAllCommandsFilters } from './types.ts/find-all-commands-filters.type';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,9 @@ export class CommandService {
       .pipe(map(commandResponse => this.mapResponseToCommand(commandResponse)))
   }
 
-  findAllOpenedCommands(query = '', page = 0, size = 5, sortBy = 'clientName', orderBy = 'asc'): Observable<PaginatedResponse<Command>> {
-    const url = `${environment.apiUrl}/v1/command?page=${page}&size=${size}&sort=${sortBy},${orderBy}&query=${query}`
+  findAllCommands(filters: FindAllCommandsFilters): Observable<PaginatedResponse<Command>> {
+    // Formatando a data no formato 'yyyy-MM-dd'T'HH:mm:ss'
+    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${filters.minDate}&maxDate=${filters.maxDate}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }

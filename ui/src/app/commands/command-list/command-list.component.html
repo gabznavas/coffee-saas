@@ -3,17 +3,27 @@
 
   <div class="header-list">
     <div class="search">
-      <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
-        placeholder="Nome, e-mail do usuário..." (keyup.enter)="searchByInputQuery()">
-      <button class="search-button" (click)="findAllCommands()">
+      <input [(ngModel)]="list.filters.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
+        placeholder="Nome do cliente ou Mesa..." (keyup.enter)="findAllCommandsInitital()">
+      <button class="search-button" (click)="findAllCommandsInitital()">
         <span class="material-icons">search</span>
         <span>Procurar</span>
       </button>
+      <button class="button-add" (click)="goToCommandForm()">
+        <span class="material-icons">add</span>
+        <span>Adicionar</span>
+      </button>
     </div>
-    <button class="button-add" (click)="goToCommandForm()">
-      <span class="material-icons">add</span>
-      <span>Adicionar</span>
-    </button>
+    <div class="filters">
+      <select id="openedCloseCommand" name="openedCloseCommand" #openedCloseCommand="ngModel"
+        [(ngModel)]="list.filters.state">
+        <option *ngFor="let openedCloseCommand of list.states" value="{{openedCloseCommand.key}}">
+          {{openedCloseCommand.value}}</option>
+      </select>
+
+      <input type="datetime-local" [(ngModel)]="list.filters.minDate">
+      <input type="datetime-local" [(ngModel)]="list.filters.maxDate">
+    </div>
   </div>
 
   <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">

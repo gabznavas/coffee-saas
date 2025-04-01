@@ -27,14 +27,12 @@
       <label>Mesas disponíveis <span class="required">*</span></label>
 
       <div class="select-group ">
-        <div class="add">
-          <select id="diningTableId" name="diningTableId" #diningTableId="ngModel" required
-            [(ngModel)]="form.data.diningTableId">
-            <option *ngFor="let diningTable of form.diningTables" value="{{ diningTable.id }}">
-              {{ diningTable.name }}
-            </option>
-          </select>
-        </div>
+        <select id="diningTableId" name="diningTableId" #diningTableId="ngModel" required
+          [(ngModel)]="form.data.diningTableId">
+          <option *ngFor="let diningTable of form.diningTables" value="{{ diningTable.id }}">
+            {{ diningTable.name }}
+          </option>
+        </select>
       </div>
     </div>
 

@@ -1,0 +1,26 @@
+@import '../../../styles.scss';
+
+.messages {
+  margin: 1rem 0;
+}
+
+.header-list {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .search {
+    width: 100%;
+  }
+
+  .filters {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+}
+
+select {
+  width: 200px;
+}

@@ -115,6 +115,7 @@ textarea {
   $width-page : 1100px;
 
   display: flex;
+  align-items: center;
   gap: 1rem;
 
   width: $width-page;
@@ -219,46 +220,45 @@ form {
       }
     }
   }
+}
 
+label {
+  font-weight: 400;
+  font-size: 1.10rem;
+  color: $black;
 
-  label {
-    font-weight: 400;
-    font-size: 1.10rem;
-    color: $black;
+  .required {
+    color: $coffee-brown;
+  }
+}
 
-    .required {
-      color: $coffee-brown;
-    }
+select {
+  width: 100%;
+  background-color: $white;
+  color: $black;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s, background-color 0.3s;
+  border: 1px solid $light-grey;
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-weight: 500;
+  font-size: 1.15rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  &:focus {
+    border-color: $coffee-brown;
+    border: 1px solid $dark-grey;
   }
 
-  select {
-    width: 100%;
+  &:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+
+  option {
     background-color: $white;
     color: $black;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s, background-color 0.3s;
-    border: 1px solid $light-grey;
-    border-radius: 5px;
-    padding: 6px 12px;
-    font-weight: 500;
-    font-size: 1.15rem;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    &:focus {
-      border-color: $coffee-brown;
-      border: 1px solid $dark-grey;
-    }
-
-    &:disabled {
-      background-color: #f5f5f5;
-      cursor: not-allowed;
-    }
-
-    option {
-      background-color: $white;
-      color: $black;
-    }
   }
 }
 

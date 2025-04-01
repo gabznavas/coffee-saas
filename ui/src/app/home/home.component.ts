@@ -8,7 +8,6 @@ import { TitleService } from '../services/title.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
   constructor(
     private titleService: TitleService,
     private router: Router
@@ -26,5 +25,9 @@ export class HomeComponent {
 
   goToTables() {
     this.router.navigate(['/dining-table'])
+  }
+
+  goToGraphs() {
+    throw new Error('Method not implemented.');
   }
 }

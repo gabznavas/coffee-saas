@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommandListComponent } from './command-opened-list.component';
+import { CommandListComponent } from './command-list.component';
 
 describe('CommandListComponent', () => {
   let component: CommandListComponent;
@@ -10,8 +10,8 @@ describe('CommandListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [CommandListComponent]
     })
-      .compileComponents();
-
+    .compileComponents();
+    
     fixture = TestBed.createComponent(CommandListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

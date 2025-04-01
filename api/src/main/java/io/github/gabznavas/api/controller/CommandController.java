@@ -1,6 +1,7 @@
 package io.github.gabznavas.api.controller;
 
 import io.github.gabznavas.api.dto.CommandDto;
+import io.github.gabznavas.api.dto.CommandFilterDto;
 import io.github.gabznavas.api.dto.CreateCommandDto;
 import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.service.CommandService;
@@ -10,6 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @RestController
 @RequestMapping("/api/v1/command")
@@ -24,10 +29,24 @@ public class CommandController {
     }
 
     @GetMapping
-    public ResponseEntity<PaginatedResponse<CommandDto>> findAllOpenedCommands(
-            @RequestParam(name = "query", required = false, defaultValue = "") String query,
+    public ResponseEntity<PaginatedResponse<CommandDto>> findAllCommands(
+            @RequestParam(name = "query") String query,
+            @RequestParam(name = "state") String state,
+            @RequestParam(name = "minDate") String minDate,
+            @RequestParam(name = "maxDate") String maxDate,
             Pageable page
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(commandService.findAllOpenedCommands(query, page));
+        final CommandFilterDto.CommandState commandState = CommandFilterDto.CommandState.valueOf(state);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+        LocalDateTime minDateTime = minDate != null ? LocalDateTime.parse(minDate, formatter) : null;
+        LocalDateTime maxDateTime = maxDate != null ? LocalDateTime.parse(maxDate, formatter) : null;
+
+        CommandFilterDto filterDto = new CommandFilterDto(query, commandState, minDateTime, maxDateTime, page);
+
+        PaginatedResponse<CommandDto> commands = commandService.findAllCommands(filterDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(commands);
     }
 }
