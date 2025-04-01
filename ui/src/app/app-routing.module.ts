@@ -26,6 +26,10 @@ const routes: Routes = [{
   canActivate: [authenticatedGuard],
   loadChildren: () => import('./dining-table/dining-table.module').then(m => m.DiningTableModule)
 }, {
+  path: 'command',
+  canActivate: [authenticatedGuard],
+  loadChildren: () => import('./commands/commands.module').then(m => m.CommandsModule)
+}, {
   path: '',
   redirectTo: 'home',
   pathMatch: 'full',

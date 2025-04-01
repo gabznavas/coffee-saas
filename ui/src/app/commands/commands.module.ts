@@ -1,24 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommandFormComponent } from './command-form/command-form.component';
-import { CommandListComponent } from './command-list/command-list.component';
 import { ComponentsModule } from '../components/components.module';
 import { FormsModule } from '@angular/forms';
+import { CommandsComponent } from './commands.component';
+import { CommandOpenedListComponent } from './command-opened-list/command-opened-list.component';
+import { UserRoutingModule } from './commands-route.module';
 
 
 @NgModule({
   declarations: [
+    CommandsComponent,
     CommandFormComponent,
-    CommandListComponent
+    CommandOpenedListComponent
   ],
   imports: [
     CommonModule,
+    UserRoutingModule,
     FormsModule,
     ComponentsModule,
   ],
-  exports: [
-    CommandFormComponent,
-    CommandListComponent
-  ]
+
 })
 export class CommandsModule { }

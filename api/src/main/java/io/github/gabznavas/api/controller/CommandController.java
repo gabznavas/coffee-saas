@@ -1,15 +1,15 @@
 package io.github.gabznavas.api.controller;
 
 import io.github.gabznavas.api.dto.CommandDto;
+import io.github.gabznavas.api.dto.CreateCommandDto;
+import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.service.CommandService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/command")
@@ -19,7 +19,15 @@ public class CommandController {
     private CommandService commandService;
 
     @PostMapping
-    public ResponseEntity<CommandDto> createCommand(@RequestBody @Valid CommandDto dto) {
+    public ResponseEntity<CommandDto> createCommand(@RequestBody @Valid CreateCommandDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(commandService.createCommand(dto));
+    }
+
+    @GetMapping
+    public ResponseEntity<PaginatedResponse<CommandDto>> findAllOpenedCommands(
+            @RequestParam(name = "query", required = false, defaultValue = "") String query,
+            Pageable page
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(commandService.findAllOpenedCommands(query, page));
     }
 }

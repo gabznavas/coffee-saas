@@ -1,8 +1,10 @@
+import { DiningTable } from "./dining-table.type"
+
 export type Command = {
   id: number
 
   clientName: string
-  diningTableId: number
+  diningTable: DiningTable
   attendentId: number
 
   openedAt: Date

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommandListComponent } from './command-list.component';
+import { CommandsComponent } from './commands.component';
 
-describe('CommandListComponent', () => {
-  let component: CommandListComponent;
-  let fixture: ComponentFixture<CommandListComponent>;
+describe('CommandsComponent', () => {
+  let component: CommandsComponent;
+  let fixture: ComponentFixture<CommandsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CommandListComponent]
+      declarations: [CommandsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CommandListComponent);
+    fixture = TestBed.createComponent(CommandsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

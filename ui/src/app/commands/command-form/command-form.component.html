@@ -8,7 +8,7 @@
       </div>
       <div class="group-details">
         <label>Mesa escolhida</label>
-        <input readonly [ngModel]="getDiningTableName(form.commandCreated?.diningTableId?? 0)" type="text">
+        <input readonly [ngModel]="form.commandCreated?.diningTable?.name" type="text">
       </div>
     </div>
   </details-modal>
@@ -58,7 +58,7 @@
         <span class="material-icons">{{form.isUpdate ? 'edit' : 'save'}}</span>
         <span>{{form.isUpdate ? 'Atualizar' : 'Salvar'}}</span>
       </button>
-      <button type="button" class="back" (click)="goToHome()">
+      <button type="button" class="back" (click)="goBack()">
         <span class="material-icons">arrow_back</span>
         <span>Voltar</span>
       </button>

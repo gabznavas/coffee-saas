@@ -1,8 +1,10 @@
+import { DiningTableResponse } from "./table-response.type"
+
 export type CommandResponse = {
   id: number
 
   clientName: string
-  diningTableId: number
+  diningTable: DiningTableResponse
   attendentId: number
 
   openedAt: string

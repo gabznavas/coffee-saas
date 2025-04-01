@@ -7,6 +7,7 @@ import { CommandService } from '../../services/command.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { Command } from '../../types/command.type';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'command-form',
@@ -35,7 +36,7 @@ export class CommandFormComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
+    private location: Location,
     private userService: UserService,
     private diningTableService: DiningTableService,
     private commandService: CommandService,
@@ -53,15 +54,6 @@ export class CommandFormComponent implements OnInit {
     }
     this.form.data.attendentId = userLogged.id
   }
-
-  protected getDiningTableName(diningTableId: number): string {
-    const diningTable = this.findDinigTableById(diningTableId)
-    if (diningTable) {
-      return diningTable.name
-    }
-    return ""
-  }
-
 
   protected onCloseDetails() {
     this.form.commandCreated = null
@@ -97,8 +89,8 @@ export class CommandFormComponent implements OnInit {
       })
   }
 
-  protected goToHome() {
-    this.router.navigate([""])
+  protected goBack() {
+    this.location.back()
   }
 
   protected isFormValid(f: NgForm): boolean {
