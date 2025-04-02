@@ -15,14 +15,22 @@
       </button>
     </div>
     <div class="filters">
-      <select id="openedCloseCommand" name="openedCloseCommand" #openedCloseCommand="ngModel"
-        [(ngModel)]="list.filters.state">
+      <select [(ngModel)]="list.filters.state">
         <option *ngFor="let openedCloseCommand of list.states" value="{{openedCloseCommand.key}}">
           {{openedCloseCommand.value}}</option>
       </select>
 
-      <input type="datetime-local" [(ngModel)]="list.filters.minDate">
-      <input type="datetime-local" [(ngModel)]="list.filters.maxDate">
+      <div class="money">
+        <input type="string" [value]="formatCurrency(this.list.filters.minPrice)"
+          (input)="updatePrice($event, 'minPrice')" (keyup.enter)="findAllCommandsInitital()">
+        <input type="string" [value]="formatCurrency(this.list.filters.maxPrice)"
+          (input)="updatePrice($event, 'maxPrice')" (keyup.enter)="findAllCommandsInitital()">
+      </div>
+
+      <div class="date">
+        <input type="datetime-local" [(ngModel)]="list.filters.minDate" (keyup.enter)="findAllCommandsInitital()">
+        <input type="datetime-local" [(ngModel)]="list.filters.maxDate" (keyup.enter)="findAllCommandsInitital()">
+      </div>
     </div>
   </div>
 
@@ -45,7 +53,10 @@
         <th>#</th>
         <th>Nome do cliente</th>
         <th>Mesa</th>
+        <th>Total (R$)</th>
         <th>Aberta em</th>
+        <th>Fechada em</th>
+        <th>Cancelada em</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -54,11 +65,19 @@
         <td>{{ command.id }} </td>
         <td>{{ command.clientName || '-' }} </td>
         <td>{{ command.diningTable.name }} </td>
+        <td>{{ command.priceTotal | currency }} </td>
         <td>{{ command.openedAt | date }} </td>
+        <td>{{ command.closedAt ? (command.closedAt | date) : '-' }} </td>
+        <td>{{ command.canceledIn ? (command.canceledIn | date) : '-' }} </td>
         <td>
           <div class="action-buttons">
             <button (click)="goToCloseCommand(command.id)">
               <span class="material-icons">playlist_add_check</span>
+              <span>Fechar</span>
+            </button>
+            <button (click)="goToCloseCommand(command.id)">
+              <span class="material-icons">edit</span>
+              <span>Editar</span>
             </button>
           </div>
         </td>

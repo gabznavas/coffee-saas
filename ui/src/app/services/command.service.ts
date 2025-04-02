@@ -31,7 +31,7 @@ export class CommandService {
 
   findAllCommands(filters: FindAllCommandsFilters): Observable<PaginatedResponse<Command>> {
     // Formatando a data no formato 'yyyy-MM-dd'T'HH:mm:ss'
-    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${filters.minDate}&maxDate=${filters.maxDate}`
+    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${filters.minDate}&maxDate=${filters.maxDate}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
@@ -54,6 +54,7 @@ export class CommandService {
     return {
       id: commandResponse.id,
       clientName: commandResponse.clientName,
+      priceTotal: commandResponse.priceTotal,
       diningTable: {
         id: commandResponse.diningTable.id,
         name: commandResponse.diningTable.name,

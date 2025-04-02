@@ -4,6 +4,7 @@ import io.github.gabznavas.api.dto.CommandDto;
 import io.github.gabznavas.api.dto.CommandFilterDto;
 import io.github.gabznavas.api.dto.CreateCommandDto;
 import io.github.gabznavas.api.dto.PaginatedResponse;
+import io.github.gabznavas.api.exception.IncorrectFormatQueryException;
 import io.github.gabznavas.api.service.CommandService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +31,37 @@ public class CommandController {
 
     @GetMapping
     public ResponseEntity<PaginatedResponse<CommandDto>> findAllCommands(
-            @RequestParam(name = "query") String query,
-            @RequestParam(name = "state") String state,
-            @RequestParam(name = "minDate") String minDate,
-            @RequestParam(name = "maxDate") String maxDate,
+            @RequestParam(name = "query") String queryParam,
+            @RequestParam(name = "state") String stateParam,
+            @RequestParam(name = "minDate") String minDateParam,
+            @RequestParam(name = "maxDate") String maxDateParam,
+            @RequestParam(name = "minPrice") String minPriceParam,
+            @RequestParam(name = "maxPrice") String maxPriceParam,
             Pageable page
     ) {
-        final CommandFilterDto.CommandState commandState = CommandFilterDto.CommandState.valueOf(state);
-        
+        final CommandFilterDto.CommandState commandState = CommandFilterDto.CommandState.valueOf(stateParam);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
-        LocalDateTime minDateTime = minDate != null ? LocalDateTime.parse(minDate, formatter) : null;
-        LocalDateTime maxDateTime = maxDate != null ? LocalDateTime.parse(maxDate, formatter) : null;
+        LocalDateTime minDateTime = minDateParam != null ? LocalDateTime.parse(minDateParam, formatter) : null;
+        LocalDateTime maxDateTime = maxDateParam != null ? LocalDateTime.parse(maxDateParam, formatter) : null;
 
-        CommandFilterDto filterDto = new CommandFilterDto(query, commandState, minDateTime, maxDateTime, page);
+        double minPrice = 0.00D;
+        double maxPrice = 0.00D;
+
+        try {
+            minPrice = Double.parseDouble(minPriceParam);
+        } catch (NumberFormatException ex) {
+            throw new IncorrectFormatQueryException("minPrice");
+        }
+
+        try {
+            maxPrice = Double.parseDouble(maxPriceParam);
+        } catch (NumberFormatException ex) {
+            throw new IncorrectFormatQueryException("maxPrice");
+        }
+
+        CommandFilterDto filterDto = new CommandFilterDto(queryParam, commandState, minDateTime, maxDateTime, minPrice, maxPrice, page);
 
         PaginatedResponse<CommandDto> commands = commandService.findAllCommands(filterDto);
 

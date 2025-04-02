@@ -7,6 +7,8 @@ export type Command = {
   diningTable: DiningTable
   attendentId: number
 
+  priceTotal: number
+
   openedAt: Date
   canceledIn: Date | null
   closedAt: Date | null

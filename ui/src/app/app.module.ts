@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,12 @@ import { DiningTableService } from './services/dining-table.service';
 import { CommandService } from './services/command.service';
 import { DateCustomService } from './services/date-custom.service';
 
+import localePt from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+import { CurrencyService } from './services/currency.service';
+
+registerLocaleData(localePt, 'pt');
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +43,7 @@ import { DateCustomService } from './services/date-custom.service';
   ],
   providers: [TitleService,
     DateCustomService,
+    CurrencyService,
     AuthorizationService,
     LoginService,
     ProductService,
@@ -44,6 +51,13 @@ import { DateCustomService } from './services/date-custom.service';
     RoleService,
     DiningTableService,
     CommandService,
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt'
+    }, {
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'BRL'
+    },
   ],
   bootstrap: [AppComponent]
 })

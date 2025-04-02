@@ -35,6 +35,9 @@ body {
 
 // Buttons
 button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   background-color: $burnt-orange;
   color: $white;
   padding: 10px 20px;

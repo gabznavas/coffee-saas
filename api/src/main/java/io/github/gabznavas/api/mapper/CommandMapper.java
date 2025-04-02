@@ -17,6 +17,7 @@ public class CommandMapper {
                 command.getId(),
                 command.getClientName(),
                 diningTablesMapper.entityToDTO(command.getDiningTable()),
+                command.getPriceTotal(),
                 command.getAttendant().getId(),
                 command.getOpenedAt(),
                 command.getCanceledIn(),

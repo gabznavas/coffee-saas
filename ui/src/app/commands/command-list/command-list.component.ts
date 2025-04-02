@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommandState } from '../../types/command-state.type';
 import { FindAllCommandsFiltersComponent } from './types';
 import { DateCustomService } from '../../services/date-custom.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-command-list',
@@ -16,7 +17,7 @@ import { DateCustomService } from '../../services/date-custom.service';
 })
 export class CommandListComponent implements OnInit {
 
-  list = {
+  protected list = {
     messages: {
       info: [] as string[],
       errors: [] as string[],
@@ -30,6 +31,9 @@ export class CommandListComponent implements OnInit {
     }, {
       key: 'CLOSE' as CommandState,
       value: 'Fechadas'
+    }, {
+      key: 'CANCELED' as CommandState,
+      value: 'Canceladas'
     }],
 
     data: {} as PaginatedResponse<Command>,
@@ -50,6 +54,7 @@ export class CommandListComponent implements OnInit {
     private router: Router,
     private commandService: CommandService,
     private dateCustomService: DateCustomService,
+    private currencyService: CurrencyService
   ) { }
 
   ngOnInit(): void {
@@ -57,13 +62,41 @@ export class CommandListComponent implements OnInit {
     this.findAllCommandsInitital()
   }
 
+  formatCurrency(value: number | null): string {
+    return this.currencyService.formatCurrencyToPtBr(value);
+  }
 
-  findAllCommandsInitital() {
+  updatePrice(event: Event, field: 'minPrice' | 'maxPrice') {
+    const input = event.target as HTMLInputElement;
+    let rawValue = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+
+    if (!rawValue) {
+      this.list.filters[field] = 0;
+      return;
+    }
+
+    // Adiciona duas casas decimais automaticamente
+    // 0.002 para 0.02
+    let numericValue = parseFloat(rawValue) / 100;
+    this.list.filters[field] = numericValue;
+
+    // Atualiza visualmente sem perder a posição do cursor
+    // ✅ Aguarda o processamento antes de atualizar o input
+    setTimeout(() => {
+      // Mantém o cursor no final
+      // usado pra selecionar o texto
+      input.setSelectionRange(input.value.length, input.value.length);
+    });
+  }
+
+  protected findAllCommandsInitital() {
     this.list.isLoading = true
     this.commandService.findAllCommands({
       searchInput: this.list.filters.searchInput,
       minDate: this.list.filters.minDate,
       maxDate: this.list.filters.maxDate,
+      minPrice: this.list.filters.minPrice,
+      maxPrice: this.list.filters.maxPrice,
       state: this.list.filters.state,
       page: this.list.filters.page,
       size: this.list.filters.size,
@@ -98,12 +131,14 @@ export class CommandListComponent implements OnInit {
   }
 
 
-  findAllCommandsGoPage(pageIndex: number) {
+  protected findAllCommandsGoPage(pageIndex: number) {
     this.list.isLoading = true
     this.commandService.findAllCommands({
       searchInput: this.list.filters.searchInput,
       minDate: this.list.filters.minDate,
       maxDate: this.list.filters.maxDate,
+      minPrice: this.list.filters.minPrice,
+      maxPrice: this.list.filters.maxPrice,
       state: this.list.filters.state,
       page: pageIndex,
       size: this.list.filters.size,
@@ -137,41 +172,39 @@ export class CommandListComponent implements OnInit {
     })
   }
 
-  goToHome() {
+  protected goToHome() {
     this.router.navigate([""])
   }
 
-  goToCommandForm() {
+  protected goToCommandForm() {
     this.router.navigate(["/command", "form"])
   }
 
-  goToCloseCommand(arg0: number) {
+  protected goToCloseCommand(arg0: number) {
     throw new Error('Method not implemented.');
   }
 
-  showPages(): boolean {
+  protected showPages(): boolean {
     return this.list.data.totalPages > 1
   }
 
-  getPageCountItems(): number[] {
+  protected getPageCountItems(): number[] {
     return new Array(this.list.data.totalPages).fill('').map((_, index) => index)
   }
 
-
-  isActualPage(pageIndex: number): boolean {
+  protected isActualPage(pageIndex: number): boolean {
     return this.list.data.page === pageIndex
   }
 
-
-  goPage(pageIndex: number) {
+  protected goPage(pageIndex: number) {
     this.findAllCommandsGoPage(pageIndex)
   }
 
-  nextPage() {
+  protected nextPage() {
     this.findAllCommandsGoPage(this.list.filters.page + 1)
   }
 
-  previousPage() {
+  protected previousPage() {
     this.findAllCommandsGoPage(this.list.filters.page - 1)
   }
 
@@ -185,6 +218,7 @@ export class CommandListComponent implements OnInit {
     this.list.filters.maxDate = this.dateCustomService.getUTCDateString()
     this.list.filters.maxDate = this.dateCustomService.removeMilliseconds(this.list.filters.maxDate)
 
-    console.log(this.list.filters.maxDate);
+    this.list.filters.minPrice = 0.00
+    this.list.filters.maxPrice = 10_000
   }
 }

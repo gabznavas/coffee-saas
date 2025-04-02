@@ -11,6 +11,9 @@ public record CommandDto(
         String clientName,
 
         DiningTableDTO diningTable,
+
+        Double priceTotal,
+
         @NotNull(message = "missing attendent id")
         Long attendentId,
 

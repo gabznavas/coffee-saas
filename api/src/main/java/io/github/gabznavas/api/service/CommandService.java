@@ -73,8 +73,9 @@ public class CommandService {
 
         final Page<Command> commandsPage = commandRepository.findAllCommandsFiltered(
                 filter.query(),
+                filter.minPrice(),
+                filter.maxPrice(),
                 null,
-                null, null,
                 openedAtMin,
                 openedAtMax,
                 closedAtMin,

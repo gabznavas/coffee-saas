@@ -4,6 +4,8 @@ export type FindAllCommandsFiltersComponent = {
   searchInput: string
   minDate: string
   maxDate: string
+  minPrice: number
+  maxPrice: number
   state: CommandState
   page: number,
   size: number,

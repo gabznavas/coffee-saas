@@ -17,6 +17,23 @@
   .filters {
     display: flex;
     gap: 0.5rem;
+
+    .money {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      span {
+        font-weight: 400;
+        font-size: 1.25rem;
+      }
+    }
+
+    .date {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
   }
 
 }

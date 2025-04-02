@@ -7,6 +7,8 @@ export type CommandResponse = {
   diningTable: DiningTableResponse
   attendentId: number
 
+  priceTotal: number
+
   openedAt: string
   canceledIn: string | null
   closedAt: string | null

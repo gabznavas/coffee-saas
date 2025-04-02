@@ -10,6 +10,8 @@ public record CommandFilterDto(
         CommandState state,
         LocalDateTime minDate,
         LocalDateTime maxDate,
+        Double minPrice,
+        Double maxPrice,
         Pageable page
 ) {
     public enum CommandState {
