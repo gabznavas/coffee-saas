@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public interface CommandRepository extends JpaRepository<Command, Long> {
     @Query("""
@@ -42,14 +42,14 @@ public interface CommandRepository extends JpaRepository<Command, Long> {
 
             @Param("attendantId") Long attendantId,
 
-            @Param("openedAtMin") LocalDateTime openedAtMin,
-            @Param("openedAtMax") LocalDateTime openedAtMax,
+            @Param("openedAtMin") Instant openedAtMin,
+            @Param("openedAtMax") Instant openedAtMax,
 
-            @Param("closedAtMin") LocalDateTime closedAtMin,
-            @Param("closedAtMax") LocalDateTime closedAtMax,
+            @Param("closedAtMin") Instant closedAtMin,
+            @Param("closedAtMax") Instant closedAtMax,
 
-            @Param("canceledInMin") LocalDateTime canceledInMIn,
-            @Param("canceledInMax") LocalDateTime canceledInMax,
+            @Param("canceledInMin") Instant canceledInMIn,
+            @Param("canceledInMax") Instant canceledInMax,
             Pageable pageable
     );
 

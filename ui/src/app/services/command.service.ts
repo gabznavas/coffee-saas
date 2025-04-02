@@ -8,6 +8,7 @@ import { AuthorizationService } from './authorization.service';
 import { CommandResponse } from './types.ts/command-response.type';
 import { PaginatedResponse } from '../types/paginated-response.type';
 import { FindAllCommandsFilters } from './types.ts/find-all-commands-filters.type';
+import { DateTimeService } from './date-time.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class CommandService {
 
   constructor(
     private client: HttpClient,
-    private authorizationService: AuthorizationService
+    private authorizationService: AuthorizationService,
+    private dateTimeService: DateTimeService
   ) { }
 
   createCommand(data: CreateCommandRequest): Observable<Command> {
@@ -30,8 +32,11 @@ export class CommandService {
   }
 
   findAllCommands(filters: FindAllCommandsFilters): Observable<PaginatedResponse<Command>> {
-    // Formatando a data no formato 'yyyy-MM-dd'T'HH:mm:ss'
-    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${filters.minDate}&maxDate=${filters.maxDate}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
+    const minDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.minDate);
+    const maxDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.maxDate);
+    debugger
+
+    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${minDateWithTimezone}&maxDate=${maxDateWithTimezone}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }

@@ -3,13 +3,13 @@ package io.github.gabznavas.api.dto;
 
 import org.springframework.data.domain.Pageable;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record CommandFilterDto(
         String query,
         CommandState state,
-        LocalDateTime minDate,
-        LocalDateTime maxDate,
+        Instant minDate,
+        Instant maxDate,
         Double minPrice,
         Double maxPrice,
         Pageable page

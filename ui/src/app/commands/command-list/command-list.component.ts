@@ -7,8 +7,9 @@ import { CommandService } from '../../services/command.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommandState } from '../../types/command-state.type';
 import { FindAllCommandsFiltersComponent } from './types';
-import { DateCustomService } from '../../services/date-custom.service';
 import { CurrencyService } from '../../services/currency.service';
+
+import { format, subDays } from "date-fns";
 
 @Component({
   selector: 'app-command-list',
@@ -53,7 +54,6 @@ export class CommandListComponent implements OnInit {
   constructor(
     private router: Router,
     private commandService: CommandService,
-    private dateCustomService: DateCustomService,
     private currencyService: CurrencyService
   ) { }
 
@@ -129,7 +129,6 @@ export class CommandListComponent implements OnInit {
       }
     })
   }
-
 
   protected findAllCommandsGoPage(pageIndex: number) {
     this.list.isLoading = true
@@ -209,14 +208,14 @@ export class CommandListComponent implements OnInit {
   }
 
   private configureFilters() {
-    const yesterDay = new Date(this.dateCustomService.getUTCDateString())
-    const twoDays = 2
-    yesterDay.setDate(yesterDay.getDate() - twoDays)
-    this.list.filters.minDate = yesterDay.toISOString()
-    this.list.filters.minDate = this.dateCustomService.removeMilliseconds(this.list.filters.minDate)
+    const formatDate = "yyyy-MM-dd'T'HH:mm"
+    const now: Date = new Date()
 
-    this.list.filters.maxDate = this.dateCustomService.getUTCDateString()
-    this.list.filters.maxDate = this.dateCustomService.removeMilliseconds(this.list.filters.maxDate)
+    const twoDaysAgo: string = format(subDays(now, 2), formatDate);
+    this.list.filters.minDate = twoDaysAgo
+
+    const nowStr: string = format(now, formatDate);
+    this.list.filters.maxDate = nowStr
 
     this.list.filters.minPrice = 0.00
     this.list.filters.maxPrice = 10_000

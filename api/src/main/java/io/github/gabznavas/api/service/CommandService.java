@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class CommandService {
         final Command command = new Command();
         command.setClientName(dto.clientName().trim());
         command.setAttendant(user);
-        command.setOpenedAt(LocalDateTime.now());
+        command.setOpenedAt(Instant.now());
         command.setDiningTable(diningTable);
         command.setPriceTotal(0D);
 
@@ -62,14 +63,14 @@ public class CommandService {
     }
 
     public PaginatedResponse<CommandDto> findAllCommands(CommandFilterDto filter) {
-        LocalDateTime openedAtMin = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.minDate() : null;
-        LocalDateTime openedAtMax = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.maxDate() : null;
+        Instant openedAtMin = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.minDate() : null;
+        Instant openedAtMax = filter.state() == CommandFilterDto.CommandState.OPENED ? filter.maxDate() : null;
 
-        LocalDateTime closedAtMin = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.minDate() : null;
-        LocalDateTime closedAtMax = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.maxDate() : null;
+        Instant closedAtMin = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.minDate() : null;
+        Instant closedAtMax = filter.state() == CommandFilterDto.CommandState.CLOSE ? filter.maxDate() : null;
 
-        LocalDateTime canceledInMin = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.minDate() : null;
-        LocalDateTime canceledInMax = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.maxDate() : null;
+        Instant canceledInMin = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.minDate() : null;
+        Instant canceledInMax = filter.state() == CommandFilterDto.CommandState.CANCELED ? filter.maxDate() : null;
 
         final Page<Command> commandsPage = commandRepository.findAllCommandsFiltered(
                 filter.query(),

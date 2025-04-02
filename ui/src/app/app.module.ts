@@ -18,7 +18,6 @@ import { RoleService } from './services/role.service';
 import { DiningTableModule } from './dining-table/dining-table.module';
 import { DiningTableService } from './services/dining-table.service';
 import { CommandService } from './services/command.service';
-import { DateCustomService } from './services/date-custom.service';
 
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
@@ -42,7 +41,6 @@ registerLocaleData(localePt, 'pt');
     DiningTableModule
   ],
   providers: [TitleService,
-    DateCustomService,
     CurrencyService,
     AuthorizationService,
     LoginService,

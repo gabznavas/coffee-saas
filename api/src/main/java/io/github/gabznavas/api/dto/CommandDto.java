@@ -2,7 +2,7 @@ package io.github.gabznavas.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public record CommandDto(
         Long id,
@@ -17,8 +17,8 @@ public record CommandDto(
         @NotNull(message = "missing attendent id")
         Long attendentId,
 
-        LocalDateTime openedAt,
-        LocalDateTime canceledIn,
-        LocalDateTime closedAt
+        Instant openedAt,
+        Instant canceledIn,
+        Instant closedAt
 ) {
 }

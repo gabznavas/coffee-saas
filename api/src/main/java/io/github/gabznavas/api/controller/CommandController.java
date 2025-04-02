@@ -13,7 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -41,10 +42,12 @@ public class CommandController {
     ) {
         final CommandFilterDto.CommandState commandState = CommandFilterDto.CommandState.valueOf(stateParam);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        // Formato esperado da string de entrada
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mmXXX");
 
-        LocalDateTime minDateTime = minDateParam != null ? LocalDateTime.parse(minDateParam, formatter) : null;
-        LocalDateTime maxDateTime = maxDateParam != null ? LocalDateTime.parse(maxDateParam, formatter) : null;
+        // Dates UTC
+        Instant minDateTime = minDateParam != null ? ZonedDateTime.parse(minDateParam, formatter).toInstant() : null;
+        Instant maxDateTime = maxDateParam != null ? ZonedDateTime.parse(maxDateParam, formatter).toInstant() : null;
 
         double minPrice = 0.00D;
         double maxPrice = 0.00D;

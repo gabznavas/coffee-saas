@@ -2,7 +2,7 @@ package io.github.gabznavas.api.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -21,11 +21,11 @@ public class Command {
     private Double priceTotal;
 
     @Column(name = "opened_at", nullable = false)
-    private LocalDateTime openedAt;
+    private Instant openedAt;
     @Column(name = "canceled_in", nullable = false)
-    private LocalDateTime canceledIn;
+    private Instant canceledIn;
     @Column(name = "closed_at", nullable = false)
-    private LocalDateTime closedAt;
+    private Instant closedAt;
 
     @ManyToOne
     @JoinColumn(name = "dining_table_id", referencedColumnName = "id")
@@ -59,27 +59,27 @@ public class Command {
         this.priceTotal = priceTotal;
     }
 
-    public LocalDateTime getOpenedAt() {
+    public Instant getOpenedAt() {
         return openedAt;
     }
 
-    public void setOpenedAt(LocalDateTime openedAt) {
+    public void setOpenedAt(Instant openedAt) {
         this.openedAt = openedAt;
     }
 
-    public LocalDateTime getCanceledIn() {
+    public Instant getCanceledIn() {
         return canceledIn;
     }
 
-    public void setCanceledIn(LocalDateTime canceledIn) {
+    public void setCanceledIn(Instant canceledIn) {
         this.canceledIn = canceledIn;
     }
 
-    public LocalDateTime getClosedAt() {
+    public Instant getClosedAt() {
         return closedAt;
     }
 
-    public void setClosedAt(LocalDateTime closedAt) {
+    public void setClosedAt(Instant closedAt) {
         this.closedAt = closedAt;
     }
 

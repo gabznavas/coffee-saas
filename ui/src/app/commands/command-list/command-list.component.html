@@ -66,14 +66,22 @@
         <td>{{ command.clientName || '-' }} </td>
         <td>{{ command.diningTable.name }} </td>
         <td>{{ command.priceTotal | currency }} </td>
-        <td>{{ command.openedAt | date }} </td>
-        <td>{{ command.closedAt ? (command.closedAt | date) : '-' }} </td>
+        <td>{{ command.openedAt | date : "dd/MM/yyyy 'às' HH:mm'h'" }} </td>
+        <td>{{ command.closedAt ? (command.closedAt | date ) : '-' }} </td>
         <td>{{ command.canceledIn ? (command.canceledIn | date) : '-' }} </td>
         <td>
           <div class="action-buttons">
             <button (click)="goToCloseCommand(command.id)">
+              <span class="material-icons">add</span>
+              <span>Produtos</span>
+            </button>
+            <button (click)="goToCloseCommand(command.id)">
               <span class="material-icons">playlist_add_check</span>
               <span>Fechar</span>
+            </button>
+            <button (click)="goToCloseCommand(command.id)">
+              <span class="material-icons">cancel</span>
+              <span>Cancelar</span>
             </button>
             <button (click)="goToCloseCommand(command.id)">
               <span class="material-icons">edit</span>
