@@ -97,6 +97,7 @@ public class GlobalExceptionHandler {
             ProductNotFoundByException.class,
             UserRoleNotFoundException.class,
             DiningTableNotFoundByException.class,
+            CommandNotFoundByException.class,
     })
     public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(
             Exception ex,

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `coffee-db`.`products` (
   `deleted_at` DATETIME(6) NULL,
   `stock` INT NOT NULL,
   `unit_id` INT NOT NULL,
+  `price` DECIMAL(6,2) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_products_categories1_idx` (`product_category_id` ASC) VISIBLE,
   INDEX `fk_products_unit1_idx` (`unit_id` ASC) VISIBLE,

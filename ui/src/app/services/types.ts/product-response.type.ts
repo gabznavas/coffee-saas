@@ -7,6 +7,7 @@ export type ProductResponse = {
   categoryId: number
   unitId: number
   stock: number
+  price: number
   createdAt: string
   updatedAt: string | null
 }

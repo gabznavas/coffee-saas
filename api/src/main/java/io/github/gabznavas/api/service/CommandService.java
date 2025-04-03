@@ -7,9 +7,11 @@ import io.github.gabznavas.api.dto.PaginatedResponse;
 import io.github.gabznavas.api.entity.Command;
 import io.github.gabznavas.api.entity.DiningTable;
 import io.github.gabznavas.api.entity.User;
+import io.github.gabznavas.api.exception.CommandNotFoundByException;
 import io.github.gabznavas.api.exception.DiningTableNotFoundByException;
 import io.github.gabznavas.api.exception.UserNotFoundByException;
 import io.github.gabznavas.api.mapper.CommandMapper;
+import io.github.gabznavas.api.repository.CommandItemRepository;
 import io.github.gabznavas.api.repository.CommandRepository;
 import io.github.gabznavas.api.repository.DiningTableRepository;
 import io.github.gabznavas.api.repository.UserRepository;
@@ -31,12 +33,15 @@ public class CommandService {
     @Autowired
     private UserRepository userRepository;
 
+
+    @Autowired
+    private CommandItemRepository commandItemRepository;
+
     @Autowired
     private DiningTableRepository diningTableRepository;
 
     @Autowired
     private CommandMapper commandMapper;
-
 
     @Transactional
     public CommandDto createCommand(CreateCommandDto dto) {
@@ -87,6 +92,7 @@ public class CommandService {
         );
 
         final List<CommandDto> commandDtos = commandsPage.map(commandMapper::entityToDTO).toList();
+
         return new PaginatedResponse<>(
                 commandDtos,
                 commandsPage.getSize(),
@@ -94,5 +100,11 @@ public class CommandService {
                 filter.page().getPageSize(),
                 filter.page().getPageNumber()
         );
+    }
+
+    public CommandDto findCommandById(Long commandId) {
+        final Command command = commandRepository.findById(commandId)
+                .orElseThrow(() -> new CommandNotFoundByException("id"));
+        return commandMapper.entityToDTO(command);
     }
 }

@@ -86,6 +86,7 @@ public class ProductService {
         product.setCreatedAt(LocalDateTime.now());
         product.setProductCategory(productCategory);
         product.setStock(dto.stock());
+        product.setPrice(dto.price());
         product.setUnit(unit);
 
         productRepository.save(product);

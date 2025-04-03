@@ -18,6 +18,7 @@ import { format, subDays } from "date-fns";
 })
 export class CommandListComponent implements OnInit {
 
+
   protected list = {
     messages: {
       info: [] as string[],
@@ -60,6 +61,10 @@ export class CommandListComponent implements OnInit {
   ngOnInit(): void {
     this.configureFilters()
     this.findAllCommandsInitital()
+  }
+
+  goToAddProductToCommand(commandId: number) {
+    this.router.navigate([`/command/${commandId}/products`])
   }
 
   formatCurrency(value: number | null): string {

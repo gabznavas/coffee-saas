@@ -5,6 +5,7 @@ export type Product = {
   categoryId: number
   unitId: number
   stock: number
+  price: number
   createdAt: Date
   updatedAt: Date | null
 }

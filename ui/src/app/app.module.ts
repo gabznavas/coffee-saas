@@ -22,6 +22,7 @@ import { CommandService } from './services/command.service';
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CurrencyService } from './services/currency.service';
+import { CommandItemService } from './services/command-item.service';
 
 registerLocaleData(localePt, 'pt');
 
@@ -49,6 +50,7 @@ registerLocaleData(localePt, 'pt');
     RoleService,
     DiningTableService,
     CommandService,
+    CommandItemService,
     {
       provide: LOCALE_ID,
       useValue: 'pt'

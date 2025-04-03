@@ -12,6 +12,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getStock(),
+                product.getPrice(),
                 product.getUnit().getId(),
                 product.getProductCategory().getId(),
                 product.getCreatedAt(),

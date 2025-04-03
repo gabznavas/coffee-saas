@@ -80,6 +80,7 @@ export class ProductService {
       categoryId: item.categoryId,
       unitId: item.unitId,
       stock: item.stock,
+      price: item.price,
       createdAt: new Date(item.createdAt),
       updatedAt: item.updatedAt ? new Date(item.updatedAt) : null,
     } as Product

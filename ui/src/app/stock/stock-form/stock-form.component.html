@@ -41,6 +41,17 @@
     </div>
 
     <div class="group-form">
+      <label>Preço no cardápio <span class="required">*</span></label>
+      <input type="number" #price="ngModel" [(ngModel)]="form.data.price" required min="0.01" max="1000000" id="price"
+        name="price">
+      <ul *ngIf="!price.valid && price.touched" class="alert error">
+        <li>Campo Preço inválido</li>
+        <li>Mínimo de R$0,01.</li>
+        <li>Máximo de R$1.000.000,00.</li>
+      </ul>
+    </div>
+
+    <div class="group-form">
       <label>Categoria <span class="required">*</span></label>
       <select id="category" name="category" #category="ngModel" required [(ngModel)]="form.data.categoryId">
         <option *ngFor="let category of form.categories" value="{{ category.id }}">{{ category.name }}

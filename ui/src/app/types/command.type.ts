@@ -1,3 +1,4 @@
+import { CommandItem } from "./command-item.type"
 import { DiningTable } from "./dining-table.type"
 
 export type Command = {

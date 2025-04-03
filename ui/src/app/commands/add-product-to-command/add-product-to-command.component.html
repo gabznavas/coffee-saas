@@ -1,25 +1,20 @@
-<paper (headerLeftClick)="goToHome()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Comandas abertas"
+<paper (headerLeftClick)="goToBack()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Produtos da comanda"
   centerMaterialIcon="format_list_numbered">
 
   <div class="header-list">
     <div class="search">
       <input [(ngModel)]="list.filters.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
-        placeholder="Nome do cliente ou Mesa..." (keyup.enter)="findAllCommandsInitital()">
-      <button class="search-button" (click)="findAllCommandsInitital()">
+        placeholder="Nome do produto..." (keyup.enter)="findAllProductsByCommand()">
+      <button class="search-button" (click)="findAllProductsByCommand()">
         <span class="material-icons">search</span>
         <span>Procurar</span>
       </button>
-      <button class="button-add" (click)="goToCommandForm()">
+      <button class="button-add" (click)="goToAddProduct()">
         <span class="material-icons">add</span>
         <span>Adicionar</span>
       </button>
     </div>
-    <div class="filters">
-      <select [(ngModel)]="list.filters.state">
-        <option *ngFor="let openedCloseCommand of list.states" value="{{openedCloseCommand.key}}">
-          {{openedCloseCommand.value}}</option>
-      </select>
-
+    <!-- <div class="filters">
       <div class="money">
         <input type="string" [value]="formatCurrency(this.list.filters.minPrice)"
           (input)="updatePrice($event, 'minPrice')" (keyup.enter)="findAllCommandsInitital()">
@@ -31,7 +26,7 @@
         <input type="datetime-local" [(ngModel)]="list.filters.minDate" (keyup.enter)="findAllCommandsInitital()">
         <input type="datetime-local" [(ngModel)]="list.filters.maxDate" (keyup.enter)="findAllCommandsInitital()">
       </div>
-    </div>
+    </div> -->
   </div>
 
   <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
@@ -51,9 +46,9 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Nome do cliente</th>
-        <th>Mesa</th>
-        <th>Total (R$)</th>
+        <th>Nome do produto</th>
+        <th>quantidade</th>
+        <th>preço (R$)</th>
         <th>Aberta em</th>
         <th>Fechada em</th>
         <th>Cancelada em</th>
@@ -61,31 +56,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let command of list.data.content">
-        <td>{{ command.id }} </td>
-        <td>{{ command.clientName || '-' }} </td>
-        <td>{{ command.diningTable.name }} </td>
-        <td>{{ command.priceTotal | currency }} </td>
-        <td>{{ command.openedAt | date : "dd/MM/yyyy 'às' HH:mm'h'" }} </td>
-        <td>{{ command.closedAt ? (command.closedAt | date ) : '-' }} </td>
-        <td>{{ command.canceledIn ? (command.canceledIn | date) : '-' }} </td>
+      <tr *ngFor="let commandItem of list.data.content">
+        <td>{{ commandItem.id }} </td>
+        <td>{{ commandItem.product.name }} </td>
+        <td>{{ commandItem.quantity }} </td>
+        <td>{{ commandItem.price ? commandItem.price : commandItem.product.price }} </td>
+        <td>{{ commandItem.canceledIn ? (commandItem.canceledIn | date ) : '-' }} </td>
         <td>
           <div class="action-buttons">
-            <button (click)="goToAddProductToCommand(command.id)">
+            <button (click)="addProduct(list.command.id, commandItem.product.id)">
               <span class="material-icons">add</span>
               <span>Produtos</span>
-            </button>
-            <button (click)="goToCloseCommand(command.id)">
-              <span class="material-icons">playlist_add_check</span>
-              <span>Fechar</span>
-            </button>
-            <button>
-              <span class="material-icons">cancel</span>
-              <span>Cancelar</span>
-            </button>
-            <button>
-              <span class="material-icons">edit</span>
-              <span>Editar</span>
             </button>
           </div>
         </td>

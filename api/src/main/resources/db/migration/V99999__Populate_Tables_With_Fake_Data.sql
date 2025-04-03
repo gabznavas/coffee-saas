@@ -173,27 +173,27 @@ INSERT INTO `coffee-db`.`product_categories` (id, name) VALUES
     (20, "Vitamina");
 
 -- Inserindo 20 produtos diferentes
-INSERT INTO `coffee-db`.`products` (id, name, description, product_category_id, created_at, stock, unit_id) VALUES
-    (1, "Pão francês", "Pão crocante e saboroso", 1, NOW(), 20, 8),
-    (2, "Pão de queijo", "Pão mineiro tradicional", 1, NOW(), 30, 8),
-    (3, "Bolo de cenoura", "Bolo com cobertura de chocolate", 2, NOW(), 15, 5),
-    (4, "Bolo de milho", "Bolo típico de festa junina", 2, NOW(), 12, 5),
-    (5, "Café expresso", "Café forte e encorpado", 3, NOW(), 25, 1),
-    (6, "Café com leite", "Mistura equilibrada de café e leite", 3, NOW(), 10, 1),
-    (7, "Chá de camomila", "Chá calmante e relaxante", 4, NOW(), 18, 2),
-    (8, "Chá verde", "Chá rico em antioxidantes", 4, NOW(), 20, 2),
-    (9, "Suco de laranja", "Suco natural sem açúcar", 5, NOW(), 22, 3),
-    (10, "Suco de uva", "Suco integral de uva", 5, NOW(), 14, 3),
-    (11, "Coxinha", "Salgado recheado com frango", 6, NOW(), 25, 9),
-    (12, "Esfirra", "Esfirra aberta de carne", 6, NOW(), 18, 9),
-    (13, "Brigadeiro", "Doce típico brasileiro", 7, NOW(), 30, 7),
-    (14, "Beijinho", "Doce de coco com leite condensado", 7, NOW(), 28, 7),
-    (15, "Leite integral", "Leite fresco pasteurizado", 8, NOW(), 20, 10),
-    (16, "Refrigerante cola", "Bebida gaseificada", 9, NOW(), 40, 6),
-    (17, "Chocolate quente", "Chocolate derretido com leite", 10, NOW(), 15, 1),
-    (18, "Queijo minas", "Queijo branco e suave", 12, NOW(), 10, 4),
-    (19, "Sanduíche natural", "Sanduíche de frango com alface", 19, NOW(), 12, 9),
-    (20, "Vitamina de banana", "Vitamina nutritiva e saborosa", 20, NOW(), 10, 3);
+INSERT INTO `coffee-db`.`products` (id, name, description, product_category_id, created_at, stock, unit_id, price) VALUES
+    (1, "Pão francês", "Pão crocante e saboroso", 1, NOW(), 20, 8, 50.99),
+    (2, "Pão de queijo", "Pão mineiro tradicional", 1, NOW(), 30, 8, 50.99),
+    (3, "Bolo de cenoura", "Bolo com cobertura de chocolate", 2, NOW(), 15, 5, 50.99),
+    (4, "Bolo de milho", "Bolo típico de festa junina", 2, NOW(), 12, 5, 50.99),
+    (5, "Café expresso", "Café forte e encorpado", 3, NOW(), 25, 1, 50.99),
+    (6, "Café com leite", "Mistura equilibrada de café e leite", 3, NOW(), 10, 1, 50.99),
+    (7, "Chá de camomila", "Chá calmante e relaxante", 4, NOW(), 18, 2, 50.99),
+    (8, "Chá verde", "Chá rico em antioxidantes", 4, NOW(), 20, 2, 50.99),
+    (9, "Suco de laranja", "Suco natural sem açúcar", 5, NOW(), 22, 3, 50.99),
+    (10, "Suco de uva", "Suco integral de uva", 5, NOW(), 14, 3, 50.99),
+    (11, "Coxinha", "Salgado recheado com frango", 6, NOW(), 25, 9, 50.99),
+    (12, "Esfirra", "Esfirra aberta de carne", 6, NOW(), 18, 9, 50.99),
+    (13, "Brigadeiro", "Doce típico brasileiro", 7, NOW(), 30, 7, 50.99),
+    (14, "Beijinho", "Doce de coco com leite condensado", 7, NOW(), 28, 7, 50.99),
+    (15, "Leite integral", "Leite fresco pasteurizado", 8, NOW(), 20, 10, 50.99),
+    (16, "Refrigerante cola", "Bebida gaseificada", 9, NOW(), 40, 6, 50.99),
+    (17, "Chocolate quente", "Chocolate derretido com leite", 10, NOW(), 15, 1, 50.99),
+    (18, "Queijo minas", "Queijo branco e suave", 12, NOW(), 10, 4, 50.99),
+    (19, "Sanduíche natural", "Sanduíche de frango com alface", 19, NOW(), 12, 9, 50.99),
+    (20, "Vitamina de banana", "Vitamina nutritiva e saborosa", 20, NOW(), 10, 3, 50.99);
 
 -- Inserindo 30 mesas
 INSERT INTO `coffee-db`.`dining_table` (id, name, busy, created_at) VALUES

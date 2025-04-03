@@ -31,10 +31,19 @@ export class CommandService {
       .pipe(map(commandResponse => this.mapResponseToCommand(commandResponse)))
   }
 
+  findCommandById(commandId: number): Observable<Command> {
+    const url = `${environment.apiUrl}/v1/command/${commandId}`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.get<CommandResponse>(url, { headers })
+      .pipe(map(commandResponse => this.mapResponseToCommand(commandResponse)))
+  }
+
   findAllCommands(filters: FindAllCommandsFilters): Observable<PaginatedResponse<Command>> {
     const minDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.minDate);
     const maxDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.maxDate);
-    debugger
 
     const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${minDateWithTimezone}&maxDate=${maxDateWithTimezone}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
     const headers = {

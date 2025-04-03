@@ -78,6 +78,7 @@ export class StockFormComponent implements OnInit {
       name: this.form.data.name,
       description: this.form.data.description,
       stock: this.form.data.stock,
+      price: this.form.data.price,
       categoryId: Number(this.form.data.categoryId),
       unitId: Number(this.form.data.unitId),
     }).subscribe({
@@ -102,7 +103,6 @@ export class StockFormComponent implements OnInit {
     })
   }
 
-
   updateProduct(form: NgForm) {
     const category = this.form.categories.find(category => category.id === Number(this.form.data.categoryId));
     if (!category) {
@@ -115,6 +115,7 @@ export class StockFormComponent implements OnInit {
       name: this.form.data.name,
       description: this.form.data.description,
       stock: this.form.data.stock,
+      price: this.form.data.price,
       categoryId: Number(this.form.data.categoryId),
       unitId: Number(this.form.data.unitId),
     }).subscribe({
@@ -171,6 +172,7 @@ export class StockFormComponent implements OnInit {
         categoryId: '1',
         unitId: '1',
         stock: 0,
+        price: 0,
       },
       categories: [] as ProductCategory[],
       units: [] as Unit[],

@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping("/api/v1/command")
 public class CommandController {
-
     @Autowired
     private CommandService commandService;
 
@@ -69,5 +68,12 @@ public class CommandController {
         PaginatedResponse<CommandDto> commands = commandService.findAllCommands(filterDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(commands);
+    }
+
+    @GetMapping("/{commandId}")
+    public ResponseEntity<CommandDto> findCommandById(
+            @PathVariable("commandId") Long commandId
+    ) {
+        return ResponseEntity.ok(commandService.findCommandById(commandId));
     }
 }

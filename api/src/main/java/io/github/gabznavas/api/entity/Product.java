@@ -20,9 +20,11 @@ public class Product {
     @Column(name = "description", length = 500, nullable = false)
     private String description;
 
-
     @Column(name = "stock", nullable = false)
-    private String stock;
+    private Long stock;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "unit_id")
@@ -40,7 +42,6 @@ public class Product {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt = null;
-
 
     public Long getId() {
         return id;
@@ -66,12 +67,20 @@ public class Product {
         this.description = description;
     }
 
-    public String getStock() {
+    public Long getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(Long stock) {
         this.stock = stock;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Unit getUnit() {
@@ -118,11 +127,11 @@ public class Product {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(stock, product.stock) && Objects.equals(unit, product.unit) && Objects.equals(productCategory, product.productCategory) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(deletedAt, product.deletedAt);
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(stock, product.stock) && Objects.equals(price, product.price) && Objects.equals(unit, product.unit) && Objects.equals(productCategory, product.productCategory) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(deletedAt, product.deletedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, stock, unit, productCategory, createdAt, updatedAt, deletedAt);
+        return Objects.hash(id, name, description, stock, price, unit, productCategory, createdAt, updatedAt, deletedAt);
     }
 }

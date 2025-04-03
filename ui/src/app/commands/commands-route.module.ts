@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommandsComponent } from './commands.component';
 import { CommandFormComponent } from './command-form/command-form.component';
 import { CommandListComponent } from './command-list/command-list.component';
+import { AddProductToCommandComponent } from './add-product-to-command/add-product-to-command.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: 'list', component: CommandListComponent },
       { path: 'form', component: CommandFormComponent },
+      { path: ':commandId/products', component: AddProductToCommandComponent },
     ]
   }
 ];
