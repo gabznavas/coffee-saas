@@ -63,6 +63,10 @@ export class CommandListComponent implements OnInit {
     this.findAllCommandsInitital()
   }
 
+  goToPaymentCommand(commandId: number) {
+    this.router.navigate([`command/${commandId}/form`])
+  }
+
   goToAddProductToCommand(commandId: number) {
     this.router.navigate([`/command/${commandId}/products`])
   }

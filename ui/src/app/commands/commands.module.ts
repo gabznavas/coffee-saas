@@ -4,7 +4,7 @@ import { CommandFormComponent } from './command-form/command-form.component';
 import { ComponentsModule } from '../components/components.module';
 import { FormsModule } from '@angular/forms';
 import { CommandsComponent } from './commands.component';
-import { UserRoutingModule } from './commands-route.module';
+import { CommandsRoutingModule } from './commands-route.module';
 import { CommandListComponent } from './command-list/command-list.component';
 import { ProductsFromCommandComponent } from './products-from-command/products-from-command.component';
 import { SelectProductComponent } from './select-product/select-product.component';
@@ -20,7 +20,7 @@ import { SelectProductComponent } from './select-product/select-product.componen
   ],
   imports: [
     CommonModule,
-    UserRoutingModule,
+    CommandsRoutingModule,
     FormsModule,
     ComponentsModule,
   ],

@@ -30,6 +30,10 @@ const routes: Routes = [{
   canActivate: [authenticatedGuard],
   loadChildren: () => import('./commands/commands.module').then(m => m.CommandsModule)
 }, {
+  path: 'payment',
+  canActivate: [authenticatedGuard],
+  loadChildren: () => import('./payment/payment.module').then(m => m.PaymentModule)
+}, {
   path: '',
   redirectTo: 'home',
   pathMatch: 'full',

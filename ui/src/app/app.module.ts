@@ -23,6 +23,7 @@ import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { CurrencyService } from './services/currency.service';
 import { CommandItemService } from './services/command-item.service';
+import { PaymentModule } from './payment/payment.module';
 
 registerLocaleData(localePt, 'pt');
 
@@ -39,7 +40,8 @@ registerLocaleData(localePt, 'pt');
     HomeModule,
     LoginModule,
     StockModule,
-    DiningTableModule
+    DiningTableModule,
+    PaymentModule
   ],
   providers: [TitleService,
     CurrencyService,
