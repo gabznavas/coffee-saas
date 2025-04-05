@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { CommandsComponent } from './commands.component';
 import { UserRoutingModule } from './commands-route.module';
 import { CommandListComponent } from './command-list/command-list.component';
-import { AddProductToCommandComponent } from './add-product-to-command/add-product-to-command.component';
+import { ProductsFromCommandComponent } from './products-from-command/products-from-command.component';
+import { SelectProductComponent } from './select-product/select-product.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { AddProductToCommandComponent } from './add-product-to-command/add-produ
     CommandsComponent,
     CommandFormComponent,
     CommandListComponent,
-    AddProductToCommandComponent,
+    ProductsFromCommandComponent,
+    SelectProductComponent,
   ],
   imports: [
     CommonModule,

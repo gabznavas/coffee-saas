@@ -9,11 +9,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommandItemService } from '../../services/command-item.service';
 
 @Component({
-  selector: 'app-add-product-to-command',
-  templateUrl: './add-product-to-command.component.html',
-  styleUrl: './add-product-to-command.component.scss'
+  selector: 'products-from-command',
+  templateUrl: './products-from-command.component.html',
+  styleUrl: './products-from-command.component.scss'
 })
-export class AddProductToCommandComponent implements OnInit {
+export class ProductsFromCommandComponent implements OnInit {
   list = {
     command: {} as Command,
     filters: {
@@ -50,11 +50,6 @@ export class AddProductToCommandComponent implements OnInit {
         next: command => {
           this.list.isLoading = false
           this.list.command = command;
-          if (this.list.data.content) {
-            this.list.messages.info = ['Nenhuma comanda listada.']
-          } else {
-            this.list.messages.info = []
-          }
         },
         error: err => {
           this.list.isLoading = false
@@ -76,11 +71,12 @@ export class AddProductToCommandComponent implements OnInit {
         next: paginetedResponsecommandItem => {
           this.list.isLoading = false
           this.list.data = paginetedResponsecommandItem;
-          if (this.list.data.content) {
-            this.list.messages.info = ['Nenhuma comanda listada.']
+          if (this.list.data.content.length === 0) {
+            this.list.messages.info = ['Nenhum produto listado.']
           } else {
             this.list.messages.info = []
           }
+          this.list.messages.errors = []
         },
         error: err => {
           this.list.isLoading = false
@@ -107,11 +103,12 @@ export class AddProductToCommandComponent implements OnInit {
 
   }
 
-  goToAddProduct() {
-
+  goToSelectProduct() {
+    this.router.navigate([`/command/${this.list.command.id}/select-product`])
   }
 
-  addProduct(commandId: number, productIdToAdd: number) {
+  removeProduct(commandId: number, productId: number) {
+    alert(commandId + " " + productId)
   }
 
   showPages(): boolean {

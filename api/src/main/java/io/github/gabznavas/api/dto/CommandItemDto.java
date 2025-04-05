@@ -8,6 +8,7 @@ public record CommandItemDto(
         Long quantity,
         Double price,
         String observations,
+        Instant createdAt,
         Instant canceledIn,
         CommandItemDto.Product product
 ) {

@@ -1,0 +1,70 @@
+@import '../../../styles.scss';
+
+.messages {
+  margin: 1rem 0;
+}
+
+.command-item {
+  display: flex;
+  gap: 0.5rem;
+
+  margin: 0.7rem 0;
+
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .field-row {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+
+    .id {
+      flex: 1;
+    }
+
+    .name {
+      flex: 5;
+    }
+
+    .stock {
+      flex: .8;
+    }
+
+
+    .price-sugested {
+      flex: .8;
+    }
+
+    .quantity {
+      flex: .8;
+    }
+
+    .price {
+      flex: .8;
+    }
+
+    .observation {
+      flex: 1;
+    }
+
+    .add-button {
+      display: flex;
+      align-items: flex-end;
+      flex: 1;
+
+      button {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    .text-disabled {
+      color: rgba($dark-grey, .65);
+    }
+  }
+
+}

@@ -11,5 +11,6 @@ export type CommandItemResponse = {
     price: number
   }
   observations: string
+  createdAt: string
   canceledIn: string | null
 }

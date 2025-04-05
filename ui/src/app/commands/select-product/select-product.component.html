@@ -1,0 +1,148 @@
+<paper (headerLeftClick)="goBack()" leftTitle="Voltar" leftMaterialIcon="arrow_back"
+  centerTitle="Adicionar produto na comanda" centerMaterialIcon="add">
+
+  <form-modal (onCancel)="cancelAddProductToCommand()" (onConfirm)="addProductToCommand()" buttonConfirmIcon="add"
+    buttonConfirmText="Adicionar" buttonCancelIcon="cancel" buttonCancelText="Cancelar"
+    [headerTitle]="'Novo item na comanda'" [isShow]="isShowProductModal">
+    <div class="command-item">
+      <div class="fields">
+        <div class="field-row">
+          <div class="form-group id">
+            <label>#</label>
+            <input [value]="commandItem.product.id" placeholder="#" disabled class="text-disabled" type="text"
+              id="product-id" name="product-id">
+          </div>
+          <div class="form-group name">
+            <label>Nome do produto</label>
+            <input [value]="commandItem.product.name" placeholder="Nome do produto" disabled class="text-disabled"
+              type="text" id="product-name" name="product-name">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="form-group stock">
+            <label>Estoque</label>
+            <input [value]="commandItem.product.stock" placeholder="Estoque do produto" disabled class="text-disabled"
+              type="text" id="product-name" name="product-name">
+          </div>
+          <div class="form-group price-sugested">
+            <label>Preço sugerido</label>
+            <input [value]="commandItem.product.price" placeholder="Preço sugerido" disabled class="text-disabled"
+              type="text" id="product-name" name="product-name">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="form-group quantity">
+            <label>Quantidade</label>
+            <input placeholder="Quantidade" [(ngModel)]="commandItem.quantity" type="number" id="product-quantity"
+              name="product-quantity">
+          </div>
+          <div class="form-group price">
+            <label>Preço</label>
+            <input [(ngModel)]="commandItem.price" type="text" id="product-price" name="product-price">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="form-group observation">
+            <label>Quantidade</label>
+            <textarea placeholder="Observações..." [(ngModel)]="commandItem.observations" type="number"
+              id="product-quantity" name="product-quantity"></textarea>
+          </div>
+        </div>
+
+        <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
+          <ul *ngIf="list.messages.errors.length > 0" class="alert error">
+            <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
+          </ul>
+          <ul *ngIf="list.messages.info.length > 0" class="alert info">
+            <li *ngFor="let msg of list.messages.info">{{ msg }}</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </form-modal>
+
+  <div class="header-list">
+    <div class="search">
+      <input [(ngModel)]="list.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
+        placeholder="Nome do produto..." (keyup.enter)="searchByInputQuery()">
+      <button class="search-button" (click)="findAllProducts()">
+        <span class="material-icons">search</span>
+        <span>Procurar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
+    <ul *ngIf="list.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of list.messages.errors">{{ msg }}</li>
+    </ul>
+    <ul *ngIf="list.messages.info.length > 0" class="alert info">
+      <li *ngFor="let msg of list.messages.info">{{ msg }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="list.isLoading" class="is-loading">
+    <span>Carregando os produtos. Aguarde...</span>
+  </div>
+
+  <table *ngIf="!list.isLoading">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Quantidade</th>
+        <th>Preço unitário</th>
+        <th>Unidade</th>
+        <th>Categoria</th>
+        <th>Criado em</th>
+        <th>Atualizado em</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of list.data.content">
+        <td>{{ product.id }} </td>
+        <td class="text-limit">{{ product.name }} </td>
+        <td class="text-limit">{{ product.description }} </td>
+        <td class="text-limit">{{ product.stock }} </td>
+        <td class="text-limit">{{ product.price | currency }} </td>
+        <td>{{ findUnitNameById(product.unitId) }} </td>
+        <td>{{ findCategoryNameById(product.categoryId) }} </td>
+        <td>{{ product.createdAt | date : "dd/MM/yyyy 'às' HH:mm'h'" }} </td>
+        <td>{{ product.updatedAt ? (product.updatedAt | date) : '-' }} </td>
+        <td>
+          <div class="action-buttons">
+            <button (click)="selectProduct(product)">
+              <span class="material-icons">arrow_upward</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ul *ngIf="showPages()" class="pagination">
+    <li (click)="previousPage()">
+      <button class="previous" [disabled]="list.data.page === 0">
+        <span class="material-icons">skip_previous</span>
+        <span>Anterior</span>
+      </button>
+    </li>
+    <li class="pages" *ngFor="let index of getPageCountItems()" (click)="goPage(index)" [ngClass]="{
+        'pagination-actual-style': isActualPage(index)
+       }">
+      {{ index + 1 }}
+    </li>
+    <li (click)="nextPage()">
+      <button class="next" [disabled]="list.data.page === list.data.totalPages - 1">
+        <span>Próximo</span>
+        <span class="material-icons">skip_next</span>
+      </button>
+    </li>
+  </ul>
+</paper>

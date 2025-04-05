@@ -6,12 +6,12 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AuthorizationService } from './authorization.service';
 import { CommandItemResponse } from './types.ts/command-item-response.type';
+import { CreateCommandItem } from './types.ts/create-command-item.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandItemService {
-
 
   constructor(
     private authorizationService: AuthorizationService,
@@ -26,6 +26,15 @@ export class CommandItemService {
 
     return this.client.get<PaginatedResponse<CommandItemResponse>>(url, { headers })
       .pipe(map(paginatedResponseCommandResponse => this.mapResponseToPaginetedCommandItems(paginatedResponseCommandResponse)))
+  }
+
+  addCommandItemToCommand(commandId: number, commandItem: CreateCommandItem): Observable<void> {
+    const url = `${environment.apiUrl}/v1/command/${commandId}/item`
+    const headers = {
+      Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
+    }
+
+    return this.client.post<void>(url, commandItem, { headers })
   }
 
   private mapResponseToPaginetedCommandItems(paginatedResponseCommandResponse: PaginatedResponse<CommandItemResponse>): PaginatedResponse<CommandItem> {
@@ -43,6 +52,7 @@ export class CommandItemService {
       id: commandItemResponse.id,
       quantity: commandItemResponse.quantity,
       commandId: commandItemResponse.commandId,
+      createdAt: new Date(commandItemResponse.createdAt),
       canceledIn: commandItemResponse.canceledIn ? new Date(commandItemResponse.canceledIn) : null,
       observations: commandItemResponse.observations,
       price: commandItemResponse.price,

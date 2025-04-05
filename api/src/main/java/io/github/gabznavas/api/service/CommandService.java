@@ -62,7 +62,7 @@ public class CommandService {
 
         diningTable.setBusy(true);
         diningTable.setUpdatedAt(LocalDateTime.now());
-        diningTableRepository.save(diningTable);
+        diningTableRepository.saveAndFlush(diningTable);
 
         return commandMapper.entityToDTO(command);
     }

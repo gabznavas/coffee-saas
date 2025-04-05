@@ -1,0 +1,15 @@
+@import '../../../styles.scss';
+
+.messages {
+  margin: 0.75rem 0;
+}
+
+.command-info {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.disabled {
+  color: $dark-grey;
+}

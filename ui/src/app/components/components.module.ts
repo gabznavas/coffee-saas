@@ -5,6 +5,7 @@ import { MenuComponent } from './menu/menu.component';
 import { PaperComponent } from './paper/paper.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { DetailsModalComponent } from './details/details-modal.component';
+import { FormModalComponent } from './form-modal/form-modal.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { DetailsModalComponent } from './details/details-modal.component';
     PaperComponent,
     ConfirmComponent,
     DetailsModalComponent,
+    FormModalComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { DetailsModalComponent } from './details/details-modal.component';
     PaperComponent,
     ConfirmComponent,
     DetailsModalComponent,
+    FormModalComponent,
   ]
 })
 export class ComponentsModule { }

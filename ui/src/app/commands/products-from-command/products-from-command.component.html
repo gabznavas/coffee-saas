@@ -1,6 +1,19 @@
 <paper (headerLeftClick)="goToBack()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Produtos da comanda"
   centerMaterialIcon="format_list_numbered">
 
+  <div class="command-info">
+    <div class="form-group">
+      <label>Nome do cliente</label>
+      <input disabled class="disabled" [value]="list.command.clientName">
+    </div>
+    <div class="form-group">
+      <label>Mesa</label>
+      <input disabled class="disabled" [value]="list.command.diningTable.name">
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
   <div class="header-list">
     <div class="search">
       <input [(ngModel)]="list.filters.searchInput" id="searchInput" name="searchInput" type="text" class="search-input"
@@ -9,24 +22,11 @@
         <span class="material-icons">search</span>
         <span>Procurar</span>
       </button>
-      <button class="button-add" (click)="goToAddProduct()">
+      <button class="button-add" (click)="goToSelectProduct()">
         <span class="material-icons">add</span>
-        <span>Adicionar</span>
+        <span>Produto</span>
       </button>
     </div>
-    <!-- <div class="filters">
-      <div class="money">
-        <input type="string" [value]="formatCurrency(this.list.filters.minPrice)"
-          (input)="updatePrice($event, 'minPrice')" (keyup.enter)="findAllCommandsInitital()">
-        <input type="string" [value]="formatCurrency(this.list.filters.maxPrice)"
-          (input)="updatePrice($event, 'maxPrice')" (keyup.enter)="findAllCommandsInitital()">
-      </div>
-
-      <div class="date">
-        <input type="datetime-local" [(ngModel)]="list.filters.minDate" (keyup.enter)="findAllCommandsInitital()">
-        <input type="datetime-local" [(ngModel)]="list.filters.maxDate" (keyup.enter)="findAllCommandsInitital()">
-      </div>
-    </div> -->
   </div>
 
   <div class="messages" *ngIf="list.messages.errors.length > 0 || list.messages.info.length > 0">
@@ -47,10 +47,9 @@
       <tr>
         <th>#</th>
         <th>Nome do produto</th>
-        <th>quantidade</th>
-        <th>preço (R$)</th>
+        <th>Quantidade</th>
+        <th>Preço (R$)</th>
         <th>Aberta em</th>
-        <th>Fechada em</th>
         <th>Cancelada em</th>
         <th>Ações</th>
       </tr>
@@ -60,13 +59,14 @@
         <td>{{ commandItem.id }} </td>
         <td>{{ commandItem.product.name }} </td>
         <td>{{ commandItem.quantity }} </td>
-        <td>{{ commandItem.price ? commandItem.price : commandItem.product.price }} </td>
+        <td>{{ commandItem.price | currency }} </td>
+        <td>{{ commandItem.createdAt | date }} </td>
         <td>{{ commandItem.canceledIn ? (commandItem.canceledIn | date ) : '-' }} </td>
         <td>
           <div class="action-buttons">
-            <button (click)="addProduct(list.command.id, commandItem.product.id)">
-              <span class="material-icons">add</span>
-              <span>Produtos</span>
+            <button (click)="removeProduct(list.command.id, commandItem.product.id)">
+              <span class="material-icons">remove_circle_outline</span>
+              <span>Remover</span>
             </button>
           </div>
         </td>

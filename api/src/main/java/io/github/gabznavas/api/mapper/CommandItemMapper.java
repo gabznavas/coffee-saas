@@ -18,6 +18,7 @@ public class CommandItemMapper {
                 commandItem.getQuantity(),
                 commandItem.getPrice(),
                 commandItem.getObservations(),
+                commandItem.getCreatedAt(),
                 commandItem.getCanceledIn(),
                 new CommandItemDto.Product(
                         commandItem.getProduct().getId(),

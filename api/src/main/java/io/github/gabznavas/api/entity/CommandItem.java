@@ -25,6 +25,9 @@ public class CommandItem {
     @Column(name = "observations", length = 255, nullable = false)
     private String observations;
 
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
     @Column(name = "canceled_in")
     private Instant canceledIn;
 
@@ -70,6 +73,14 @@ public class CommandItem {
 
     public void setObservations(String observations) {
         this.observations = observations;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Instant getCanceledIn() {
