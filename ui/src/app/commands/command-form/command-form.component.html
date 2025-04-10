@@ -1,18 +1,4 @@
 <paper centerTitle="{{ form.isUpdate ? 'Atualizar comanda' : 'Nova comanda' }}" centerMaterialIcon="playlist_add">
-
-  <details-modal (onClose)="onCloseDetails()" [isShow]="!!this.form.commandCreated" headerTitle="Detalhes da comanda">
-    <div class="details">
-      <div class="group-details">
-        <label>Nome do cliente</label>
-        <input readonly [ngModel]="form.commandCreated?.clientName" type="text">
-      </div>
-      <div class="group-details">
-        <label>Mesa escolhida</label>
-        <input readonly [ngModel]="form.commandCreated?.diningTable?.name" type="text">
-      </div>
-    </div>
-  </details-modal>
-
   <form #f="ngForm" (submit)="onSubmit(f)">
     <div class="group-form">
       <label>Nome do cliente (opcional)</label>

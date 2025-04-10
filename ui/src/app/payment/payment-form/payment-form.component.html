@@ -1,1 +1,133 @@
-<p>payment-form works!</p>
+<paper centerTitle="Pagar comanda" centerMaterialIcon="playlist_add_check" leftMaterialIcon="arrow_back"
+  leftTitle="Voltar" (headerLeftClick)="goToCommandsList()">
+
+  <form #f="ngForm" (submit)="onSubmit(f)">
+    <div class="row ">
+      <div class="group-form">
+        <label>Nome do cliente</label>
+        <input disabled class="input-width"
+          [value]="commandData.data.clientName && commandData.data.clientName.length > 0 ? commandData.data.clientName : 'Não informado'"
+          type="text">
+      </div>
+      <div class="group-form">
+        <label>Nome do Atendente</label>
+        <input class="input-width" disabled [value]="commandData.data.attendent?.fullName" type="text">
+      </div>
+    </div>
+    <div class="row">
+      <div class="group-form">
+        <label>Mesa</label>
+        <input class="input-width" disabled [value]="commandData.data.diningTable?.name" type="text">
+      </div>
+      <div class="group-form">
+        <label>Preço total</label>
+        <input class="input-width" disabled [value]="commandData.data.priceTotal" type="text">
+      </div>
+    </div>
+
+    <ul *ngIf="commandData.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of commandData.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="commandData.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of commandData.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
+    <div *ngIf="commandData.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="group-form">
+      <label>Método de pagamento <span class="required">*</span></label>
+      <select [(ngModel)]="paymentMethods.paymentMethodSelectedId" id="paymentMethodId" name="paymentMethodId">
+        <option *ngFor="let paymentMethod of paymentMethods.data" [value]="paymentMethod.id">{{ paymentMethod.name
+          }}</option>
+      </select>
+    </div>
+
+    <div class="divider"></div>
+
+    <ul *ngIf="paymentMethods.messages.errors.length > 0" class="alert error">
+      <li *ngFor="let msg of paymentMethods.messages.errors">
+        {{ msg }}
+      </li>
+    </ul>
+    <ul *ngIf="paymentMethods.messages.info.length > 0" class="alert success">
+      <li *ngFor="let msg of paymentMethods.messages.info">
+        {{ msg }}
+      </li>
+    </ul>
+
+    <div *ngIf="paymentMethods.isLoading" class="is-loading">
+      <span>Processando. Aguarde...</span>
+    </div>
+
+    <span class="command-items-title">Itens da comanda</span>
+    <table *ngIf="!commandItemData.isLoading">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Observações</th>
+          <th>Quantidade</th>
+          <th>Preço</th>
+          <th>Preço total</th>
+          <th>Criado em</th>
+          <th>Cancelado em</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let table of commandItemData.data.content">
+          <td>{{ table.id }} </td>
+          <td class="text-limit">{{ table.product.name }} </td>
+          <td class="text-limit">{{ table.observations }} </td>
+          <td>{{ table.quantity }} </td>
+          <td>{{ table.price }} </td>
+          <td>{{ table.quantity * table.price }} </td>
+          <td>{{ table.createdAt | date }} </td>
+          <td>{{ table.canceledIn ? (table.canceledIn | date) : '-' }} </td>
+          <td>
+            <div class="action-buttons">
+              <button>
+                <span class="material-icons">edit</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul *ngIf="showPages()" class="pagination">
+      <li (click)="previousPage()">
+        <button class="previous" [disabled]="commandItemData.data.page === 0">
+          <span class="material-icons">skip_previous</span>
+          <span>Anterior</span>
+        </button>
+      </li>
+      <li class="pages" *ngFor="let index of getPageCountItems()" (click)="goPage(index)" [ngClass]="{
+        'pagination-actual-style': isActualPage(index)
+       }">
+        {{ index + 1 }}
+      </li>
+      <li (click)="nextPage()">
+        <button class="next" [disabled]="commandItemData.data.page === commandItemData.data.totalPages - 1">
+          <span>Próximo</span>
+          <span class="material-icons">skip_next</span>
+        </button>
+      </li>
+    </ul>
+
+
+    <div class="group-form">
+      <button type="submit">Pagar</button>
+    </div>
+
+  </form>
+
+</paper>

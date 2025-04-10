@@ -14,6 +14,7 @@ import { CommandItemService } from '../../services/command-item.service';
   styleUrl: './products-from-command.component.scss'
 })
 export class ProductsFromCommandComponent implements OnInit {
+
   list = {
     command: {} as Command,
     filters: {
@@ -66,7 +67,13 @@ export class ProductsFromCommandComponent implements OnInit {
           }
         }
       })
-    this.commandItemService.findCommandItemsByCommand(this.list.command.id)
+    this.commandItemService.findAllCommandItemsByCommand(this.list.command.id, {
+      searchInput: '',
+      page: 0,
+      size: 10,
+      sortBy: 'createdAt',
+      orderBy: 'ASC',
+    })
       .subscribe({
         next: paginetedResponsecommandItem => {
           this.list.isLoading = false
@@ -95,8 +102,12 @@ export class ProductsFromCommandComponent implements OnInit {
       })
   }
 
-  goToBack() {
-    this.location.back()
+  goToCloseCommand() {
+    this.router.navigate([`command/${this.list.command.id}/payment/form`])
+  }
+
+  goToCommandList() {
+    this.router.navigate(["/command/list"])
   }
 
   findAllProductsByCommand() {

@@ -11,8 +11,8 @@ const routes: Routes = [
     component: PaymentComponent,
     children: [
       { path: 'list', component: PaymentListComponent },
-      { path: 'command/:commandId/form', component: PaymentFormComponent },
-      { path: 'command/:commandId/:paymentId', component: PaymentFormComponent },
+      { path: 'command/:commandId/payment/form', component: PaymentFormComponent },
+      { path: 'command/:commandId/payment/:paymentId/form', component: PaymentFormComponent },
     ]
   }
 ];

@@ -1,4 +1,8 @@
 package io.github.gabznavas.api.repository;
 
-public class PaymentRepository {
+
+import io.github.gabznavas.api.entity.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 }

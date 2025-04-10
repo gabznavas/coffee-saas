@@ -1,12 +1,17 @@
-import { CommandItem } from "./command-item.type"
 import { DiningTable } from "./dining-table.type"
+import { User } from "./user.type"
+
+export type CommandAttendent = {
+  id: number
+  fullName: string
+}
 
 export type Command = {
   id: number
 
   clientName: string
   diningTable: DiningTable
-  attendentId: number
+  attendent: CommandAttendent
 
   priceTotal: number
 

@@ -14,11 +14,16 @@ public record CommandDto(
 
         Double priceTotal,
 
-        @NotNull(message = "missing attendent id")
-        Long attendentId,
+        CommandAttendentDto attendent,
 
         Instant openedAt,
         Instant canceledIn,
         Instant closedAt
 ) {
+
+    public record CommandAttendentDto(
+            Long id,
+            String fullName
+    ) {
+    }
 }

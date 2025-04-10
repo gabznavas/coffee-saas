@@ -20,9 +20,10 @@ public class CommandItemController {
     @GetMapping()
     public ResponseEntity<PaginatedResponse<CommandItemDto>> findAllCommandItemByCommandId(
             @PathVariable("commandId") Long commandId,
+            @RequestParam(name = "query") String queryParam,
             Pageable page
     ) {
-        return ResponseEntity.ok(commandItemService.findAllCommandItemByCommandId(commandId, page));
+        return ResponseEntity.ok(commandItemService.findAllCommandItemByCommandId(commandId, queryParam, page));
     }
 
     @PostMapping()

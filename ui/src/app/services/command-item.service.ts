@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthorizationService } from './authorization.service';
 import { CommandItemResponse } from './types.ts/command-item-response.type';
 import { CreateCommandItem } from './types.ts/create-command-item.type';
+import { FindAllCommandItemsFilters } from './types.ts/find-all-command-items-filters.type';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class CommandItemService {
     private client: HttpClient,
   ) { }
 
-  findCommandItemsByCommand(commandId: number): Observable<PaginatedResponse<CommandItem>> {
-    const url = `${environment.apiUrl}/v1/command/${commandId}/item`
+  findAllCommandItemsByCommand(commandId: number, filters: FindAllCommandItemsFilters): Observable<PaginatedResponse<CommandItem>> {
+    const url = `${environment.apiUrl}/v1/command/${commandId}/item?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&query=${filters.searchInput}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }

@@ -31,8 +31,6 @@ export class CommandFormComponent implements OnInit {
       errors: [] as string[],
       info: [] as string[],
     },
-
-    commandCreated: null as Command | null
   }
 
   constructor(
@@ -40,6 +38,7 @@ export class CommandFormComponent implements OnInit {
     private userService: UserService,
     private diningTableService: DiningTableService,
     private commandService: CommandService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,10 +54,6 @@ export class CommandFormComponent implements OnInit {
     this.form.data.attendentId = userLogged.id
   }
 
-  protected onCloseDetails() {
-    this.form.commandCreated = null
-  }
-
   protected onSubmit(form: NgForm) {
     this.commandService.createCommand({
       clientName: this.form.data.clientName,
@@ -70,9 +65,8 @@ export class CommandFormComponent implements OnInit {
           // mostrar um modal com os dados da comanda
           this.form.isLoading = false
           this.clearForm(form);
-          this.form.messages.info = ['Comanda criada.']
           this.form.messages.errors = []
-          this.form.commandCreated = command
+          this.router.navigate([`/command/${command.id}/products`])
         },
         error: err => {
           this.form.isLoading = false

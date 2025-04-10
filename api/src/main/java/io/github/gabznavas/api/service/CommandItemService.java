@@ -38,8 +38,8 @@ public class CommandItemService {
     @Autowired
     private ProductRepository productRepository;
 
-    public PaginatedResponse<CommandItemDto> findAllCommandItemByCommandId(Long commandId, Pageable page) {
-        final Page<CommandItem> commandItemPage = commandItemRepository.findAllByCommandId(commandId, page);
+    public PaginatedResponse<CommandItemDto> findAllCommandItemByCommandId(Long commandId, String query, Pageable page) {
+        final Page<CommandItem> commandItemPage = commandItemRepository.findAllCommandItemsFiltered(commandId, query, page);
         return new PaginatedResponse<>(
                 commandItemPage.stream()
                         .map(commandItemMapper::entityToDTO)
@@ -71,10 +71,13 @@ public class CommandItemService {
         commandItem.setProduct(product);
         commandItem.setCommand(command);
         commandItem.setCreatedAt(Instant.now());
-
         commandItemRepository.save(commandItem);
 
         product.setStock(finalQuantity);
         productRepository.save(product);
+
+        final Double commandItemTotalPrice = commandItem.getPrice() * commandItem.getQuantity();
+        command.setPriceTotal(command.getPriceTotal() + commandItemTotalPrice);
+        commandRepository.save(command);
     }
 }

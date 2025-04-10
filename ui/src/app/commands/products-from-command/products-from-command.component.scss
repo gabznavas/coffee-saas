@@ -6,10 +6,20 @@
 
 .command-info {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
   margin: 0.5rem 0;
 }
 
 .disabled {
   color: $dark-grey;
+}
+
+.fields {
+  display: flex;
+  gap: 1rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: flex-end;
 }

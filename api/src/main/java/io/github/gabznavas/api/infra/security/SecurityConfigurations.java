@@ -161,6 +161,13 @@ public class SecurityConfigurations {
                                 RoleNameType.ADMIN.toSpringSecurityRole()
                         )
 
+                        .requestMatchers(HttpMethod.GET, "/api/v1/payment-method").hasAnyAuthority(
+                                RoleNameType.ATTENDANT.toSpringSecurityRole(),
+                                RoleNameType.CASHIER.toSpringSecurityRole(),
+                                RoleNameType.MANAGER.toSpringSecurityRole(),
+                                RoleNameType.ADMIN.toSpringSecurityRole()
+                        )
+
                         // examples of authorities
                         .requestMatchers(HttpMethod.GET, "/api/v1/ping-authenticated/all").hasAnyAuthority(
                                 RoleNameType.ATTENDANT.toSpringSecurityRole(),

@@ -64,7 +64,7 @@ export class CommandListComponent implements OnInit {
   }
 
   goToPaymentCommand(commandId: number) {
-    this.router.navigate([`command/${commandId}/form`])
+    this.router.navigate([`command/${commandId}/payment/form`])
   }
 
   goToAddProductToCommand(commandId: number) {

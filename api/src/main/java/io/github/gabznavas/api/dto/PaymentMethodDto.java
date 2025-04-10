@@ -1,4 +1,7 @@
 package io.github.gabznavas.api.dto;
 
-public record PaymentMethodDto() {
+public record PaymentMethodDto(
+        Long id,
+        String name
+) {
 }

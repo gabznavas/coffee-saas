@@ -24,6 +24,31 @@ $height-screen: calc(100vh - $height-header);
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+
+  // Firefox
+  scrollbar-color: $coffee-brown $light-beige;
+  scrollbar-width: thin;
+}
+
+// WebKit (Chrome, Safari, Edge)
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $light-beige;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $coffee-brown;
+  border-radius: 5px;
+  border: 2px solid $light-beige;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $burnt-orange;
 }
 
 // Global body styles
@@ -445,32 +470,4 @@ table {
     color: #0C5460;
     border: 1px solid #BEE5EB;
   }
-}
-
-
-// WebKit (Chrome, Safari, Edge)
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: $light-beige;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $coffee-brown;
-  border-radius: 5px;
-  border: 2px solid $light-beige;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: $burnt-orange;
-}
-
-// Firefox
-* {
-  scrollbar-color: $coffee-brown $light-beige;
-  scrollbar-width: thin;
 }

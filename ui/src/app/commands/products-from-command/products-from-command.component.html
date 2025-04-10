@@ -1,14 +1,21 @@
-<paper (headerLeftClick)="goToBack()" leftTitle="Voltar" leftMaterialIcon="arrow_back" centerTitle="Produtos da comanda"
-  centerMaterialIcon="format_list_numbered">
+<paper (headerLeftClick)="goToCommandList()" leftTitle="Voltar" leftMaterialIcon="arrow_back"
+  centerTitle="Produtos da comanda" centerMaterialIcon="format_list_numbered">
 
   <div class="command-info">
-    <div class="form-group">
-      <label>Nome do cliente</label>
-      <input disabled class="disabled" [value]="list.command.clientName">
+    <div class="fields">
+      <div class="form-group">
+        <label>Nome do cliente</label>
+        <input disabled class="disabled" [value]="list.command.clientName">
+      </div>
+      <div class="form-group">
+        <label>Mesa</label>
+        <input disabled class="disabled" [value]="list.command.diningTable.name">
+      </div>
     </div>
-    <div class="form-group">
-      <label>Mesa</label>
-      <input disabled class="disabled" [value]="list.command.diningTable.name">
+    <div class="buttons">
+      <div class="form-group" (click)="goToCloseCommand()">
+        <button>Fechar</button>
+      </div>
     </div>
   </div>
 

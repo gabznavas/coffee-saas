@@ -1,0 +1,15 @@
+@import "../../../styles.scss";
+
+:host {
+  max-width: 1000px;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-width {
+  width: 450px;
+}

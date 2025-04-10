@@ -45,12 +45,14 @@ export class CommandService {
     const minDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.minDate);
     const maxDateWithTimezone = this.dateTimeService.addLocalTimeZone(filters.maxDate);
 
-    const url = `${environment.apiUrl}/v1/command?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${minDateWithTimezone}&maxDate=${maxDateWithTimezone}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
+    const url = `${environment.apiUrl}/v1/command`
+    const urlQueries = `?page=${filters.page}&size=${filters.size}&sort=${filters.sortBy},${filters.orderBy}&state=${filters.state}&query=${filters.searchInput}&minDate=${minDateWithTimezone}&maxDate=${maxDateWithTimezone}&minPrice=${filters.minPrice}&maxPrice=${filters.maxPrice}`
+    const urlFinal = `${url}${urlQueries}`
     const headers = {
       Authorization: `Bearer ${this.authorizationService.getTokenLocalStorage()}`
     }
 
-    return this.client.get<PaginatedResponse<CommandResponse>>(url, { headers })
+    return this.client.get<PaginatedResponse<CommandResponse>>(urlFinal, { headers })
       .pipe(map(paginatedCommandResponse => this.mapPaginatedResponse(paginatedCommandResponse)))
   }
 
@@ -75,7 +77,10 @@ export class CommandService {
         createdAt: new Date(commandResponse.diningTable.createdAt),
         updatedAt: commandResponse.diningTable.updatedAt ? new Date(commandResponse.diningTable.updatedAt) : null,
       },
-      attendentId: commandResponse.attendentId,
+      attendent: {
+        id: commandResponse.attendent.id,
+        fullName: commandResponse.attendent.fullName,
+      },
       openedAt: new Date(commandResponse.openedAt),
       canceledIn: commandResponse.canceledIn ? new Date(commandResponse.canceledIn) : null,
       closedAt: commandResponse.closedAt ? new Date(commandResponse.closedAt) : null,
